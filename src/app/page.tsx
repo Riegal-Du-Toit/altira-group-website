@@ -9,6 +9,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import AboutSection3 from "@/components/ui/about-section";
 import { Footer } from "@/components/ui/modem-animated-footer";
+import { WorldMap } from "@/components/ui/map";
+import Testimonial1 from "@/components/ui/testimonial-1";
 import { Building2, Link, Mail, MapPinIcon, PhoneIcon } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 
@@ -55,12 +57,12 @@ export default function Home() {
               className="rounded-none border-x-0 border-t-0 shadow-none"
               title={
                 <>
-                  <span className="text-[1.08em] uppercase text-zinc-50 drop-shadow-sm">
-                    WITH YOU
+                  <span className="text-[1.08em] text-zinc-50 drop-shadow-sm">
+                    With you,
                   </span>
                   <br />
-                  <span className="whitespace-nowrap text-[1.08em] uppercase text-[#3FE9EC] drop-shadow-md">
-                    AT EVERY TURN
+                  <span className="whitespace-nowrap text-[1.08em] text-[#3FE9EC] drop-shadow-md">
+                    at every turn.
                   </span>
                 </>
               }
@@ -205,18 +207,53 @@ export default function Home() {
           />
         </section>
 
-        <section id="offices" className="section-shell mt-[90px]">
-          <div className="section-head">
-            <SectionEyebrow>Global presence</SectionEyebrow>
-            <h2 className="mt-6 text-white">Five cities. One connected team.</h2>
-            <p className="mt-4 text-white/64">
-              Altira is headquartered in Cape Town, with a presence across the markets that shape
-              distribution, sourcing and capital for the business we&apos;re building.
-            </p>
-          </div>
+        <section id="offices" className="mt-[90px] w-full bg-[#1E2021] px-6 py-24 sm:px-8 lg:px-12">
+          <div className="mx-auto max-w-7xl">
+            <div className="mb-14 flex flex-col items-center text-center">
+              <div className="rounded-[16px] bg-gradient-to-b from-gray-800/40 to-transparent p-[4px]">
+                <div className="rounded-[12px] bg-gradient-to-b from-gray-700 to-gray-600 p-[4px] shadow-[0_2px_4px_rgba(0,0,0,0.7)]">
+                  <div className="rounded-[8px] bg-gradient-to-b from-gray-600 to-gray-700 px-4 py-2">
+                    <div className="flex items-center text-sm font-semibold uppercase tracking-[0.24em] text-white">
+                      Global presence
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <h2 className="mt-6 text-4xl font-bold tracking-[-0.04em] text-white sm:text-5xl lg:text-[4rem]">
+                Five cities. One connected team.
+              </h2>
+              <p className="mx-auto mt-4 max-w-4xl text-lg leading-8 text-white/64">
+                Altira is headquartered in Cape Town, with a presence across the markets that
+                shape distribution, sourcing and capital for the business we&apos;re building.
+              </p>
+            </div>
 
-          <GlobalPresence variant="grid" />
+            <WorldMap
+              dots={[
+                {
+                  start: { lat: -33.92, lng: 18.42, label: "Cape Town" },
+                  end: { lat: -26.2, lng: 28.04, label: "Johannesburg" },
+                },
+                {
+                  start: { lat: -26.2, lng: 28.04, label: "Johannesburg" },
+                  end: { lat: 51.51, lng: -0.13, label: "London" },
+                },
+                {
+                  start: { lat: 51.51, lng: -0.13, label: "London" },
+                  end: { lat: 40.71, lng: -74.01, label: "New York" },
+                },
+                {
+                  start: { lat: 51.51, lng: -0.13, label: "London" },
+                  end: { lat: 22.54, lng: 114.06, label: "Shenzhen" },
+                },
+              ]}
+              lineColor="#0ea5e9"
+              showLabels
+            />
+          </div>
         </section>
+
+        <Testimonial1 />
 
         <section id="contact" className="section-shell scroll-mt-44 py-32">
           <ContactCard

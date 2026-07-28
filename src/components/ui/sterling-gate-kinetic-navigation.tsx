@@ -326,7 +326,7 @@ export function SterlingGateKineticNavigation({ className }: { className?: strin
 
                   <div className="menu-content-wrapper relative z-10 grid h-screen min-h-screen grid-rows-[auto_1fr_auto] px-8 py-8 sm:px-12 sm:py-10">
                     <div className="flex items-center justify-between">
-                      <div className="font-mono text-[0.72rem] uppercase tracking-[0.22em] text-white/45">
+                      <div className="text-[0.9rem] font-black uppercase tracking-[-0.04em] text-white/72">
                         Navigation
                       </div>
                       <button
@@ -359,17 +359,31 @@ export function SterlingGateKineticNavigation({ className }: { className?: strin
                     </div>
 
                     <div className="grid gap-3 text-sm text-white/55 sm:grid-cols-2">
-                      <div data-menu-fade className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
-                        <div className="font-mono text-[0.68rem] uppercase tracking-[0.22em] text-white/38">
-                          Entity
+                      <div
+                        data-menu-fade
+                        className="rounded-[16px] bg-gradient-to-b from-gray-800/40 to-transparent p-[4px]"
+                      >
+                        <div className="rounded-[12px] bg-gradient-to-b from-gray-700 to-gray-600 p-[4px] shadow-[0_2px_4px_rgba(0,0,0,0.7)]">
+                          <div className="rounded-[8px] bg-gradient-to-b from-gray-600 to-gray-700 p-4">
+                            <div className="font-mono text-[0.68rem] uppercase tracking-[0.22em] text-white/55">
+                              Entity
+                            </div>
+                            <div className="mt-2 font-medium text-white">Altira Group (Pty) Ltd</div>
+                          </div>
                         </div>
-                        <div className="mt-2 font-medium text-white/78">Altira Group (Pty) Ltd</div>
                       </div>
-                      <div data-menu-fade className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
-                        <div className="font-mono text-[0.68rem] uppercase tracking-[0.22em] text-white/38">
-                          Contact
+                      <div
+                        data-menu-fade
+                        className="rounded-[16px] bg-gradient-to-b from-gray-800/40 to-transparent p-[4px]"
+                      >
+                        <div className="rounded-[12px] bg-gradient-to-b from-gray-700 to-gray-600 p-[4px] shadow-[0_2px_4px_rgba(0,0,0,0.7)]">
+                          <div className="rounded-[8px] bg-gradient-to-b from-gray-600 to-gray-700 p-4">
+                            <div className="font-mono text-[0.68rem] uppercase tracking-[0.22em] text-white/55">
+                              Contact
+                            </div>
+                            <div className="mt-2 font-medium text-white">info@altiragroup.co.za</div>
+                          </div>
                         </div>
-                        <div className="mt-2 font-medium text-white/78">info@altiragroup.co.za</div>
                       </div>
                     </div>
                   </div>

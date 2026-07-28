@@ -10,6 +10,7 @@ type ContactInfoProps = React.ComponentProps<"div"> & {
 };
 
 type ContactCardProps = React.ComponentProps<"div"> & {
+  badge?: string;
   title?: string;
   description?: string;
   contactInfo?: ContactInfoProps[];
@@ -17,6 +18,7 @@ type ContactCardProps = React.ComponentProps<"div"> & {
 };
 
 export function ContactCard({
+  badge = "Contact Us",
   title = "Contact With Us",
   description = "If you have any questions regarding our Services or need help, please fill out the form here. We do our best to respond within 1 business day.",
   contactInfo,
@@ -39,6 +41,15 @@ export function ContactCard({
       <PlusIcon className="absolute -bottom-3 -right-3 h-6 w-6 text-white/55" />
       <div className="flex flex-col justify-between lg:col-span-2">
         <div className="relative h-full space-y-4 px-4 py-8 md:p-8">
+          <div className="inline-block rounded-[16px] bg-gradient-to-b from-gray-800/40 to-transparent p-[4px]">
+            <div className="rounded-[12px] bg-gradient-to-b from-gray-700 to-gray-600 p-[4px] shadow-[0_2px_4px_rgba(0,0,0,0.7)]">
+              <div className="rounded-[8px] bg-gradient-to-b from-gray-600 to-gray-700 px-4 py-2">
+                <div className="flex items-center text-sm font-semibold uppercase tracking-[0.24em] text-white">
+                  {badge}
+                </div>
+              </div>
+            </div>
+          </div>
           <h2 className="text-3xl font-bold text-white md:text-4xl lg:text-5xl">{title}</h2>
           <p className="max-w-xl text-sm text-white/64 md:text-base lg:text-lg">{description}</p>
           <div className="grid gap-4 md:grid md:grid-cols-2 lg:grid-cols-3">
