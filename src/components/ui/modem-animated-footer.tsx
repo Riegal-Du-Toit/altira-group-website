@@ -3,9 +3,6 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import {
-  NotepadTextDashed,
-} from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -48,15 +45,6 @@ export const Footer = ({
           <div className="mb-12 flex w-full flex-col sm:mb-20 md:mb-0">
             <div className="flex w-full flex-col items-center">
               <div className="flex flex-1 flex-col items-center space-y-2">
-                <div className="flex items-center gap-2">
-                  <Image
-                    src="/favicon.png"
-                    alt={brandName}
-                    width={79}
-                    height={79}
-                    className="h-[79px] w-[79px] object-contain"
-                  />
-                </div>
                 <p className="w-full max-w-sm px-4 text-center font-semibold text-white/62 sm:w-96 sm:px-0">
                   {brandDescription}
                 </p>
@@ -114,20 +102,29 @@ export const Footer = ({
         </div>
 
         <div
-          className="pointer-events-none absolute bottom-40 left-1/2 -translate-x-1/2 select-none bg-gradient-to-b from-white/20 via-white/10 to-transparent bg-clip-text px-4 text-center font-extrabold leading-none tracking-tighter text-transparent md:bottom-32"
+          className="pointer-events-none absolute bottom-40 left-1/2 -translate-x-1/2 select-none whitespace-nowrap px-4 text-center font-extrabold leading-none tracking-tighter text-[#3FE9EC] md:bottom-32"
           style={{
-            fontSize: "clamp(3rem, 12vw, calc(10rem + 10px))",
-            maxWidth: "95vw",
+            fontSize: "clamp(2.4rem, 8vw, calc(6.5rem + 85px))",
           }}
         >
           {brandName.toUpperCase()}
         </div>
 
-        <div className="absolute bottom-24 left-1/2 z-10 flex -translate-x-1/2 items-center justify-center rounded-3xl border-2 border-white/12 bg-[#242627]/70 p-3 backdrop-blur-sm drop-shadow-[0_0px_20px_rgba(0,0,0,0.5)] duration-400 hover:border-white/22 md:bottom-20">
-          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-white to-white/80 shadow-lg sm:h-16 sm:w-16 md:h-24 md:w-24">
-            {brandIcon || (
-              <NotepadTextDashed className="h-8 w-8 text-[#1E2021] drop-shadow-lg sm:h-10 sm:w-10 md:h-14 md:w-14" />
-            )}
+        <div className="absolute bottom-24 left-1/2 z-10 -translate-x-1/2 md:bottom-20">
+          <div className="rounded-[16px] bg-gradient-to-b from-gray-800/40 to-transparent p-[4px]">
+            <div className="rounded-[12px] bg-gradient-to-b from-gray-700 to-gray-600 p-[4px] shadow-[0_2px_4px_rgba(0,0,0,0.7)]">
+              <div className="flex h-12 w-12 items-center justify-center rounded-[8px] bg-gradient-to-b from-gray-600 to-gray-700 sm:h-16 sm:w-16 md:h-24 md:w-24">
+                {brandIcon || (
+                  <Image
+                    src="/favicon.png"
+                    alt={brandName}
+                    width={72}
+                    height={72}
+                    className="h-8 w-8 object-contain sm:h-10 sm:w-10 md:h-[72px] md:w-[72px]"
+                  />
+                )}
+              </div>
+            </div>
           </div>
         </div>
 

@@ -13,13 +13,16 @@ import { WorldMap } from "@/components/ui/map";
 import Testimonial1 from "@/components/ui/testimonial-1";
 import { Building2, Link, Mail, MapPinIcon, PhoneIcon } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
+import { openSansExtraBold } from "@/lib/fonts";
 
 function SectionEyebrow({ children }: { children: React.ReactNode }) {
   return (
     <div className="inline-block rounded-[16px] bg-gradient-to-b from-gray-800/40 to-transparent p-[4px]">
       <div className="rounded-[12px] bg-gradient-to-b from-gray-700 to-gray-600 p-[4px] shadow-[0_2px_4px_rgba(0,0,0,0.7)]">
         <div className="rounded-[8px] bg-gradient-to-b from-gray-600 to-gray-700 px-4 py-2">
-          <div className="flex items-center text-sm font-semibold uppercase tracking-[0.24em] text-white">
+          <div
+            className={`${openSansExtraBold.className} flex items-center text-[1.02rem] leading-none tracking-[0.08em] text-[#3FE9EC]`}
+          >
             {children}
           </div>
         </div>
@@ -57,8 +60,15 @@ export default function Home() {
               className="rounded-none border-x-0 border-t-0 shadow-none"
               title={
                 <>
-                  <span className="text-[1.08em] text-zinc-50 drop-shadow-sm">
-                    With you,
+                  <span className="inline-flex items-center gap-4 text-[1.08em] text-zinc-50 drop-shadow-sm">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src="/favicon.png"
+                      alt="Altira Group favicon"
+                      className="h-[0.8em] w-[0.8em] object-contain"
+                      draggable={false}
+                    />
+                    <span>With you,</span>
                   </span>
                   <br />
                   <span className="whitespace-nowrap text-[1.08em] text-[#3FE9EC] drop-shadow-md">
@@ -94,7 +104,7 @@ export default function Home() {
                   Medical Insurance
                 </h2>
                 <p className="mx-auto mt-6 max-w-4xl text-sm font-medium leading-7 text-white/84 sm:text-base lg:text-lg">
-                  Altira operates at the intersection of health, protection and credit — the
+                  Altira Group operates at the intersection of health, protection and credit — the
                   essential needs that, taken together, determine whether a household can absorb a
                   shock or is undone by it.
                 </p>
@@ -161,7 +171,9 @@ export default function Home() {
             <div className="rounded-[16px] bg-gradient-to-b from-gray-800/40 to-transparent p-[4px]">
               <div className="rounded-[12px] bg-gradient-to-b from-gray-700 to-gray-600 p-[4px] shadow-[0_2px_4px_rgba(0,0,0,0.7)]">
                 <div className="rounded-[8px] bg-gradient-to-b from-gray-600 to-gray-700 px-4 py-2">
-                  <div className="flex items-center text-sm font-semibold uppercase tracking-[0.24em] text-white">
+                  <div
+                    className={`${openSansExtraBold.className} flex items-center text-[1.02rem] leading-none tracking-[0.08em] text-[#3FE9EC]`}
+                  >
                     How It Works
                   </div>
                 </div>
@@ -171,7 +183,7 @@ export default function Home() {
               A Five-Stage Methodology
             </h2>
             <p className="mx-auto mt-4 max-w-4xl text-lg leading-8 text-white/64">
-              Every Altira product moves through the same disciplined sequence — from genuine
+              Every Altira Group product moves through the same disciplined sequence — from genuine
               customer insight to a continuously improving experience.
             </p>
           </div>
@@ -213,7 +225,7 @@ export default function Home() {
               <div className="rounded-[16px] bg-gradient-to-b from-gray-800/40 to-transparent p-[4px]">
                 <div className="rounded-[12px] bg-gradient-to-b from-gray-700 to-gray-600 p-[4px] shadow-[0_2px_4px_rgba(0,0,0,0.7)]">
                   <div className="rounded-[8px] bg-gradient-to-b from-gray-600 to-gray-700 px-4 py-2">
-                    <div className="flex items-center text-sm font-semibold uppercase tracking-[0.24em] text-white">
+                    <div className="flex items-center text-sm font-semibold uppercase tracking-[0.24em] text-[#3FE9EC]">
                       Global presence
                     </div>
                   </div>
@@ -223,7 +235,7 @@ export default function Home() {
                 Five cities. One connected team.
               </h2>
               <p className="mx-auto mt-4 max-w-4xl text-lg leading-8 text-white/64">
-                Altira is headquartered in Cape Town, with a presence across the markets that
+                Altira Group is headquartered in Cape Town, with a presence across the markets that
                 shape distribution, sourcing and capital for the business we&apos;re building.
               </p>
             </div>
@@ -257,7 +269,7 @@ export default function Home() {
 
         <section id="contact" className="section-shell scroll-mt-44 py-32">
           <ContactCard
-            title="Bring your opportunity to Altira."
+            title="Bring your opportunity to Altira Group."
             description="If you want to discuss distribution, underwriting, affinity partnerships or employer-channel opportunities, use the form and we will respond within one business day."
             contactInfo={[
               {
@@ -315,8 +327,8 @@ export default function Home() {
       </main>
 
       <Footer
-        brandName="Altira"
-        brandDescription="Altira operates at the intersection of health, protection and credit — designing access to medical insurance, funeral insurance and personal loans through one partner-led relationship model."
+        brandName="Altira Group"
+        brandDescription="Altira Group operates at the intersection of health, protection and credit — designing access to medical insurance, funeral insurance and personal loans through one partner-led relationship model."
         socialLinks={[
           {
             icon: <Building2 className="h-6 w-6" />,
@@ -339,7 +351,7 @@ export default function Home() {
           { label: "Products", href: "#products" },
           { label: "Method", href: "#method" },
           { label: "Cities", href: "#offices" },
-          { label: "Why Altira", href: "#why" },
+          { label: "Why Altira Group", href: "#why" },
           { label: "Contact", href: "#contact" },
         ]}
         creatorName="Wabi-sabi"
@@ -350,7 +362,7 @@ export default function Home() {
         imageSrc="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=600&auto=format&fit=crop"
         revolvingText="START A CONVERSATION - ALTIRA GROUP - "
         popupHeading="Book a call"
-        popupDescription="Bring your distribution, underwriting or affinity opportunity to Altira and we will align on the best commercial next step."
+        popupDescription="Bring your distribution, underwriting or affinity opportunity to Altira Group and we will align on the best commercial next step."
         ctaButtonText="Start a conversation"
         ctaHref="#contact"
       />

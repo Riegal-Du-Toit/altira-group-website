@@ -9,8 +9,19 @@ export default function AboutSection3() {
         <div className="relative">
           <div className="absolute -top-3 z-10 flex w-[85%] items-center justify-between sm:-top-2 md:top-0 lg:top-4">
             <div className="flex items-center gap-2 text-xl">
-              <span className="text-[#3FE9EC]">✱</span>
-              <span className="text-sm font-medium text-white/72">WHY ALTIRA</span>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/favicon.png"
+                alt="Altira Group favicon"
+                className="h-[36px] w-[36px] object-contain"
+                draggable={false}
+              />
+              <span className="text-[34px] text-white">
+                <span className="font-medium text-white/72">WHY </span>
+                <span className="font-black uppercase tracking-[-0.04em] text-[#3FE9EC]">
+                  ALTIRA GROUP
+                </span>
+              </span>
             </div>
             <div className="flex gap-4">
               {[
@@ -61,7 +72,7 @@ export default function AboutSection3() {
                 <span className="text-white/30">|</span>
               </div>
               <div className="mb-2 flex items-center gap-2 text-xs sm:text-base">
-                <span className="font-bold text-[#4A5FCD]">3</span>
+                <span className="font-bold text-[#3FE9EC]">3</span>
                 <span className="text-white/70">connected lines</span>
               </div>
             </div>
@@ -71,7 +82,7 @@ export default function AboutSection3() {
                 <span className="uppercase text-white/72">licensed</span>
               </div>
               <div className="mb-2 flex items-center gap-2 text-xs sm:text-base">
-                <span className="font-bold text-[#4A5FCD]">24/7</span>
+                <span className="font-bold text-[#3FE9EC]">24/7</span>
                 <span className="text-white/70">always in motion</span>
                 <span className="block text-white/30 lg:hidden">|</span>
               </div>
@@ -88,7 +99,7 @@ export default function AboutSection3() {
             <div className="grid gap-8 text-white/72 md:grid-cols-2">
               <div className="text-xs sm:text-base">
                 <p className="text-justify leading-relaxed">
-                  Altira brings medical insurance, funeral insurance and personal loans into one
+                  Altira Group brings medical insurance, funeral insurance and personal loans into one
                   connected, partner-led model built around household resilience. We focus on the
                   real needs that determine whether a family can absorb a shock or be undone by it.
                 </p>
@@ -96,7 +107,7 @@ export default function AboutSection3() {
               <div className="text-xs sm:text-base">
                 <p className="text-justify leading-relaxed">
                   Through underwriting, distribution and sourcing relationships across Cape Town,
-                  Johannesburg, Shenzhen, New York and London, Altira builds access to protection
+                  Johannesburg, Shenzhen, New York and London, Altira Group builds access to protection
                   and credit in a way that is regulated, practical and easier for households to use.
                 </p>
               </div>
@@ -105,7 +116,9 @@ export default function AboutSection3() {
 
           <div className="md:col-span-1">
             <div className="text-right">
-              <div className="mb-2 text-2xl font-bold text-[#3FE9EC]">ALTIRA</div>
+              <div className="mb-2 text-2xl font-black uppercase tracking-[-0.04em] text-white transition-all duration-500">
+                ALTIRA GROUP
+              </div>
               <div className="mb-8 text-sm text-white/64">Experience-led distribution</div>
 
               <div className="mb-6">

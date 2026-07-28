@@ -42,21 +42,21 @@ const Card = ({
 }: CardProps) => {
   const defaultBgColors = {
     orange:
-      "bg-[linear-gradient(180deg,rgba(255,119,0,0.14),rgba(255,255,255,0.03))] before:bg-[radial-gradient(circle_at_top,rgba(255,140,0,0.14),transparent_58%)]",
+      "bg-[linear-gradient(180deg,rgba(63,233,236,0.18),rgba(255,255,255,0.03))] before:bg-[radial-gradient(circle_at_top,rgba(158,247,241,0.14),transparent_58%)]",
     blue:
-      "bg-[linear-gradient(180deg,rgba(37,99,235,0.14),rgba(255,255,255,0.03))] before:bg-[radial-gradient(circle_at_top,rgba(96,165,250,0.16),transparent_58%)]",
+      "bg-[linear-gradient(180deg,rgba(74,95,205,0.18),rgba(255,255,255,0.03))] before:bg-[radial-gradient(circle_at_top,rgba(33,58,156,0.16),transparent_58%)]",
     purple:
-      "bg-[linear-gradient(180deg,rgba(147,51,234,0.14),rgba(255,255,255,0.03))] before:bg-[radial-gradient(circle_at_top,rgba(192,132,252,0.16),transparent_58%)]",
+      "bg-[linear-gradient(180deg,rgba(123,44,248,0.18),rgba(255,255,255,0.03))] before:bg-[radial-gradient(circle_at_top,rgba(165,98,247,0.16),transparent_58%)]",
   };
   const defaultTextColors = {
-    orange: "text-orange-300",
-    blue: "text-sky-300",
-    purple: "text-violet-300",
+    orange: "text-[#3FE9EC]",
+    blue: "text-[#4A5FCD]",
+    purple: "text-[#A562F7]",
   };
   const defaultBorderColors = {
-    orange: "border-orange-400/18",
-    blue: "border-sky-400/18",
-    purple: "border-violet-400/18",
+    orange: "border-[#3FE9EC]/22",
+    blue: "border-[#4A5FCD]/22",
+    purple: "border-[#A562F7]/22",
   };
 
   const bgColor = customColors?.bg || defaultBgColors[colorTheme];

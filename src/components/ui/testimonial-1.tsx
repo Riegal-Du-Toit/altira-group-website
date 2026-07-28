@@ -8,6 +8,7 @@ import {
 } from "@radix-ui/react-tooltip";
 import { ArrowDown, ArrowUp } from "lucide-react";
 import { useState } from "react";
+import { openSansExtraBold } from "@/lib/fonts";
 
 export default function Testimonial1() {
   const [hoveredImage, setHoveredImage] = useState<string | null>(null);
@@ -52,7 +53,9 @@ export default function Testimonial1() {
           <div className="rounded-[16px] bg-gradient-to-b from-gray-800/40 to-transparent p-[4px]">
             <div className="rounded-[12px] bg-gradient-to-b from-gray-700 to-gray-600 p-[4px] shadow-[0_2px_4px_rgba(0,0,0,0.7)]">
               <div className="rounded-[8px] bg-gradient-to-b from-gray-600 to-gray-700 px-4 py-2">
-                <div className="flex items-center text-xs font-semibold uppercase tracking-[0.24em] text-white">
+                <div
+                  className={`${openSansExtraBold.className} flex items-center text-[1.02rem] leading-none tracking-[0.08em] text-[#3FE9EC]`}
+                >
                   Our Community
                 </div>
               </div>

@@ -103,7 +103,7 @@ export function SiteHeader() {
               isSticky ? "text-[2rem]" : "text-2xl",
             )}
           >
-            ALTIRA
+            ALTIRA GROUP
           </a>
 
           <div
@@ -122,7 +122,7 @@ export function SiteHeader() {
                 Cities
               </a>
               <a className="transition hover:text-white" href="#why">
-                Why Altira
+                Why Altira Group
               </a>
             </nav>
 

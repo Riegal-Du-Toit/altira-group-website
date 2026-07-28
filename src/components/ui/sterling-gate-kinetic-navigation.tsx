@@ -17,7 +17,7 @@ const menuItems = [
   { href: "#products", label: "Products", shape: "2" },
   { href: "#method", label: "Method", shape: "3" },
   { href: "#offices", label: "Cities", shape: "4" },
-  { href: "#why", label: "Why Altira", shape: "5" },
+  { href: "#why", label: "Why Altira Group", shape: "5" },
   { href: "#contact", label: "Contact", shape: "1" },
 ];
 
@@ -256,10 +256,16 @@ export function SterlingGateKineticNavigation({ className }: { className?: strin
         aria-label={isMenuOpen ? "Close menu" : "Open menu"}
         aria-expanded={isMenuOpen}
         onClick={() => setIsMenuOpen((prev) => !prev)}
-        className="nav-close-btn group relative inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/15 bg-black/35 text-white shadow-[0_10px_24px_rgba(0,0,0,0.22)] backdrop-blur-md transition hover:bg-black/45"
+        className="nav-close-btn group relative inline-flex text-white transition"
       >
         <span className="sr-only">{isMenuOpen ? "Close menu" : "Open menu"}</span>
-        <MenuToggleIcon open={isMenuOpen} className="h-6 w-6" duration={500} />
+        <span className="rounded-[12px] bg-gradient-to-b from-gray-800/40 to-transparent p-[2px]">
+          <span className="block rounded-[9px] bg-gradient-to-b from-gray-700 to-gray-600 p-[2px] shadow-[0_2px_4px_rgba(0,0,0,0.7)]">
+            <span className="flex h-10 w-10 items-center justify-center rounded-[6px] bg-gradient-to-b from-gray-600 to-gray-700">
+              <MenuToggleIcon open={isMenuOpen} className="h-5.5 w-5.5" duration={500} />
+            </span>
+          </span>
+        </span>
       </button>
 
       {isMounted
@@ -278,7 +284,7 @@ export function SterlingGateKineticNavigation({ className }: { className?: strin
 
                 <nav
                   ref={menuRef}
-                  className="menu-content fixed inset-y-0 right-0 h-screen min-h-screen w-full max-w-[760px] overflow-hidden border-l border-white/10 bg-[#0a0b11] text-white md:max-w-[820px]"
+                  className="menu-content fixed inset-y-0 right-0 h-screen min-h-screen w-full max-w-[620px] overflow-hidden border-l border-white/10 bg-[#0a0b11] text-white md:max-w-[680px]"
                 >
                   <div className="menu-bg absolute inset-0">
                     <div className="backdrop-layer first absolute inset-y-0 right-0 w-full bg-[#0b0d15]" />
@@ -324,23 +330,29 @@ export function SterlingGateKineticNavigation({ className }: { className?: strin
                     </div>
                   </div>
 
-                  <div className="menu-content-wrapper relative z-10 grid h-screen min-h-screen grid-rows-[auto_1fr_auto] px-8 py-8 sm:px-12 sm:py-10">
+                  <div className="menu-content-wrapper relative z-10 grid h-screen min-h-screen grid-rows-[auto_1fr_auto] px-6 py-6 sm:px-8 sm:py-8">
                     <div className="flex items-center justify-between">
-                      <div className="text-[0.9rem] font-black uppercase tracking-[-0.04em] text-white/72">
+                      <div className="text-[1.275rem] font-black uppercase tracking-[-0.04em] text-white/72">
                         Navigation
                       </div>
                       <button
                         type="button"
                         onClick={() => setIsMenuOpen(false)}
                         aria-label="Close menu"
-                        className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/12 bg-white/[0.04] text-white/80 transition hover:border-white/25 hover:bg-white/[0.08] hover:text-white"
+                        className="inline-flex text-white transition"
                       >
-                        <MenuToggleIcon open={closeIconOpen} className="h-6 w-6" duration={500} />
+                        <span className="rounded-[12px] bg-gradient-to-b from-gray-800/40 to-transparent p-[2px]">
+                          <span className="block rounded-[9px] bg-gradient-to-b from-gray-700 to-gray-600 p-[2px] shadow-[0_2px_4px_rgba(0,0,0,0.7)]">
+                            <span className="flex h-10 w-10 items-center justify-center rounded-[6px] bg-gradient-to-b from-gray-600 to-gray-700">
+                              <MenuToggleIcon open={closeIconOpen} className="h-6 w-6" duration={500} />
+                            </span>
+                          </span>
+                        </span>
                       </button>
                     </div>
 
-                    <div className="flex min-h-0 items-center overflow-hidden py-6">
-                      <ul className="menu-list w-full space-y-3 overflow-hidden pr-2">
+                    <div className="flex min-h-0 items-center overflow-hidden py-4">
+                      <ul className="menu-list w-full space-y-2 overflow-hidden pr-2">
                         {menuItems.map((item) => (
                           <li key={item.label} className="menu-list-item" data-shape={item.shape}>
                             <a
@@ -348,7 +360,7 @@ export function SterlingGateKineticNavigation({ className }: { className?: strin
                               onClick={() => setIsMenuOpen(false)}
                               className="nav-link group relative inline-flex w-full overflow-hidden px-4 py-5 text-left sm:px-6"
                             >
-                              <p className="nav-link-text relative inline-block text-[2.2rem] font-semibold leading-none tracking-[-0.04em] text-white sm:text-[3.5rem]">
+                              <p className="nav-link-text relative inline-block text-[2rem] font-semibold leading-none tracking-[-0.04em] text-white sm:text-[3.15rem]">
                                 {item.label}
                                 <span className="absolute -bottom-2 left-0 h-[3px] w-full origin-left scale-x-0 bg-white/92 transition-transform duration-300 ease-out group-hover:scale-x-100" />
                               </p>
@@ -358,13 +370,13 @@ export function SterlingGateKineticNavigation({ className }: { className?: strin
                       </ul>
                     </div>
 
-                    <div className="grid gap-3 text-sm text-white/55 sm:grid-cols-2">
+                    <div className="grid gap-2 text-sm text-white/55 sm:grid-cols-2">
                       <div
                         data-menu-fade
                         className="rounded-[16px] bg-gradient-to-b from-gray-800/40 to-transparent p-[4px]"
                       >
                         <div className="rounded-[12px] bg-gradient-to-b from-gray-700 to-gray-600 p-[4px] shadow-[0_2px_4px_rgba(0,0,0,0.7)]">
-                          <div className="rounded-[8px] bg-gradient-to-b from-gray-600 to-gray-700 p-4">
+                          <div className="rounded-[8px] bg-gradient-to-b from-gray-600 to-gray-700 p-3">
                             <div className="font-mono text-[0.68rem] uppercase tracking-[0.22em] text-white/55">
                               Entity
                             </div>
@@ -377,7 +389,7 @@ export function SterlingGateKineticNavigation({ className }: { className?: strin
                         className="rounded-[16px] bg-gradient-to-b from-gray-800/40 to-transparent p-[4px]"
                       >
                         <div className="rounded-[12px] bg-gradient-to-b from-gray-700 to-gray-600 p-[4px] shadow-[0_2px_4px_rgba(0,0,0,0.7)]">
-                          <div className="rounded-[8px] bg-gradient-to-b from-gray-600 to-gray-700 p-4">
+                          <div className="rounded-[8px] bg-gradient-to-b from-gray-600 to-gray-700 p-3">
                             <div className="font-mono text-[0.68rem] uppercase tracking-[0.22em] text-white/55">
                               Contact
                             </div>
