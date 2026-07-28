@@ -90,13 +90,10 @@ export function FloatingConsultButton({
             </button>
 
             <div className="space-y-6">
-              <div className="flex items-start justify-between gap-4">
+              <div className="flex items-start gap-4">
                 <h3 className="text-4xl font-bold leading-tight text-white lg:text-5xl">
                   {popupHeading}
                 </h3>
-                <span className="rounded-full border border-white/14 bg-white/[0.04] px-4 py-2 text-sm font-medium text-white/80">
-                  {popupBadgeText}
-                </span>
               </div>
 
               <p className="text-base leading-relaxed text-white/64 lg:text-lg">
