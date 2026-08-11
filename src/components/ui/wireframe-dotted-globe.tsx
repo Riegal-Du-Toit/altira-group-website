@@ -3,11 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 
-type LandFeatureCollection = GeoJSON.FeatureCollection<
-  GeoJSON.Polygon | GeoJSON.MultiPolygon,
-  { featurecla?: string }
->;
-
 interface RotatingEarthProps {
   width?: number;
   height?: number;
@@ -15,6 +10,18 @@ interface RotatingEarthProps {
   square?: boolean;
   autoRotateSpeed?: number;
   interactive?: boolean;
+  dotSpacing?: number;
+  maxDevicePixelRatio?: number;
+  dragSensitivityX?: number;
+  dragSensitivityY?: number;
+  initialRotation?: [number, number, number];
+  markers?: Array<{
+    location: [number, number];
+    color?: string;
+    radius?: number;
+    glowColor?: string;
+  }>;
+  jumpingArcCount?: number;
 }
 
 interface DotData {
@@ -22,30 +29,113 @@ interface DotData {
   lat: number;
 }
 
-const INITIAL_ROTATION: [number, number, number] = [-28, -12, 0];
-const DOT_SPACING = 20;
+interface JumpingArcData {
+  from: [number, number];
+  to: [number, number];
+}
+
+type LandFeature = {
+  geometry: {
+    type: "Polygon" | "MultiPolygon";
+    coordinates: number[][][] | number[][][][];
+  };
+  properties?: Record<string, unknown>;
+};
+
+type LandFeatureCollection = {
+  features: LandFeature[];
+};
+
 const LAND_DATA_URL =
   "https://raw.githubusercontent.com/martynafford/natural-earth-geojson/refs/heads/master/110m/physical/ne_110m_land.json";
-const MAX_DEVICE_PIXEL_RATIO = 2.25;
-const TARGET_FRAME_MS = 1000 / 30;
+const INITIAL_ROTATION: [number, number, number] = [0, 0, 0];
+const FULL_TURN = Math.PI * 2;
 
-let landFeaturesPromise: Promise<LandFeatureCollection> | null = null;
-let dotCachePromise: Promise<DotData[]> | null = null;
+let landDataPromise: Promise<LandFeatureCollection> | null = null;
+const dotCache = new Map<number, Promise<DotData[]>>();
 
-type IdleHandle = ReturnType<typeof window.setTimeout> | number;
+function getLandData() {
+  if (!landDataPromise) {
+    landDataPromise = fetch(LAND_DATA_URL).then(async (response) => {
+      if (!response.ok) {
+        throw new Error("Failed to load land data");
+      }
 
-function generateDotsInFeature(
-  feature: GeoJSON.Feature<GeoJSON.Polygon | GeoJSON.MultiPolygon>,
-  dotSpacing = DOT_SPACING,
-) {
+      return (await response.json()) as LandFeatureCollection;
+    });
+  }
+
+  return landDataPromise;
+}
+
+function pointInPolygon(point: [number, number], polygon: number[][]): boolean {
+  const [x, y] = point;
+  let inside = false;
+
+  for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+    const [xi, yi] = polygon[i];
+    const [xj, yj] = polygon[j];
+
+    if (yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi) {
+      inside = !inside;
+    }
+  }
+
+  return inside;
+}
+
+function pointInFeature(point: [number, number], feature: LandFeature): boolean {
+  const geometry = feature.geometry;
+
+  if (geometry.type === "Polygon") {
+    const coordinates = geometry.coordinates as number[][][];
+    if (!pointInPolygon(point, coordinates[0])) {
+      return false;
+    }
+
+    for (let i = 1; i < coordinates.length; i += 1) {
+      if (pointInPolygon(point, coordinates[i])) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  if (geometry.type === "MultiPolygon") {
+    const coordinates = geometry.coordinates as number[][][][];
+
+    for (const polygon of coordinates) {
+      if (pointInPolygon(point, polygon[0])) {
+        let inHole = false;
+
+        for (let i = 1; i < polygon.length; i += 1) {
+          if (pointInPolygon(point, polygon[i])) {
+            inHole = true;
+            break;
+          }
+        }
+
+        if (!inHole) {
+          return true;
+        }
+      }
+    }
+  }
+
+  return false;
+}
+
+function generateDotsInPolygon(feature: LandFeature, dotSpacing: number) {
   const dots: DotData[] = [];
-  const bounds = d3.geoBounds(feature);
+  const bounds = d3.geoBounds(feature as never);
   const [[minLng, minLat], [maxLng, maxLat]] = bounds;
   const stepSize = dotSpacing * 0.08;
 
   for (let lng = minLng; lng <= maxLng; lng += stepSize) {
     for (let lat = minLat; lat <= maxLat; lat += stepSize) {
-      if (d3.geoContains(feature, [lng, lat])) {
+      const point: [number, number] = [lng, lat];
+      if (pointInFeature(point, feature)) {
         dots.push({ lng, lat });
       }
     }
@@ -54,52 +144,49 @@ function generateDotsInFeature(
   return dots;
 }
 
-function getLandFeatures() {
-  if (!landFeaturesPromise) {
-    landFeaturesPromise = fetch(LAND_DATA_URL, { cache: "force-cache" }).then((response) => {
-      if (!response.ok) {
-        throw new Error("Failed to load land data");
-      }
-
-      return response.json() as Promise<LandFeatureCollection>;
-    });
+function getDotsForSpacing(dotSpacing: number) {
+  const existing = dotCache.get(dotSpacing);
+  if (existing) {
+    return existing;
   }
 
-  return landFeaturesPromise;
-}
-
-function getAllDots() {
-  if (!dotCachePromise) {
-    dotCachePromise = getLandFeatures().then((landFeatures) =>
-      landFeatures.features.flatMap((feature) => generateDotsInFeature(feature)),
-    );
-  }
-
-  return dotCachePromise;
-}
-
-function scheduleIdleWork(callback: IdleRequestCallback) {
-  if (typeof window !== "undefined" && window.requestIdleCallback) {
-    return window.requestIdleCallback(callback, { timeout: 120 });
-  }
-
-  return window.setTimeout(
-    () =>
-      callback({
-        didTimeout: false,
-        timeRemaining: () => 8,
-      } as IdleDeadline),
-    16,
+  const promise = getLandData().then((landFeatures) =>
+    landFeatures.features.flatMap((feature) => generateDotsInPolygon(feature, dotSpacing)),
   );
+
+  dotCache.set(dotSpacing, promise);
+  return promise;
 }
 
-function cancelIdleWork(handle: IdleHandle) {
-  if (typeof window !== "undefined" && window.cancelIdleCallback) {
-    window.cancelIdleCallback(handle as number);
-    return;
-  }
+function wrapLongitude(lng: number) {
+  return ((lng + 540) % 360) - 180;
+}
 
-  window.clearTimeout(handle);
+function randomBetween(min: number, max: number) {
+  return min + Math.random() * (max - min);
+}
+
+function isLocationVisible(
+  location: [number, number],
+  rotation: [number, number, number],
+  margin = 0.06,
+) {
+  const [lat, lng] = location;
+  const centerLng = -rotation[0];
+  const centerLat = -rotation[1];
+  return d3.geoDistance([lng, lat], [centerLng, centerLat]) <= Math.PI / 2 - margin;
+}
+
+function interpolateGreatArc(
+  from: [number, number],
+  to: [number, number],
+  steps = 40,
+) {
+  const interpolator = d3.geoInterpolate([from[1], from[0]], [to[1], to[0]]);
+  return Array.from({ length: steps + 1 }, (_, index) => {
+    const [lng, lat] = interpolator(index / steps);
+    return [lat, lng] as [number, number];
+  });
 }
 
 export default function RotatingEarth({
@@ -107,13 +194,18 @@ export default function RotatingEarth({
   height = 600,
   className = "",
   square = false,
-  autoRotateSpeed = 0.18,
+  autoRotateSpeed = 0.5,
   interactive = false,
+  dotSpacing = 16,
+  maxDevicePixelRatio = 1.5,
+  dragSensitivityX = 0.5,
+  dragSensitivityY = 0.5,
+  initialRotation = INITIAL_ROTATION,
+  markers = [],
+  jumpingArcCount = 0,
 }: RotatingEarthProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const isInViewRef = useRef(true);
-  const isDocumentVisibleRef = useRef(true);
   const [isReady, setIsReady] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -124,27 +216,68 @@ export default function RotatingEarth({
 
     const context = canvas.getContext("2d");
     if (!context) return;
+
     let containerWidth = 0;
     let containerHeight = 0;
-    let radius = 0;
+    let baseRadius = 0;
     let projection = d3.geoOrthographic();
     let path = d3.geoPath(projection, context);
-    const graticule = d3.geoGraticule();
-    let allDots: DotData[] = [];
+    let graticule = d3.geoGraticule();
     let landFeatures: LandFeatureCollection | null = null;
-    let hasLoadedDots = false;
-    let animationFrame = 0;
-    let idleHandle: IdleHandle = 0;
+    let allDots: DotData[] = [];
+    let hasLoadedData = false;
     let cancelled = false;
-    let phi = INITIAL_ROTATION[0];
-    let theta = INITIAL_ROTATION[1];
-    let lastFrameTime = 0;
-    let resizeObserver: ResizeObserver | null = null;
+
+    const rotation: [number, number, number] = [
+      initialRotation[0],
+      initialRotation[1],
+      initialRotation[2] ?? 0,
+    ];
+    const targetRotation: [number, number, number] = [...rotation];
     let isDragging = false;
-    let dragStartX = 0;
-    let dragStartY = 0;
-    let dragStartPhi = phi;
-    let dragStartTheta = theta;
+    let inertiaX = 0;
+    let inertiaY = 0;
+    let timer: ReturnType<typeof d3.timer> | null = null;
+    const jumpingArcs: JumpingArcData[] = [];
+    let jumpingArcLife = 0;
+    let jumpingArcSwapInterval = 140;
+
+    const spawnJumpingArc = (fromOverride?: [number, number]) => {
+      if (!allDots.length) {
+        return null;
+      }
+
+      const visibleDots = allDots.filter((dot) =>
+        isLocationVisible([dot.lat, dot.lng], rotation, 0.14),
+      );
+      const sourcePool = visibleDots.length > 80 ? visibleDots : allDots;
+
+      for (let attempt = 0; attempt < 24; attempt += 1) {
+        const fromDot = fromOverride
+          ? { lat: fromOverride[0], lng: fromOverride[1] }
+          : sourcePool[Math.floor(Math.random() * sourcePool.length)];
+        const toDot = sourcePool[Math.floor(Math.random() * sourcePool.length)];
+
+        if (!fromDot || !toDot) {
+          continue;
+        }
+
+        const from: [number, number] = [fromDot.lat, wrapLongitude(fromDot.lng)];
+        const to: [number, number] = [toDot.lat, wrapLongitude(toDot.lng)];
+        const angularDistance = d3.geoDistance([from[1], from[0]], [to[1], to[0]]);
+
+        if (angularDistance < 0.42 || angularDistance > 1.7) {
+          continue;
+        }
+
+        return {
+          from,
+          to,
+        } satisfies JumpingArcData;
+      }
+
+      return null;
+    };
 
     const syncCanvasSize = () => {
       const rect = container.getBoundingClientRect();
@@ -155,45 +288,43 @@ export default function RotatingEarth({
 
       containerWidth = square ? Math.min(measuredWidth, measuredHeight || measuredWidth) : measuredWidth;
       containerHeight = square ? containerWidth : measuredHeight;
-      radius = Math.min(containerWidth, containerHeight) / 2.5;
+      baseRadius = Math.min(containerWidth, containerHeight) / 2.5;
 
-      const dpr = Math.min(window.devicePixelRatio || 1, MAX_DEVICE_PIXEL_RATIO);
+      const dpr = Math.min(window.devicePixelRatio || 1, maxDevicePixelRatio);
       canvas.width = Math.max(1, Math.round(containerWidth * dpr));
       canvas.height = Math.max(1, Math.round(containerHeight * dpr));
       canvas.style.width = `${containerWidth}px`;
       canvas.style.height = `${containerHeight}px`;
+
       context.setTransform(1, 0, 0, 1, 0, 0);
       context.scale(dpr, dpr);
 
       projection = d3
         .geoOrthographic()
-        .scale(radius)
+        .scale(baseRadius)
         .translate([containerWidth / 2, containerHeight / 2])
-        .rotate([phi, theta, INITIAL_ROTATION[2]])
+        .rotate(rotation)
         .clipAngle(90);
 
-      path = d3.geoPath(projection, context);
+      path = d3.geoPath().projection(projection).context(context);
+      graticule = d3.geoGraticule();
     };
 
     const render = () => {
       if (!containerWidth || !containerHeight) return;
+
+      projection.rotate(rotation);
       context.clearRect(0, 0, containerWidth, containerHeight);
 
       const currentScale = projection.scale();
-      const scaleFactor = currentScale / radius;
+      const scaleFactor = currentScale / baseRadius;
 
       context.beginPath();
       context.arc(containerWidth / 2, containerHeight / 2, currentScale, 0, 2 * Math.PI);
-      context.fillStyle = "#050608";
+      context.fillStyle = "#000000";
       context.fill();
-      context.strokeStyle = "rgba(255,255,255,0.78)";
-      context.lineWidth = 1.7 * scaleFactor;
-      context.stroke();
-
-      context.beginPath();
-      path(graticule());
-      context.strokeStyle = "rgba(255,255,255,0.16)";
-      context.lineWidth = 0.9 * scaleFactor;
+      context.strokeStyle = "#ffffff";
+      context.lineWidth = 2 * scaleFactor;
       context.stroke();
 
       if (!landFeatures) {
@@ -201,163 +332,282 @@ export default function RotatingEarth({
       }
 
       context.beginPath();
+      path(graticule());
+      context.strokeStyle = "#ffffff";
+      context.lineWidth = 1 * scaleFactor;
+      context.globalAlpha = 0.25;
+      context.stroke();
+      context.globalAlpha = 1;
+
+      context.beginPath();
       landFeatures.features.forEach((feature) => {
-        path(feature);
+        path(feature as never);
       });
-      context.strokeStyle = "rgba(255,255,255,0.24)";
-      context.lineWidth = 0.8 * scaleFactor;
+      context.strokeStyle = "#ffffff";
+      context.lineWidth = 1 * scaleFactor;
       context.stroke();
 
-      for (let i = 0; i < allDots.length; i += 1) {
-        const dot = allDots[i];
+      allDots.forEach((dot) => {
         const projected = projection([dot.lng, dot.lat]);
-        if (!projected) continue;
         if (
-          projected[0] < 0 ||
-          projected[0] > containerWidth ||
-          projected[1] < 0 ||
-          projected[1] > containerHeight
+          projected &&
+          projected[0] >= 0 &&
+          projected[0] <= containerWidth &&
+          projected[1] >= 0 &&
+          projected[1] <= containerHeight
         ) {
-          continue;
+          context.beginPath();
+          context.arc(projected[0], projected[1], 1.2 * scaleFactor, 0, 2 * Math.PI);
+          context.fillStyle = "#999999";
+          context.fill();
+        }
+      });
+
+      const centerLng = -rotation[0];
+      const centerLat = -rotation[1];
+
+      markers.forEach((marker) => {
+        const [lat, lng] = marker.location;
+        const angularDistance = d3.geoDistance([lng, lat], [centerLng, centerLat]);
+        if (angularDistance > Math.PI / 2) {
+          return;
         }
 
+        const projected = projection([lng, lat]);
+        if (!projected) {
+          return;
+        }
+
+        const glowRadius = (marker.radius ?? 3.2) * 2.8 * scaleFactor;
+        const coreRadius = (marker.radius ?? 3.2) * scaleFactor;
+
         context.beginPath();
-        context.arc(projected[0], projected[1], 1.15 * scaleFactor, 0, 2 * Math.PI);
-        context.fillStyle = "rgba(225,229,235,0.94)";
+        context.arc(projected[0], projected[1], glowRadius, 0, 2 * Math.PI);
+        context.fillStyle = marker.glowColor ?? "rgba(63,233,236,0.28)";
         context.fill();
-      }
-    };
 
-    const animate = (timestamp: number) => {
-      animationFrame = window.requestAnimationFrame(animate);
+        context.beginPath();
+        context.arc(projected[0], projected[1], coreRadius, 0, 2 * Math.PI);
+        context.fillStyle = marker.color ?? "#3FE9EC";
+        context.fill();
 
-      if (!hasLoadedDots || !isInViewRef.current || !isDocumentVisibleRef.current) {
-        return;
-      }
+        context.beginPath();
+        context.arc(projected[0], projected[1], Math.max(1, coreRadius * 0.45), 0, 2 * Math.PI);
+        context.fillStyle = "#d4ffff";
+        context.fill();
+      });
 
-      if (timestamp - lastFrameTime < TARGET_FRAME_MS) {
-        return;
-      }
+      jumpingArcs.forEach((arc) => {
+        const pathPoints = interpolateGreatArc(arc.from, arc.to, 72)
+          .map(([lat, lng]) => projection([lng, lat]))
+          .filter((point): point is [number, number] => Boolean(point));
 
-      lastFrameTime = timestamp;
-      phi += autoRotateSpeed;
-      projection.rotate([phi, theta, INITIAL_ROTATION[2]]);
-      render();
-    };
+        if (pathPoints.length < 6) {
+          return;
+        }
 
-    const updateRotation = (nextPhi: number, nextTheta: number) => {
-      phi = nextPhi;
-      theta = Math.max(-50, Math.min(50, nextTheta));
-      projection.rotate([phi, theta, INITIAL_ROTATION[2]]);
-      render();
-    };
+        const arcIndex = jumpingArcs.indexOf(arc);
+        const depthFactor = 1 - arcIndex / Math.max(1, jumpingArcs.length + 1);
+        const alpha = 0.42 + depthFactor * 0.38;
 
-    const handlePointerDown = (event: PointerEvent) => {
-      if (!interactive) return;
-      isDragging = true;
-      dragStartX = event.clientX;
-      dragStartY = event.clientY;
-      dragStartPhi = phi;
-      dragStartTheta = theta;
-      canvas.setPointerCapture(event.pointerId);
-      canvas.style.cursor = "grabbing";
-    };
+        context.beginPath();
+        pathPoints.forEach((point, index) => {
+          const [x, y] = point;
+          if (index === 0) {
+            context.moveTo(x, y);
+            return;
+          }
 
-    const handlePointerMove = (event: PointerEvent) => {
-      if (!interactive || !isDragging) return;
-      const deltaX = event.clientX - dragStartX;
-      const deltaY = event.clientY - dragStartY;
-      updateRotation(dragStartPhi + deltaX * 0.015, dragStartTheta - deltaY * 0.01);
-    };
+          context.lineTo(x, y);
+        });
+        context.strokeStyle = `rgba(63, 233, 236, ${alpha})`;
+        context.lineWidth = Math.max(1, scaleFactor);
+        context.shadowColor = `rgba(63, 233, 236, ${alpha * 0.4})`;
+        context.shadowBlur = 4 * scaleFactor;
+        context.stroke();
+        context.shadowBlur = 0;
 
-    const endDrag = (event?: PointerEvent) => {
-      if (!interactive) return;
-      isDragging = false;
-      if (event && canvas.hasPointerCapture(event.pointerId)) {
-        canvas.releasePointerCapture(event.pointerId);
-      }
-      canvas.style.cursor = interactive ? "grab" : "default";
-    };
+        const firstPoint = pathPoints[0];
+        const lastPoint = pathPoints[pathPoints.length - 1];
+        const endpointRadius = Math.max(1.4, 1.8 * scaleFactor);
 
-    const finishSetup = (dots: DotData[]) => {
-      if (cancelled) {
-        return;
-      }
-
-      allDots = dots;
-      hasLoadedDots = true;
-      setIsReady(true);
-      canvas.style.opacity = "1";
-      animationFrame = window.requestAnimationFrame(animate);
+        context.beginPath();
+        context.arc(firstPoint[0], firstPoint[1], endpointRadius, 0, FULL_TURN);
+        context.arc(lastPoint[0], lastPoint[1], endpointRadius, 0, FULL_TURN);
+        context.fillStyle = `rgba(63, 233, 236, ${Math.min(1, alpha + 0.06)})`;
+        context.fill();
+      });
     };
 
     const loadWorldData = async () => {
       try {
         setError(null);
         setIsReady(false);
-        syncCanvasSize();
-        render();
 
-        landFeatures = await getLandFeatures();
-        const dots = await getAllDots();
-        finishSetup(dots);
+        const [features, dots] = await Promise.all([getLandData(), getDotsForSpacing(dotSpacing)]);
+        if (cancelled) return;
+
+        landFeatures = features;
+        allDots = dots;
+        hasLoadedData = true;
+        jumpingArcs.length = 0;
+        if (jumpingArcCount > 0) {
+          const firstArc = spawnJumpingArc();
+          if (firstArc) {
+            jumpingArcs.push(firstArc);
+
+            for (let index = 1; index < jumpingArcCount; index += 1) {
+              const previousArc = jumpingArcs[jumpingArcs.length - 1];
+              const nextArc = spawnJumpingArc(previousArc.to);
+              if (!nextArc) {
+                break;
+              }
+
+              jumpingArcs.push(nextArc);
+            }
+          }
+        }
+        jumpingArcLife = 0;
+        jumpingArcSwapInterval = randomBetween(110, 170);
+        render();
+        setIsReady(true);
       } catch {
         if (cancelled) return;
         setError("Failed to load land map data");
+        setIsReady(true);
       }
     };
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        isInViewRef.current = entry?.isIntersecting ?? false;
-      },
-      { threshold: 0.1 },
-    );
+    const rotate = () => {
+      if (!hasLoadedData) {
+        return;
+      }
 
-    observer.observe(container);
-    resizeObserver = new ResizeObserver(() => {
+      if (!isDragging) {
+        targetRotation[0] += autoRotateSpeed;
+        targetRotation[0] += inertiaX;
+        targetRotation[1] = Math.max(-90, Math.min(90, targetRotation[1] + inertiaY));
+        inertiaX *= 0.92;
+        inertiaY *= 0.9;
+
+        if (Math.abs(inertiaX) < 0.003) inertiaX = 0;
+        if (Math.abs(inertiaY) < 0.003) inertiaY = 0;
+      }
+
+      if (jumpingArcCount > 0 && jumpingArcs.length > 0) {
+        jumpingArcLife += 1;
+
+        const chainNeedsRefresh =
+          jumpingArcLife >= jumpingArcSwapInterval ||
+          jumpingArcs.every(
+            (arc) => !isLocationVisible(arc.from, rotation, 0.01) && !isLocationVisible(arc.to, rotation, 0.01),
+          );
+
+        if (chainNeedsRefresh) {
+          const lastArc = jumpingArcs[jumpingArcs.length - 1];
+          const nextArc = spawnJumpingArc(lastArc.to);
+
+          if (nextArc) {
+            if (jumpingArcs.length >= jumpingArcCount) {
+              jumpingArcs.shift();
+            }
+
+            jumpingArcs.push(nextArc);
+          }
+
+          jumpingArcLife = 0;
+          jumpingArcSwapInterval = randomBetween(110, 170);
+        }
+      }
+
+      rotation[0] += (targetRotation[0] - rotation[0]) * 0.12;
+      rotation[1] += (targetRotation[1] - rotation[1]) * 0.12;
+      render();
+    };
+
+    const handlePointerDown = (event: PointerEvent) => {
+      if (!interactive) return;
+
+      isDragging = true;
+      inertiaX = 0;
+      inertiaY = 0;
+      const startX = event.clientX;
+      const startY = event.clientY;
+      const startRotation: [number, number, number] = [...targetRotation];
+      canvas.setPointerCapture(event.pointerId);
+      canvas.style.cursor = "grabbing";
+
+      let lastX = event.clientX;
+      let lastY = event.clientY;
+      let lastTime = performance.now();
+
+      const handlePointerMove = (moveEvent: PointerEvent) => {
+        const dx = moveEvent.clientX - startX;
+        const dy = moveEvent.clientY - startY;
+
+        targetRotation[0] = startRotation[0] + dx * dragSensitivityX;
+        targetRotation[1] = Math.max(-90, Math.min(90, startRotation[1] - dy * dragSensitivityY));
+
+        const now = performance.now();
+        const deltaTime = Math.max(16, now - lastTime);
+        inertiaX = ((moveEvent.clientX - lastX) * dragSensitivityX) / (deltaTime / 16);
+        inertiaY = (-(moveEvent.clientY - lastY) * dragSensitivityY) / (deltaTime / 16);
+        lastX = moveEvent.clientX;
+        lastY = moveEvent.clientY;
+        lastTime = now;
+      };
+
+      const handlePointerUp = () => {
+        window.removeEventListener("pointermove", handlePointerMove);
+        window.removeEventListener("pointerup", handlePointerUp);
+        window.removeEventListener("pointercancel", handlePointerUp);
+        isDragging = false;
+        canvas.style.cursor = "grab";
+      };
+
+      window.addEventListener("pointermove", handlePointerMove);
+      window.addEventListener("pointerup", handlePointerUp);
+      window.addEventListener("pointercancel", handlePointerUp);
+    };
+
+    const resizeObserver = new ResizeObserver(() => {
       syncCanvasSize();
       render();
     });
+
     resizeObserver.observe(container);
-
-    const handleVisibilityChange = () => {
-      isDocumentVisibleRef.current = !document.hidden;
-    };
-
-    handleVisibilityChange();
-    document.addEventListener("visibilitychange", handleVisibilityChange);
     if (interactive) {
       canvas.style.cursor = "grab";
       canvas.addEventListener("pointerdown", handlePointerDown);
-      canvas.addEventListener("pointermove", handlePointerMove);
-      canvas.addEventListener("pointerup", endDrag);
-      canvas.addEventListener("pointerleave", endDrag);
-      canvas.addEventListener("pointercancel", endDrag);
     }
 
     syncCanvasSize();
     render();
-    idleHandle = scheduleIdleWork(() => {
-      void loadWorldData();
-    });
+    void loadWorldData();
+    timer = d3.timer(rotate);
 
     return () => {
       cancelled = true;
-      observer.disconnect();
-      resizeObserver?.disconnect();
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      resizeObserver.disconnect();
+      timer?.stop();
       if (interactive) {
         canvas.removeEventListener("pointerdown", handlePointerDown);
-        canvas.removeEventListener("pointermove", handlePointerMove);
-        canvas.removeEventListener("pointerup", endDrag);
-        canvas.removeEventListener("pointerleave", endDrag);
-        canvas.removeEventListener("pointercancel", endDrag);
       }
-      cancelIdleWork(idleHandle);
-      window.cancelAnimationFrame(animationFrame);
     };
-  }, [autoRotateSpeed, height, interactive, square, width]);
+  }, [
+    autoRotateSpeed,
+    dotSpacing,
+    dragSensitivityX,
+    dragSensitivityY,
+    height,
+    interactive,
+    maxDevicePixelRatio,
+    initialRotation,
+    markers,
+    jumpingArcCount,
+    square,
+    width,
+  ]);
 
   if (error) {
     return (

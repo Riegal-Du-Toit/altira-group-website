@@ -24,6 +24,9 @@ interface FloatingConsultButtonProps {
   };
   hideWhileVisibleSelector?: string;
   hideWhileVisibleThreshold?: number;
+  showOnlyWhenVisibleSelector?: string;
+  showOnlyWhenVisibleThreshold?: number;
+  inline?: boolean;
 }
 
 export function FloatingConsultButton({
@@ -42,9 +45,13 @@ export function FloatingConsultButton({
   position = { bottom: "2rem", right: "2rem" },
   hideWhileVisibleSelector,
   hideWhileVisibleThreshold = 0.7,
+  showOnlyWhenVisibleSelector,
+  showOnlyWhenVisibleThreshold = 0.1,
+  inline = false,
 }: FloatingConsultButtonProps): React.JSX.Element {
   const [isOpen, setIsOpen] = useState(false);
-  const [isVisible, setIsVisible] = useState(!hideWhileVisibleSelector);
+  const [isHiddenBySelector, setIsHiddenBySelector] = useState(false);
+  const [isShownBySelector, setIsShownBySelector] = useState(!showOnlyWhenVisibleSelector);
 
   const lgButtonSize = buttonSize || 160;
   const smButtonSize = buttonSize ? buttonSize * 0.8 : 128;
@@ -53,13 +60,48 @@ export function FloatingConsultButton({
 
   useEffect(() => {
     if (!hideWhileVisibleSelector) {
-      setIsVisible(true);
+      setIsHiddenBySelector(false);
       return;
     }
 
-    const target = document.querySelector(hideWhileVisibleSelector);
+    const targets = Array.from(document.querySelectorAll(hideWhileVisibleSelector));
+    if (targets.length === 0) {
+      setIsHiddenBySelector(false);
+      return;
+    }
+
+    const visibilityMap = new Map<Element, boolean>();
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const ratio = entry?.intersectionRatio ?? 0;
+          const intersecting = entry?.isIntersecting ?? false;
+          visibilityMap.set(entry.target, intersecting && ratio >= hideWhileVisibleThreshold);
+        });
+
+        setIsHiddenBySelector(Array.from(visibilityMap.values()).some(Boolean));
+      },
+      { threshold: [0, hideWhileVisibleThreshold] },
+    );
+
+    targets.forEach((target) => {
+      visibilityMap.set(target, false);
+      observer.observe(target);
+    });
+
+    return () => observer.disconnect();
+  }, [hideWhileVisibleSelector, hideWhileVisibleThreshold]);
+
+  useEffect(() => {
+    if (!showOnlyWhenVisibleSelector) {
+      setIsShownBySelector(true);
+      return;
+    }
+
+    const target = document.querySelector(showOnlyWhenVisibleSelector);
     if (!target) {
-      setIsVisible(true);
+      setIsShownBySelector(false);
       return;
     }
 
@@ -67,15 +109,17 @@ export function FloatingConsultButton({
       ([entry]) => {
         const ratio = entry?.intersectionRatio ?? 0;
         const intersecting = entry?.isIntersecting ?? false;
-        setIsVisible(!(intersecting && ratio >= hideWhileVisibleThreshold));
+        setIsShownBySelector(intersecting && ratio >= showOnlyWhenVisibleThreshold);
       },
-      { threshold: [0, hideWhileVisibleThreshold] },
+      { threshold: [0, showOnlyWhenVisibleThreshold] },
     );
 
     observer.observe(target);
 
     return () => observer.disconnect();
-  }, [hideWhileVisibleSelector, hideWhileVisibleThreshold]);
+  }, [showOnlyWhenVisibleSelector, showOnlyWhenVisibleThreshold]);
+
+  const isVisible = !isHiddenBySelector && isShownBySelector;
 
   return (
     <>
@@ -171,8 +215,8 @@ export function FloatingConsultButton({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.92, y: 12 }}
             transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed z-50"
-            style={position}
+            className={inline ? "relative z-20" : "fixed z-50"}
+            style={inline ? undefined : position}
           >
             <motion.div
               className="group relative cursor-pointer"

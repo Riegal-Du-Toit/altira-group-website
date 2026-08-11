@@ -1,7 +1,7 @@
 "use client";
 
-import RotatingEarth from "@/components/ui/wireframe-dotted-globe";
 import { motion } from "motion/react";
+import { OrbitEarth } from "@/components/ui/orbit-earth";
 import { cn } from "@/lib/utils";
 
 interface LabeledOrbitEarthProps {
@@ -49,15 +49,7 @@ export function LabeledOrbitEarth({
         </svg>
       </motion.div>
 
-      <div className="absolute inset-[14%] flex items-center justify-center">
-        <RotatingEarth
-          width={size}
-          height={size}
-          square
-          className={cn("size-full", earthClassName)}
-        />
-      </div>
-
+      <OrbitEarth size={size} earthClassName={earthClassName} />
     </div>
   );
 }

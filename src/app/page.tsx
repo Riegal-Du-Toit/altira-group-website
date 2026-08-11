@@ -1,22 +1,31 @@
+import dynamic from "next/dynamic";
+
 import { SiteHeader } from "@/components/site-header";
-import { ContactCard } from "@/components/ui/contact-card";
-import { ConnectHoverBanner } from "@/components/ui/connect-hover-banner";
 import { ExperienceHeroText } from "@/components/ui/experience-hero";
+import { Footer } from "@/components/ui/footer-section";
 import { FloatingConsultButton } from "@/components/ui/floating-consult-button";
 import { HeroTimezones } from "@/components/ui/hero-timezones";
-import HowItWorks from "@/components/ui/how-it-works";
-import { Input } from "@/components/ui/input";
-import IntegrationsSection from "@/components/ui/integrations-section";
-import { Label } from "@/components/ui/label";
 import { LabeledOrbitEarth } from "@/components/ui/labeled-orbit-earth";
-import { RegionalPresenceMap } from "@/components/ui/regional-presence-map";
-import RotatingEarth from "@/components/ui/wireframe-dotted-globe";
-import { Footer } from "@/components/ui/footer-section";
-import AboutSection3 from "@/components/ui/about-section";
-import ProductDepthScroll from "@/components/ui/product-depth-scroll";
-import { Mail, MapPinIcon, PhoneIcon } from "lucide-react";
-import { Textarea } from "@/components/ui/textarea";
+import { OrbitEarth } from "@/components/ui/orbit-earth";
 
+const AboutSection3 = dynamic(() => import("@/components/ui/about-section"), {
+  loading: () => <div className="min-h-[56rem] w-full bg-[#1e2021]" />,
+});
+const ProductDepthScroll = dynamic(() => import("@/components/ui/product-depth-scroll"), {
+  loading: () => <div className="h-[180vh] w-full bg-[#1e2021]" />,
+});
+const HowItWorks = dynamic(() => import("@/components/ui/how-it-works"), {
+  loading: () => <div className="min-h-[42rem] w-full rounded-[1.5rem] bg-[#1f2123]" />,
+});
+const RegionalPresenceMap = dynamic(
+  () => import("@/components/ui/regional-presence-map").then((mod) => mod.RegionalPresenceMap),
+  {
+    loading: () => <div className="aspect-[174/100] w-full rounded-[1.5rem] bg-[#202224]" />,
+  },
+);
+const IntegrationsSection = dynamic(() => import("@/components/ui/integrations-section"), {
+  loading: () => <div className="min-h-screen w-full bg-[#1e2021]" />,
+});
 export default function Home() {
   return (
     <div className="min-h-screen bg-[#1E2021] text-[var(--ink)]">
@@ -24,15 +33,9 @@ export default function Home() {
 
       <main>
         <section id="home" className="relative h-[100svh] overflow-hidden bg-black">
-          <div className="pointer-events-none absolute inset-x-0 top-[calc(44%+20px-50px)] z-[8] mx-auto w-full max-w-[1720px] -translate-y-1/2 px-0 sm:px-2 lg:px-4">
-            <div className="max-w-[32rem]">
+          <div className="absolute inset-x-0 top-[calc(44%+20px-50px)] z-[8] mx-auto w-full max-w-[1720px] -translate-y-1/2 px-0 sm:px-2 lg:px-4">
+            <div className="max-w-[46rem] px-6 sm:px-8 lg:px-10">
               <ExperienceHeroText />
-
-              <p className="landing-copy mt-12 max-w-[34rem] text-[calc(1.2rem+2px)] leading-[1.55] text-white/78">
-                A Proprietary Technology Platform powered by
-                <br />
-                Altira&apos;s Orbit engine.
-              </p>
             </div>
           </div>
 
@@ -47,16 +50,24 @@ export default function Home() {
           </div>
 
           <div className="flex h-full items-end justify-center overflow-hidden px-6 pb-0 pt-0 sm:px-8 lg:px-12">
-            <div className="w-full max-w-[96rem] translate-x-[170px] translate-y-[calc(60%-25px)]">
-              <div className="relative mx-auto aspect-square w-full max-w-[90rem] overflow-hidden rounded-full opacity-70">
-                <RotatingEarth
-                  width={1560}
-                  height={1560}
-                  square
-                  autoRotateSpeed={0.06}
+            <div className="w-full max-w-[104rem] translate-y-[calc(62%-12px)]">
+              <div className="relative mx-auto aspect-square w-full max-w-[98rem] overflow-hidden rounded-full">
+                <OrbitEarth
+                  size={1320}
+                  delayMs={500}
+                  autoRotateSpeed={0.2}
                   interactive
-                  className="size-full"
+                  dragSensitivityX={0.035}
+                  dragSensitivityY={0.024}
+                  initialRotation={[-72, 6, 0]}
+                  jumpingArcCount={3}
+                  dotSpacing={22}
+                  maxDevicePixelRatio={1}
+                  className="size-full opacity-50"
+                  earthWrapClassName="inset-[6%]"
+                  earthClassName="overflow-hidden rounded-full brightness-[1.18] contrast-[1.12] [mask-image:radial-gradient(circle,black_62%,rgba(0,0,0,0.9)_78%,transparent_100%)]"
                 />
+                <div className="pointer-events-none absolute inset-x-[14%] bottom-[8%] h-[22%] bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.1),transparent_72%)] blur-2xl" />
               </div>
             </div>
           </div>
@@ -66,7 +77,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="why" className="section-spacing w-full">
+        <section id="why" className="w-full pt-12">
           <AboutSection3 />
         </section>
 
@@ -220,81 +231,31 @@ export default function Home() {
         </section>
 
         <IntegrationsSection />
-
-        <section id="contact" className="section-shell scroll-mt-44">
-          <ContactCard
-            title="Bring your opportunity to Altira Group."
-            description="If you want to discuss distribution, underwriting, affinity partnerships or employer-channel opportunities, use the form and we will respond within one business day."
-            contactInfo={[
-              {
-                icon: Mail,
-                label: "Email",
-                value: "info@altiragroup.co.za",
-              },
-              {
-                icon: PhoneIcon,
-                label: "Phone",
-                value: "+27 21 000 0000",
-              },
-              {
-                icon: MapPinIcon,
-                label: "Address",
-                value: "Constantia, Cape Town",
-                className: "md:col-span-2 lg:col-span-1",
-              },
-            ]}
-            className="rounded-[1.75rem]"
-            formSectionClassName="bg-[#1f2123]"
-          >
-            <form className="w-full space-y-4">
-              <div className="flex flex-col gap-2">
-                <Label htmlFor="contact-name">Name</Label>
-                <Input id="contact-name" type="text" placeholder="Your name" />
-              </div>
-              <div className="flex flex-col gap-2">
-                <Label htmlFor="contact-email">Email</Label>
-                <Input id="contact-email" type="email" placeholder="you@example.com" />
-              </div>
-              <div className="flex flex-col gap-2">
-                <Label htmlFor="contact-phone">Phone</Label>
-                <Input id="contact-phone" type="tel" placeholder="+27 ..." />
-              </div>
-              <div className="flex flex-col gap-2">
-                <Label htmlFor="contact-message">Message</Label>
-                <Textarea id="contact-message" placeholder="Tell us what you want to discuss." />
-              </div>
-              <div className="rounded-[16px] bg-gradient-to-b from-gray-800/40 to-transparent p-[4px]">
-                <button
-                  className="group block w-full rounded-[12px] bg-gradient-to-b from-gray-700 to-gray-600 p-[4px] shadow-[0_2px_4px_rgba(0,0,0,0.7)] transition-all duration-200 hover:shadow-[0_4px_8px_rgba(0,0,0,0.6)] active:scale-[0.995] active:shadow-[0_0px_1px_rgba(0,0,0,0.8)]"
-                  type="button"
-                  suppressHydrationWarning
-                >
-                  <div className="rounded-[8px] bg-gradient-to-b from-gray-600 to-gray-700 px-6 py-3">
-                    <div className="flex items-center justify-center gap-2">
-                      <span className="text-sm font-semibold text-white">Submit enquiry</span>
-                    </div>
-                  </div>
-                </button>
-              </div>
-            </form>
-          </ContactCard>
-        </section>
-
       </main>
-
-      <ConnectHoverBanner />
-
-      <Footer />
-
       <FloatingConsultButton
-        imageSrc="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=600&auto=format&fit=crop"
-        revolvingText="START A CONVERSATION - ALTIRA GROUP - "
-        popupHeading="Book a call"
-        popupDescription="Bring your distribution, underwriting or affinity opportunity to Altira Group and we will align on the best commercial next step."
-        ctaButtonText="Start a conversation"
-        ctaHref="#contact"
-        hideWhileVisibleSelector="#home"
-        hideWhileVisibleThreshold={0.7}
+        ctaHref="#offices"
+        popupHeading="Start a conversation"
+        popupDescription="Speak with Altira Group about distribution, underwriting or partnership opportunities and we will determine the right next step together."
+        ctaButtonText="Let's collaborate"
+        hideWhileVisibleSelector="#home, [data-site-footer]"
+        hideWhileVisibleThreshold={0.92}
+      />
+      <Footer
+        leftSlot={
+          <FloatingConsultButton
+            inline
+            buttonSize={130}
+            imageSize={82}
+            ctaHref="#offices"
+            popupHeading="Start a conversation"
+            popupDescription="Speak with Altira Group about distribution, underwriting or partnership opportunities and we will determine the right next step together."
+            ctaButtonText="Let's collaborate"
+            showOnlyWhenVisibleSelector="[data-site-footer]"
+            showOnlyWhenVisibleThreshold={0.92}
+            revolvingText="START A CONVERSATION - ALTIRA GROUP - "
+            revolvingSpeed={10}
+          />
+        }
       />
     </div>
   );

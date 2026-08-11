@@ -26,6 +26,7 @@ const MAP_VIEWBOX_HEIGHT = 100;
 const POPOVER_GAP = 18;
 const POPOVER_MARGIN = 12;
 const MOBILE_BREAKPOINT = 640;
+const ROUTE_COLOR = "#3FE9EC";
 
 const subscribeToHydration = () => () => {};
 
@@ -50,6 +51,17 @@ function getAnchorPosition(
     x: (marker.x / MAP_VIEWBOX_WIDTH) * width,
     y: (marker.y / MAP_VIEWBOX_HEIGHT) * height,
   };
+}
+
+function createCurvedPath(
+  start: { x: number; y: number },
+  end: { x: number; y: number },
+  arcHeight: number,
+) {
+  const midX = (start.x + end.x) / 2;
+  const midY = Math.min(start.y, end.y) - arcHeight;
+
+  return `M ${start.x} ${start.y} Q ${midX} ${midY} ${end.x} ${end.y}`;
 }
 
 function getPopoverPosition(
@@ -120,6 +132,7 @@ export function RegionalPresenceMap({ className }: { className?: string }) {
   const isHydrated = useIsHydrated();
   const containerRef = useRef<HTMLDivElement | null>(null);
   const popoverRef = useRef<HTMLDivElement | null>(null);
+  const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [popoverStyle, setPopoverStyle] = useState<{
@@ -183,6 +196,52 @@ export function RegionalPresenceMap({ className }: { className?: string }) {
 
     return new Map(entries);
   }, []);
+  const locationLookup = useMemo(
+    () => new Map(presenceLocations.map((location) => [location.id, location])),
+    [],
+  );
+  const routes = useMemo(() => {
+    if (!containerSize.width || !containerSize.height) {
+      return [];
+    }
+
+    const toRenderedPoint = (id: string) => {
+      const marker = markerPositions.get(id);
+      const location = locationLookup.get(id);
+
+      if (!marker || !location) {
+        return null;
+      }
+
+      const anchor = getAnchorPosition(marker, containerSize.width, containerSize.height);
+
+      return {
+        x: anchor.x + (location.markerOffset?.x ?? 0),
+        y: anchor.y + (location.markerOffset?.y ?? 0),
+      };
+    };
+
+    const capeTown = toRenderedPoint("cape-town");
+    const johannesburg = toRenderedPoint("johannesburg");
+    const cebuCity = toRenderedPoint("cebu-city");
+
+    if (!capeTown || !johannesburg || !cebuCity) {
+      return [];
+    }
+
+    return [
+      {
+        id: "cape-town-to-johannesburg",
+        path: createCurvedPath(capeTown, johannesburg, 22),
+        delay: 0,
+      },
+      {
+        id: "johannesburg-to-cebu-city",
+        path: createCurvedPath(johannesburg, cebuCity, 54),
+        delay: 0.6,
+      },
+    ];
+  }, [containerSize.height, containerSize.width, locationLookup, markerPositions]);
   const selectedLocation =
     presenceLocations.find((location) => location.id === selectedId) ?? null;
 
@@ -257,6 +316,30 @@ export function RegionalPresenceMap({ className }: { className?: string }) {
     };
   }, [selectedLocation]);
 
+  useLayoutEffect(() => {
+    const container = containerRef.current;
+
+    if (!container) {
+      return;
+    }
+
+    const updateSize = () => {
+      const rect = container.getBoundingClientRect();
+      setContainerSize({ width: rect.width, height: rect.height });
+    };
+
+    updateSize();
+
+    const resizeObserver = new ResizeObserver(updateSize);
+    resizeObserver.observe(container);
+    window.addEventListener("resize", updateSize);
+
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener("resize", updateSize);
+    };
+  }, []);
+
   return (
     <div className={cn(className)}>
       <div className="relative overflow-hidden bg-transparent">
@@ -277,6 +360,83 @@ export function RegionalPresenceMap({ className }: { className?: string }) {
             className="pointer-events-none absolute inset-0 h-full w-full object-contain"
             draggable={false}
           />
+
+          <svg
+            className="pointer-events-none absolute inset-0 z-[1] h-full w-full"
+            viewBox={`0 0 ${containerSize.width || 1} ${containerSize.height || 1}`}
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            <defs>
+              <linearGradient id="presence-route-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor={ROUTE_COLOR} stopOpacity="0" />
+                <stop offset="14%" stopColor={ROUTE_COLOR} stopOpacity="1" />
+                <stop offset="86%" stopColor={ROUTE_COLOR} stopOpacity="1" />
+                <stop offset="100%" stopColor={ROUTE_COLOR} stopOpacity="0" />
+              </linearGradient>
+              <filter id="presence-route-glow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="1.2" result="blurred" />
+                <feMerge>
+                  <feMergeNode in="blurred" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+
+            {routes.map((route) => (
+              <g key={route.id}>
+                <motion.path
+                  d={route.path}
+                  fill="none"
+                  stroke="url(#presence-route-gradient)"
+                  strokeWidth="0.48"
+                  strokeLinecap="round"
+                  filter="url(#presence-route-glow)"
+                  initial={{ pathLength: 0, opacity: 0.2 }}
+                  animate={
+                    shouldReduceMotion
+                      ? { pathLength: 1, opacity: 0.8 }
+                      : { pathLength: [0, 1, 1], opacity: [0.15, 0.95, 0.95] }
+                  }
+                  transition={
+                    shouldReduceMotion
+                      ? { duration: 0 }
+                      : {
+                          duration: 2.8,
+                          delay: route.delay,
+                          repeat: Infinity,
+                          repeatDelay: 0.9,
+                          ease: "easeInOut",
+                        }
+                  }
+                />
+
+                {!shouldReduceMotion ? (
+                  <motion.circle
+                    r="0.88"
+                    fill={ROUTE_COLOR}
+                    filter="url(#presence-route-glow)"
+                    initial={{ offsetDistance: "0%", opacity: 0 }}
+                    animate={{
+                      offsetDistance: ["0%", "100%"],
+                      opacity: [0, 1, 1, 0],
+                    }}
+                    transition={{
+                      duration: 2.8,
+                      delay: route.delay,
+                      repeat: Infinity,
+                      repeatDelay: 0.9,
+                      ease: "easeInOut",
+                      times: [0, 0.12, 0.88, 1],
+                    }}
+                    style={{
+                      offsetPath: `path("${route.path}")`,
+                    }}
+                  />
+                ) : null}
+              </g>
+            ))}
+          </svg>
 
           <div
             className="absolute inset-0"
@@ -305,7 +465,7 @@ export function RegionalPresenceMap({ className }: { className?: string }) {
                   style={{
                     left: `${(marker.x / MAP_VIEWBOX_WIDTH) * 100}%`,
                     top: `${(marker.y / MAP_VIEWBOX_HEIGHT) * 100}%`,
-                    transform: "translate(-50%, -50%)",
+                    transform: `translate(calc(-50% + ${location.markerOffset?.x ?? 0}px), calc(-50% + ${location.markerOffset?.y ?? 0}px))`,
                   }}
                   onClick={() => setSelectedId(location.id)}
                   onMouseEnter={() => {

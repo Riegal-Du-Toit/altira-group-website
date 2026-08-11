@@ -40,7 +40,7 @@ export function HeroTimezones() {
   );
 
   return (
-    <div className="mx-auto flex min-h-24 w-full max-w-[1720px] translate-x-[200px] flex-wrap items-center justify-center gap-x-10 gap-y-3 px-6 py-5 text-base text-white sm:px-8 lg:px-12 lg:text-lg">
+    <div className="mx-auto flex min-h-24 w-full max-w-[1720px] flex-wrap items-center justify-center gap-x-10 gap-y-3 px-6 py-5 text-base text-white sm:px-8 lg:px-12 lg:text-lg">
       {items.map((location, index) => (
         <div key={location.city} className="flex items-center gap-3">
           <span className="font-semibold text-white">{location.city}</span>
