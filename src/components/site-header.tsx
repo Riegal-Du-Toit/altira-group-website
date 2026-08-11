@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import {
   CodeIcon,
@@ -63,33 +65,38 @@ export const productLinks: NavItemType[] = [
   {
     title: "Personal Loans",
     href: "#products",
-    description: "Transparent short-term credit for real cash-flow needs.",
+    description: "Transparent short-term credit designed for real household cash-flow needs.",
     icon: UserPlusIcon,
   },
   {
-    title: "Underwriting",
-    href: "#contact",
+    title: "Product Portfolio",
+    href: "#products",
     icon: BarChart,
+    description: "Review the full three-product stack in one coherent model.",
   },
   {
-    title: "Distribution",
+    title: "Partner-Led Model",
     href: "#why",
     icon: PlugIcon,
+    description: "See how Altira structures aligned distribution relationships.",
   },
   {
-    title: "Affinity Partners",
-    href: "#contact",
+    title: "Five-Stage Method",
+    href: "#method",
     icon: DollarSign,
+    description: "Follow the sequence from discovery to orchestration.",
   },
   {
-    title: "Employer Channels",
-    href: "#contact",
+    title: "Regional Footprint",
+    href: "#offices",
     icon: Shield,
+    description: "Explore the operating footprint behind delivery and support.",
   },
   {
-    title: "Claims Support",
-    href: "#contact",
+    title: "Orbit Engine",
+    href: "#integrations",
     icon: CodeIcon,
+    description: "Understand the platform layer that connects Altira's workflow.",
   },
 ];
 
@@ -107,9 +114,9 @@ export const companyLinks: NavItemType[] = [
     icon: Star,
   },
   {
-    title: "Partner-Led Model",
+    title: "Connected Footprint",
     href: "#why",
-    description: "How Altira structures aligned, long-term distribution relationships.",
+    description: "What the multi-market model actually buys a distribution partner.",
     icon: FileText,
   },
   {
@@ -119,9 +126,9 @@ export const companyLinks: NavItemType[] = [
     icon: Shield,
   },
   {
-    title: "Contact Altira",
-    href: "#contact",
-    description: "Bring underwriting, employer or affinity opportunities to the team.",
+    title: "Orbit Engine",
+    href: "#integrations",
+    description: "Altira's proprietary technology layer for orchestration and integration.",
     icon: RotateCcw,
   },
   {
@@ -131,10 +138,16 @@ export const companyLinks: NavItemType[] = [
     description: "Headquarters for leadership, partner strategy and market coordination.",
   },
   {
-    title: "Cebu Operations",
+    title: "Johannesburg Operations",
     href: "#offices",
     icon: Leaf,
-    description: "Operational support and cross-market coordination for the business.",
+    description: "Operational support and partner coordination across South Africa.",
+  },
+  {
+    title: "Cebu Support Centre",
+    href: "#offices",
+    icon: HelpCircle,
+    description: "Regional support services that strengthen cross-market delivery.",
   },
   {
     title: "Start a Conversation",
@@ -145,9 +158,30 @@ export const companyLinks: NavItemType[] = [
 ];
 
 export function SiteHeader() {
+  const [hideOnFooter, setHideOnFooter] = useState(false);
+
+  useEffect(() => {
+    const footer = document.querySelector("[data-site-footer]");
+    if (!(footer instanceof HTMLElement)) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setHideOnFooter(entry?.isIntersecting ?? false);
+      },
+      { threshold: 0.12 },
+    );
+
+    observer.observe(footer);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div
-      className="pointer-events-none fixed inset-x-0 top-4 z-50 w-full px-4"
+      data-site-header
+      className={cn(
+        "fixed inset-x-0 top-4 z-50 w-full px-4 transition-all duration-300",
+        hideOnFooter ? "pointer-events-none opacity-0 -translate-y-4" : "pointer-events-none opacity-100 translate-y-0",
+      )}
       style={
         {
           "--background": "#0b0b0c",
@@ -170,7 +204,7 @@ export function SiteHeader() {
     >
       <div className="pointer-events-auto bg-background/95 mx-auto h-14 w-full max-w-[58rem] rounded-xl border-[0.5px] border-[#787878]/45 px-4 shadow-[0_12px_30px_rgba(0,0,0,0.35)] backdrop-blur-md">
         <div className="relative flex h-full items-center justify-between">
-          <div className="relative z-10 flex items-center gap-2.5">
+          <a href="#home" className="relative z-10 flex items-center gap-2.5">
             <Image
               src="/favicon.png"
               alt="Altira Group favicon"
@@ -180,14 +214,16 @@ export function SiteHeader() {
               priority
             />
             <p className="font-mono text-lg font-bold">ALTIRA GROUP</p>
-          </div>
+          </a>
 
           <div className="pointer-events-none absolute inset-0 hidden items-center justify-center lg:flex">
             <DesktopMenu />
           </div>
 
           <div className="relative z-10 flex items-center gap-2">
-            <Button>Get Started</Button>
+            <Button asChild>
+              <a href="#contact">Start a conversation</a>
+            </Button>
             <MoileNav />
           </div>
         </div>
@@ -259,8 +295,8 @@ function DesktopMenu() {
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuLink className="cursor-pointer">
-            Pricing
+          <NavigationMenuLink asChild className="cursor-pointer">
+            <a href="#integrations">Orbit Engine</a>
           </NavigationMenuLink>
         </NavigationMenuItem>
       </NavigationMenuList>
@@ -270,6 +306,19 @@ function DesktopMenu() {
 
 function MoileNav() {
   const sections = [
+    {
+      id: "overview",
+      name: "Overview",
+      list: [
+        { title: "Home", href: "#home", description: "Return to the hero section." },
+        { title: "Why Altira Group", href: "#why", description: "See the partner-led model." },
+        { title: "Products", href: "#products", description: "Browse the three-product portfolio." },
+        { title: "Method", href: "#method", description: "Review the five-stage process." },
+        { title: "Offices", href: "#offices", description: "View the regional footprint." },
+        { title: "Orbit Engine", href: "#integrations", description: "See the platform and integration layer." },
+        { title: "Contact", href: "#contact", description: "Start a commercial conversation." },
+      ],
+    },
     {
       id: "product",
       name: "Product",
@@ -306,7 +355,7 @@ function MoileNav() {
             {sections.map((section) => (
               <AccordionItem key={section.id} value={section.id}>
                 <AccordionTrigger className="capitalize hover:no-underline">
-                  {section.id}
+                  {section.name}
                 </AccordionTrigger>
                 <AccordionContent className="space-y-1">
                   <ul className="grid gap-1">

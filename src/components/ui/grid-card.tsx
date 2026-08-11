@@ -22,13 +22,13 @@ export const GridCard = React.forwardRef<HTMLDivElement, React.ComponentProps<"d
               x={0}
               y={0}
               squares={getRandomPattern(5)}
-              className="absolute inset-0 size-full fill-white/[0.03] stroke-white/[0.06] scale-100 translate-y-2 transition-all duration-200 ease-out group-hover/card:scale-110 group-hover/card:translate-y-0"
+              className="absolute inset-0 size-full fill-white/[0.065] stroke-white/[0.11] scale-100 translate-y-2 transition-all duration-200 ease-out group-hover/card:scale-110 group-hover/card:translate-y-0"
             />
           </div>
           <div
             className={cn(
-              "absolute inset-0 opacity-0 transition-all duration-200 group-hover/card:opacity-100",
-              "bg-[radial-gradient(circle_at_top_left,rgba(244,114,182,0.14),transparent_42%),radial-gradient(circle_at_top_right,rgba(148,163,184,0.1),transparent_38%)]",
+              "absolute inset-0 opacity-35 transition-all duration-200 group-hover/card:opacity-100",
+              "bg-[radial-gradient(circle_at_top_left,rgba(244,114,182,0.16),transparent_42%),radial-gradient(circle_at_top_right,rgba(148,163,184,0.12),transparent_38%)]",
             )}
           />
         </div>

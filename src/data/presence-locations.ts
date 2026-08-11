@@ -11,6 +11,10 @@ export interface PresenceLocation {
     x: number;
     y: number;
   };
+  markerOffset?: {
+    x: number;
+    y: number;
+  };
   labelAlign?: "left" | "right";
 }
 
@@ -29,21 +33,29 @@ export const presenceLocations: PresenceLocation[] = [
       x: 14,
       y: 0,
     },
+    markerOffset: {
+      x: 0,
+      y: 0,
+    },
     labelAlign: "left",
   },
   {
-    id: "durban",
-    name: "Durban",
+    id: "johannesburg",
+    name: "Johannesburg",
     country: "South Africa",
     role: "Operations",
     roleLabel: "Operations",
     region: "Africa",
     description:
-      "Durban supports operational activity and delivery within South Africa across the group's growing footprint.",
-    coordinates: [-29.8587, 31.0218],
+      "Johannesburg supports operational activity, partner coordination and market delivery within South Africa across Altira Group's growing footprint.",
+    coordinates: [-26.2041, 28.0473],
     labelOffset: {
       x: 42,
       y: 0,
+    },
+    markerOffset: {
+      x: -20,
+      y: -50,
     },
     labelAlign: "right",
   },
@@ -59,6 +71,10 @@ export const presenceLocations: PresenceLocation[] = [
     coordinates: [10.31619, 123.89082],
     labelOffset: {
       x: 42,
+      y: 0,
+    },
+    markerOffset: {
+      x: 0,
       y: 0,
     },
     labelAlign: "right",
