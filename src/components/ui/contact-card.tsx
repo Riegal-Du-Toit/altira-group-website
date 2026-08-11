@@ -39,8 +39,8 @@ export function ContactCard({
       <PlusIcon className="absolute -bottom-3 -right-3 h-6 w-6 text-white/55" />
       <div className="flex flex-col justify-between lg:col-span-2">
         <div className="relative h-full px-4 py-8 md:p-8">
-          <h2 className="text-3xl font-bold text-white md:text-4xl lg:text-5xl">{title}</h2>
-          <p className="section-copy-gap max-w-xl text-sm text-white/64 md:text-base lg:text-lg">{description}</p>
+          <h2 className="landing-title text-3xl text-white md:text-4xl lg:text-5xl">{title}</h2>
+          <p className="landing-copy section-copy-gap max-w-xl text-sm text-white/68 md:text-base lg:text-lg">{description}</p>
           <div className="section-content-top grid gap-4 md:grid md:grid-cols-2 lg:grid-cols-3">
             {contactInfo?.map((info, index) => (
               <ContactInfo key={index} {...info} />

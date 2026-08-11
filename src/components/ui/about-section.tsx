@@ -18,7 +18,7 @@ export default function AboutSection3() {
               />
               <span className="text-[34px] text-white">
                 <span className="font-medium text-white/72">WHY </span>
-                <span className="font-black uppercase tracking-[-0.04em] text-[#3FE9EC]">
+                <span className="landing-display text-[#3FE9EC]">
                   ALTIRA GROUP
                 </span>
               </span>
@@ -92,11 +92,11 @@ export default function AboutSection3() {
 
         <div className="grid gap-8 md:grid-cols-3">
           <div className="md:col-span-2">
-            <h1 className="mb-8 text-2xl font-semibold !leading-[110%] text-white sm:text-4xl md:text-5xl">
+            <h1 className="landing-title mb-8 text-2xl text-white sm:text-4xl md:text-5xl">
               What that connected footprint actually buys a partner.
             </h1>
 
-            <div className="grid gap-8 text-white/72 md:grid-cols-2">
+            <div className="landing-copy grid gap-8 text-white/72 md:grid-cols-2">
               <div className="text-xs sm:text-base">
                 <p className="text-justify leading-relaxed">
                   Altira Group brings medical insurance, funeral insurance and personal loans into one
@@ -116,7 +116,7 @@ export default function AboutSection3() {
 
           <div className="md:col-span-1">
             <div className="text-right">
-              <div className="mb-2 text-2xl font-black uppercase tracking-[-0.04em] text-white transition-all duration-500">
+              <div className="landing-title mb-2 text-2xl uppercase text-white transition-all duration-500">
                 ALTIRA GROUP
               </div>
               <div className="mb-8 text-sm text-white/64">Experience-led distribution</div>
