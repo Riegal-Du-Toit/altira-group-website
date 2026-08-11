@@ -294,6 +294,7 @@ export default function Home() {
         ctaButtonText="Start a conversation"
         ctaHref="#contact"
         hideWhileVisibleSelector="#home"
+        hideWhileVisibleThreshold={0.7}
       />
     </div>
   );
