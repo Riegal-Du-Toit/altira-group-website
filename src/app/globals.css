@@ -182,6 +182,31 @@ button {
   font-family: var(--font-sans);
 }
 
+.landing-display {
+  font-family: var(--font-sans);
+  font-weight: 900;
+  letter-spacing: -0.055em;
+  line-height: 0.98;
+}
+
+.landing-title {
+  font-family: var(--font-sans);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 1.02;
+}
+
+.landing-copy {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.72);
+  line-height: 1.85;
+}
+
+.landing-accent {
+  color: #3FE9EC;
+}
+
 .section-spacing {
   padding-block: var(--section-space);
 }

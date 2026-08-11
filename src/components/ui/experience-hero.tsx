@@ -8,15 +8,15 @@ export function ExperienceHeroText({
   className,
   title = (
     <>
-      <span className="block whitespace-nowrap">A NEW WAY</span>
+      <span className="block whitespace-nowrap">With you,</span>
       <span
-        className="block whitespace-nowrap text-transparent [-webkit-text-stroke:1.5px_rgba(255,255,255,0.92)] [text-stroke:1.5px_rgba(255,255,255,0.92)]"
+        className="landing-accent block whitespace-nowrap"
         style={{
           textShadow:
-            "0 0 24px rgba(255,255,255,0.08), 0 0 48px rgba(255,255,255,0.04)",
+            "0 0 24px rgba(63,233,236,0.08), 0 0 48px rgba(63,233,236,0.04)",
         }}
       >
-        TO BUILD
+        at every turn.
       </span>
     </>
   ),
@@ -26,7 +26,7 @@ export function ExperienceHeroText({
 }) {
   return (
     <div className={cn("w-full", className)}>
-      <h1 className="space-y-1 text-[clamp(calc(2.8rem+10px),calc(5.8vw+10px),calc(6.9rem+10px))] font-black leading-[0.9] tracking-[-0.075em] text-white uppercase">
+      <h1 className="landing-display space-y-1 text-[clamp(calc(2.8rem+5px),calc(5.8vw+5px),calc(6.9rem+5px))] text-white uppercase">
         {title}
       </h1>
     </div>

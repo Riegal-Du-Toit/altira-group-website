@@ -23,6 +23,7 @@ interface FloatingConsultButtonProps {
     top?: string;
   };
   hideWhileVisibleSelector?: string;
+  hideWhileVisibleThreshold?: number;
 }
 
 export function FloatingConsultButton({
@@ -40,6 +41,7 @@ export function FloatingConsultButton({
   ctaButtonAction,
   position = { bottom: "2rem", right: "2rem" },
   hideWhileVisibleSelector,
+  hideWhileVisibleThreshold = 0.7,
 }: FloatingConsultButtonProps): React.JSX.Element {
   const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(!hideWhileVisibleSelector);
@@ -63,15 +65,17 @@ export function FloatingConsultButton({
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setIsVisible(!(entry?.isIntersecting ?? false));
+        const ratio = entry?.intersectionRatio ?? 0;
+        const intersecting = entry?.isIntersecting ?? false;
+        setIsVisible(!(intersecting && ratio >= hideWhileVisibleThreshold));
       },
-      { threshold: 0.15 },
+      { threshold: [0, hideWhileVisibleThreshold] },
     );
 
     observer.observe(target);
 
     return () => observer.disconnect();
-  }, [hideWhileVisibleSelector]);
+  }, [hideWhileVisibleSelector, hideWhileVisibleThreshold]);
 
   return (
     <>
@@ -196,7 +200,7 @@ export function FloatingConsultButton({
                       d="M 100, 100 m -75, 0 a 75,75 0 1,1 150,0 a 75,75 0 1,1 -150,0"
                     />
                   </defs>
-                  <text className="fill-white/65 text-[20.4px] font-medium uppercase tracking-wider">
+                  <text className="fill-white/65 text-[14.7px] font-medium uppercase tracking-wider">
                     <textPath href="#circlePath" startOffset="0%">
                       {revolvingText}
                     </textPath>

@@ -56,7 +56,7 @@ const footerLinks: FooterSection[] = [
 
 export function Footer() {
 	return (
-		<footer className="relative mx-auto flex w-full max-w-6xl flex-col items-center justify-center rounded-t-[2rem] border-t border-white/10 bg-[radial-gradient(35%_128px_at_50%_0%,rgba(255,255,255,0.08),transparent),linear-gradient(180deg,rgba(255,255,255,0.03),rgba(255,255,255,0.015))] px-6 py-12 text-white shadow-[0_-12px_40px_rgba(0,0,0,0.18)] md:rounded-t-[3rem] lg:py-16">
+		<footer className="relative z-10 mx-auto flex w-full max-w-6xl flex-col items-center justify-center rounded-t-[2rem] border-t border-white/10 bg-[#111214] px-6 pt-28 pb-12 text-white shadow-[0_-12px_40px_rgba(0,0,0,0.18)] md:rounded-t-[3rem] lg:pt-32 lg:pb-16">
 			<div className="absolute top-0 right-1/2 left-1/2 h-px w-1/3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/30 blur" />
 
 			<div className="grid w-full gap-8 xl:grid-cols-3 xl:gap-8">
@@ -68,9 +68,6 @@ export function Footer() {
 						className="size-8 object-contain"
 						draggable={false}
 					/>
-					<p className="mt-8 text-sm text-white/58 md:mt-0">
-						&copy; {new Date().getFullYear()} Altira Group. All rights reserved.
-					</p>
 				</AnimatedContainer>
 
 				<div className="mt-10 grid grid-cols-2 gap-8 md:grid-cols-4 xl:col-span-2 xl:mt-0">
