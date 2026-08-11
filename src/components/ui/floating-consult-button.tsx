@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 interface FloatingConsultButtonProps {
@@ -22,6 +22,7 @@ interface FloatingConsultButtonProps {
     left?: string;
     top?: string;
   };
+  hideWhileVisibleSelector?: string;
 }
 
 export function FloatingConsultButton({
@@ -38,13 +39,39 @@ export function FloatingConsultButton({
   ctaHref = "#contact",
   ctaButtonAction,
   position = { bottom: "2rem", right: "2rem" },
+  hideWhileVisibleSelector,
 }: FloatingConsultButtonProps): React.JSX.Element {
   const [isOpen, setIsOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(!hideWhileVisibleSelector);
 
   const lgButtonSize = buttonSize || 160;
   const smButtonSize = buttonSize ? buttonSize * 0.8 : 128;
   const lgImageSize = imageSize || 96;
   const smImageSize = imageSize ? imageSize * 0.833 : 80;
+
+  useEffect(() => {
+    if (!hideWhileVisibleSelector) {
+      setIsVisible(true);
+      return;
+    }
+
+    const target = document.querySelector(hideWhileVisibleSelector);
+    if (!target) {
+      setIsVisible(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(!(entry?.isIntersecting ?? false));
+      },
+      { threshold: 0.15 },
+    );
+
+    observer.observe(target);
+
+    return () => observer.disconnect();
+  }, [hideWhileVisibleSelector]);
 
   return (
     <>
@@ -133,80 +160,91 @@ export function FloatingConsultButton({
         )}
       </AnimatePresence>
 
-      <div className="fixed z-50" style={position}>
-        <motion.div
-          className="group relative cursor-pointer"
-          style={{
-            width: `${smButtonSize}px`,
-            height: `${smButtonSize}px`,
-          }}
-          whileHover={{ scale: 1.05 }}
-          transition={{ duration: 0.3 }}
-          onClick={() => setIsOpen((prev) => !prev)}
-        >
+      <AnimatePresence>
+        {isVisible && (
           <motion.div
-            className="absolute inset-0"
-            animate={{ rotate: 360 }}
-            transition={{
-              duration: revolvingSpeed,
-              repeat: Number.POSITIVE_INFINITY,
-              ease: "linear",
-            }}
+            initial={{ opacity: 0, scale: 0.92, y: 12 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.92, y: 12 }}
+            transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed z-50"
+            style={position}
           >
-            <svg viewBox="0 0 200 200" className="h-full w-full">
-              <defs>
-                <path
-                  id="circlePath"
-                  d="M 100, 100 m -75, 0 a 75,75 0 1,1 150,0 a 75,75 0 1,1 -150,0"
-                />
-              </defs>
-              <text className="fill-white/65 text-[20.4px] font-medium uppercase tracking-wider">
-                <textPath href="#circlePath" startOffset="0%">
-                  {revolvingText}
-                </textPath>
-              </text>
-            </svg>
-          </motion.div>
-
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div
-              className="overflow-hidden rounded-full bg-gray-900 shadow-lg transition-shadow group-hover:shadow-xl"
+            <motion.div
+              className="group relative cursor-pointer"
               style={{
-                width: `${smImageSize}px`,
-                height: `${smImageSize}px`,
+                width: `${smButtonSize}px`,
+                height: `${smButtonSize}px`,
               }}
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.3 }}
+              onClick={() => setIsOpen((prev) => !prev)}
             >
-              <img
-                src={imageSrc}
-                alt={imageAlt}
-                className="h-full w-full object-cover"
-                onError={(event) => {
-                  event.currentTarget.style.display = "none";
-                  const parent = event.currentTarget.parentElement;
-
-                  if (parent) {
-                    parent.innerHTML =
-                      '<div class="h-full w-full bg-gradient-to-br from-cyan-500 to-indigo-500"></div>';
-                  }
+              <motion.div
+                className="absolute inset-0"
+                animate={{ rotate: 360 }}
+                transition={{
+                  duration: revolvingSpeed,
+                  repeat: Number.POSITIVE_INFINITY,
+                  ease: "linear",
                 }}
-              />
-            </div>
-          </div>
-        </motion.div>
+              >
+                <svg viewBox="0 0 200 200" className="h-full w-full">
+                  <defs>
+                    <path
+                      id="circlePath"
+                      d="M 100, 100 m -75, 0 a 75,75 0 1,1 150,0 a 75,75 0 1,1 -150,0"
+                    />
+                  </defs>
+                  <text className="fill-white/65 text-[20.4px] font-medium uppercase tracking-wider">
+                    <textPath href="#circlePath" startOffset="0%">
+                      {revolvingText}
+                    </textPath>
+                  </text>
+                </svg>
+              </motion.div>
 
-        <style>{`
-          @media (min-width: 1024px) {
-            .group.relative.cursor-pointer {
-              width: ${lgButtonSize}px !important;
-              height: ${lgButtonSize}px !important;
-            }
-            .group.relative.cursor-pointer .overflow-hidden.rounded-full {
-              width: ${lgImageSize}px !important;
-              height: ${lgImageSize}px !important;
-            }
-          }
-        `}</style>
-      </div>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div
+                  className="overflow-hidden rounded-full bg-gray-900 shadow-lg transition-shadow group-hover:shadow-xl"
+                  style={{
+                    width: `${smImageSize}px`,
+                    height: `${smImageSize}px`,
+                  }}
+                >
+                  <img
+                    src={imageSrc}
+                    alt={imageAlt}
+                    className="h-full w-full object-cover"
+                    onError={(event) => {
+                      event.currentTarget.style.display = "none";
+                      const parent = event.currentTarget.parentElement;
+
+                      if (parent) {
+                        parent.innerHTML =
+                          '<div class="h-full w-full bg-gradient-to-br from-cyan-500 to-indigo-500"></div>';
+                      }
+                    }}
+                  />
+                </div>
+              </div>
+            </motion.div>
+
+            <style>{`
+              @media (min-width: 1024px) {
+                .group.relative.cursor-pointer {
+                  width: ${lgButtonSize}px !important;
+                  height: ${lgButtonSize}px !important;
+                }
+                .group.relative.cursor-pointer .overflow-hidden.rounded-full {
+                  width: ${lgImageSize}px !important;
+                  height: ${lgImageSize}px !important;
+                }
+              }
+            `}</style>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

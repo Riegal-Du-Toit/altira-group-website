@@ -13,6 +13,8 @@ interface RotatingEarthProps {
   height?: number;
   className?: string;
   square?: boolean;
+  autoRotateSpeed?: number;
+  interactive?: boolean;
 }
 
 interface DotData {
@@ -105,6 +107,8 @@ export default function RotatingEarth({
   height = 600,
   className = "",
   square = false,
+  autoRotateSpeed = 0.18,
+  interactive = false,
 }: RotatingEarthProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -120,30 +124,11 @@ export default function RotatingEarth({
 
     const context = canvas.getContext("2d");
     if (!context) return;
-
-    const viewportWidth = window.innerWidth - 40;
-    const viewportHeight = window.innerHeight - 100;
-    const squareSize = Math.min(width, height, viewportWidth, viewportHeight);
-    const containerWidth = square ? squareSize : Math.min(width, viewportWidth);
-    const containerHeight = square ? squareSize : Math.min(height, viewportHeight);
-    const radius = Math.min(containerWidth, containerHeight) / 2.5;
-
-    const dpr = Math.min(window.devicePixelRatio || 1, MAX_DEVICE_PIXEL_RATIO);
-    canvas.width = containerWidth * dpr;
-    canvas.height = containerHeight * dpr;
-    canvas.style.width = square ? "100%" : `${containerWidth}px`;
-    canvas.style.height = square ? "auto" : `${containerHeight}px`;
-    context.setTransform(1, 0, 0, 1, 0, 0);
-    context.scale(dpr, dpr);
-
-    const projection = d3
-      .geoOrthographic()
-      .scale(radius)
-      .translate([containerWidth / 2, containerHeight / 2])
-      .rotate(INITIAL_ROTATION)
-      .clipAngle(90);
-
-    const path = d3.geoPath(projection, context);
+    let containerWidth = 0;
+    let containerHeight = 0;
+    let radius = 0;
+    let projection = d3.geoOrthographic();
+    let path = d3.geoPath(projection, context);
     const graticule = d3.geoGraticule();
     let allDots: DotData[] = [];
     let landFeatures: LandFeatureCollection | null = null;
@@ -152,9 +137,46 @@ export default function RotatingEarth({
     let idleHandle: IdleHandle = 0;
     let cancelled = false;
     let phi = INITIAL_ROTATION[0];
+    let theta = INITIAL_ROTATION[1];
     let lastFrameTime = 0;
+    let resizeObserver: ResizeObserver | null = null;
+    let isDragging = false;
+    let dragStartX = 0;
+    let dragStartY = 0;
+    let dragStartPhi = phi;
+    let dragStartTheta = theta;
+
+    const syncCanvasSize = () => {
+      const rect = container.getBoundingClientRect();
+      const fallbackWidth = Math.min(width, window.innerWidth - 40);
+      const fallbackHeight = Math.min(height, window.innerHeight - 100);
+      const measuredWidth = rect.width > 0 ? rect.width : fallbackWidth;
+      const measuredHeight = rect.height > 0 ? rect.height : fallbackHeight;
+
+      containerWidth = square ? Math.min(measuredWidth, measuredHeight || measuredWidth) : measuredWidth;
+      containerHeight = square ? containerWidth : measuredHeight;
+      radius = Math.min(containerWidth, containerHeight) / 2.5;
+
+      const dpr = Math.min(window.devicePixelRatio || 1, MAX_DEVICE_PIXEL_RATIO);
+      canvas.width = Math.max(1, Math.round(containerWidth * dpr));
+      canvas.height = Math.max(1, Math.round(containerHeight * dpr));
+      canvas.style.width = `${containerWidth}px`;
+      canvas.style.height = `${containerHeight}px`;
+      context.setTransform(1, 0, 0, 1, 0, 0);
+      context.scale(dpr, dpr);
+
+      projection = d3
+        .geoOrthographic()
+        .scale(radius)
+        .translate([containerWidth / 2, containerHeight / 2])
+        .rotate([phi, theta, INITIAL_ROTATION[2]])
+        .clipAngle(90);
+
+      path = d3.geoPath(projection, context);
+    };
 
     const render = () => {
+      if (!containerWidth || !containerHeight) return;
       context.clearRect(0, 0, containerWidth, containerHeight);
 
       const currentScale = projection.scale();
@@ -218,9 +240,43 @@ export default function RotatingEarth({
       }
 
       lastFrameTime = timestamp;
-      phi += 0.18;
-      projection.rotate([phi, INITIAL_ROTATION[1], INITIAL_ROTATION[2]]);
+      phi += autoRotateSpeed;
+      projection.rotate([phi, theta, INITIAL_ROTATION[2]]);
       render();
+    };
+
+    const updateRotation = (nextPhi: number, nextTheta: number) => {
+      phi = nextPhi;
+      theta = Math.max(-50, Math.min(50, nextTheta));
+      projection.rotate([phi, theta, INITIAL_ROTATION[2]]);
+      render();
+    };
+
+    const handlePointerDown = (event: PointerEvent) => {
+      if (!interactive) return;
+      isDragging = true;
+      dragStartX = event.clientX;
+      dragStartY = event.clientY;
+      dragStartPhi = phi;
+      dragStartTheta = theta;
+      canvas.setPointerCapture(event.pointerId);
+      canvas.style.cursor = "grabbing";
+    };
+
+    const handlePointerMove = (event: PointerEvent) => {
+      if (!interactive || !isDragging) return;
+      const deltaX = event.clientX - dragStartX;
+      const deltaY = event.clientY - dragStartY;
+      updateRotation(dragStartPhi + deltaX * 0.015, dragStartTheta - deltaY * 0.01);
+    };
+
+    const endDrag = (event?: PointerEvent) => {
+      if (!interactive) return;
+      isDragging = false;
+      if (event && canvas.hasPointerCapture(event.pointerId)) {
+        canvas.releasePointerCapture(event.pointerId);
+      }
+      canvas.style.cursor = interactive ? "grab" : "default";
     };
 
     const finishSetup = (dots: DotData[]) => {
@@ -239,6 +295,7 @@ export default function RotatingEarth({
       try {
         setError(null);
         setIsReady(false);
+        syncCanvasSize();
         render();
 
         landFeatures = await getLandFeatures();
@@ -258,6 +315,11 @@ export default function RotatingEarth({
     );
 
     observer.observe(container);
+    resizeObserver = new ResizeObserver(() => {
+      syncCanvasSize();
+      render();
+    });
+    resizeObserver.observe(container);
 
     const handleVisibilityChange = () => {
       isDocumentVisibleRef.current = !document.hidden;
@@ -265,7 +327,16 @@ export default function RotatingEarth({
 
     handleVisibilityChange();
     document.addEventListener("visibilitychange", handleVisibilityChange);
+    if (interactive) {
+      canvas.style.cursor = "grab";
+      canvas.addEventListener("pointerdown", handlePointerDown);
+      canvas.addEventListener("pointermove", handlePointerMove);
+      canvas.addEventListener("pointerup", endDrag);
+      canvas.addEventListener("pointerleave", endDrag);
+      canvas.addEventListener("pointercancel", endDrag);
+    }
 
+    syncCanvasSize();
     render();
     idleHandle = scheduleIdleWork(() => {
       void loadWorldData();
@@ -274,11 +345,19 @@ export default function RotatingEarth({
     return () => {
       cancelled = true;
       observer.disconnect();
+      resizeObserver?.disconnect();
       document.removeEventListener("visibilitychange", handleVisibilityChange);
+      if (interactive) {
+        canvas.removeEventListener("pointerdown", handlePointerDown);
+        canvas.removeEventListener("pointermove", handlePointerMove);
+        canvas.removeEventListener("pointerup", endDrag);
+        canvas.removeEventListener("pointerleave", endDrag);
+        canvas.removeEventListener("pointercancel", endDrag);
+      }
       cancelIdleWork(idleHandle);
       window.cancelAnimationFrame(animationFrame);
     };
-  }, [height, square, width]);
+  }, [autoRotateSpeed, height, interactive, square, width]);
 
   if (error) {
     return (
