@@ -287,9 +287,7 @@ export default function Home() {
         </section>
       </main>
 
-      <div className="bg-[#1E2021] px-6 pb-16 pt-8 sm:px-8 lg:px-12">
-        <Footer />
-      </div>
+      <Footer />
 
       <FloatingConsultButton
         imageSrc="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=600&auto=format&fit=crop"
