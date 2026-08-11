@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 
 export default function AboutSection3() {
   return (
-    <section className="bg-[#1E2021] px-6 py-8 text-white sm:px-8 lg:px-12">
+    <div className="bg-[#1E2021] px-6 text-white sm:px-8 lg:px-12">
       <div className="mx-auto max-w-6xl">
         <div className="relative">
           <div className="absolute -top-3 z-10 flex w-[85%] items-center justify-between sm:-top-2 md:top-0 lg:top-4">
@@ -137,6 +137,6 @@ export default function AboutSection3() {
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }

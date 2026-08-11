@@ -36,9 +36,7 @@ export function FloatingConsultButton({
   popupBadgeText = "Free",
   ctaButtonText = "Book a call",
   ctaHref = "#contact",
-  ctaButtonAction = () => {
-    window.location.href = ctaHref;
-  },
+  ctaButtonAction,
   position = { bottom: "2rem", right: "2rem" },
 }: FloatingConsultButtonProps): React.JSX.Element {
   const [isOpen, setIsOpen] = useState(false);
@@ -101,20 +99,34 @@ export function FloatingConsultButton({
               </p>
 
               <div className="rounded-[16px] bg-gradient-to-b from-gray-800/40 to-transparent p-[4px]">
-                <button
-                  className="group block w-full rounded-[12px] bg-gradient-to-b from-gray-700 to-gray-600 p-[4px] shadow-[0_2px_4px_rgba(0,0,0,0.7)] transition-all duration-200 hover:shadow-[0_4px_8px_rgba(0,0,0,0.6)] active:scale-[0.995] active:shadow-[0_0px_1px_rgba(0,0,0,0.8)]"
-                  onClick={() => {
-                    ctaButtonAction();
-                    setIsOpen(false);
-                  }}
-                  type="button"
-                >
-                  <div className="rounded-[8px] bg-gradient-to-b from-gray-600 to-gray-700 px-8 py-4">
-                    <div className="flex items-center justify-center gap-2">
-                      <span className="text-base font-semibold text-white">{ctaButtonText}</span>
+                {ctaButtonAction ? (
+                  <button
+                    className="group block w-full rounded-[12px] bg-gradient-to-b from-gray-700 to-gray-600 p-[4px] shadow-[0_2px_4px_rgba(0,0,0,0.7)] transition-all duration-200 hover:shadow-[0_4px_8px_rgba(0,0,0,0.6)] active:scale-[0.995] active:shadow-[0_0px_1px_rgba(0,0,0,0.8)]"
+                    onClick={() => {
+                      ctaButtonAction();
+                      setIsOpen(false);
+                    }}
+                    type="button"
+                  >
+                    <div className="rounded-[8px] bg-gradient-to-b from-gray-600 to-gray-700 px-8 py-4">
+                      <div className="flex items-center justify-center gap-2">
+                        <span className="text-base font-semibold text-white">{ctaButtonText}</span>
+                      </div>
                     </div>
-                  </div>
-                </button>
+                  </button>
+                ) : (
+                  <a
+                    href={ctaHref}
+                    onClick={() => setIsOpen(false)}
+                    className="group block w-full rounded-[12px] bg-gradient-to-b from-gray-700 to-gray-600 p-[4px] shadow-[0_2px_4px_rgba(0,0,0,0.7)] transition-all duration-200 hover:shadow-[0_4px_8px_rgba(0,0,0,0.6)] active:scale-[0.995] active:shadow-[0_0px_1px_rgba(0,0,0,0.8)]"
+                  >
+                    <div className="rounded-[8px] bg-gradient-to-b from-gray-600 to-gray-700 px-8 py-4">
+                      <div className="flex items-center justify-center gap-2">
+                        <span className="text-base font-semibold text-white">{ctaButtonText}</span>
+                      </div>
+                    </div>
+                  </a>
+                )}
               </div>
             </div>
           </motion.div>

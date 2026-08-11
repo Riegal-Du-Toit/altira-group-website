@@ -170,7 +170,7 @@ export default function HowItWorks({
   return (
     <LazyMotion features={domAnimation}>
       <div
-        className={`relative bg-[#1E2021] px-8 max-md:pb-25 max-md:pt-10 md:py-20 ${className}`}
+        className={`relative bg-[#1E2021] px-8 ${className}`}
       >
         <div
           className="pointer-events-none absolute inset-0 opacity-[0.16]"

@@ -8,6 +8,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(({ className, type,
   return (
     <input
       type={type}
+      suppressHydrationWarning
       className={cn(
         "flex h-11 w-full rounded-md border border-white/12 bg-white/5 px-3 py-2 text-sm text-white ring-offset-background placeholder:text-white/35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/25 focus-visible:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50",
         className,

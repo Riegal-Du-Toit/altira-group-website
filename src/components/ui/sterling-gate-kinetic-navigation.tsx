@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import gsap from "gsap";
 import { CustomEase } from "gsap/CustomEase";
 
+import { NAV_ITEMS } from "@/lib/navigation";
 import { cn } from "@/lib/utils";
 import { MenuToggleIcon } from "@/components/ui/menu-toggle-icon";
 
@@ -12,14 +13,10 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(CustomEase);
 }
 
-const menuItems = [
-  { href: "#home", label: "Home", shape: "1" },
-  { href: "#products", label: "Products", shape: "2" },
-  { href: "#method", label: "Method", shape: "3" },
-  { href: "#offices", label: "Cities", shape: "4" },
-  { href: "#why", label: "Why Altira Group", shape: "5" },
-  { href: "#contact", label: "Contact", shape: "1" },
-];
+const menuItems = NAV_ITEMS.map((item, index) => ({
+  ...item,
+  shape: `${(index % 5) + 1}`,
+}));
 
 export function SterlingGateKineticNavigation({ className }: { className?: string }) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -253,6 +250,7 @@ export function SterlingGateKineticNavigation({ className }: { className?: strin
     <div ref={containerRef} className={cn("relative", className)}>
       <button
         type="button"
+        suppressHydrationWarning
         aria-label={isMenuOpen ? "Close menu" : "Open menu"}
         aria-expanded={isMenuOpen}
         onClick={() => setIsMenuOpen((prev) => !prev)}

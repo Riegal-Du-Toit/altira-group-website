@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 
+import { NAV_ITEMS } from "@/lib/navigation";
 import { SterlingGateKineticNavigation } from "@/components/ui/sterling-gate-kinetic-navigation";
 import { cn } from "@/lib/utils";
 
@@ -52,6 +53,9 @@ function HeaderPillButton({
 
 export function SiteHeader() {
   const [isSticky, setIsSticky] = useState(false);
+  const primaryNavItems = NAV_ITEMS.slice(0, 3);
+  const secondaryNavItems = NAV_ITEMS.slice(3, 5);
+  const contactNavItem = NAV_ITEMS[5];
 
   useEffect(() => {
     const onScroll = () => {
@@ -64,7 +68,7 @@ export function SiteHeader() {
   }, []);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 text-white">
+    <header data-site-header className="fixed inset-x-0 top-0 z-50 text-white">
       <div
         className={cn(
           "mx-auto transition-all duration-500 ease-out",
@@ -85,15 +89,15 @@ export function SiteHeader() {
               isSticky ? "gap-5" : "gap-7",
             )}
           >
-            <a className="transition hover:text-white" href="#home">
-              Home
-            </a>
-            <a className="transition hover:text-white" href="#products">
-              Products
-            </a>
-            <a className="transition hover:text-white" href="#method">
-              Method
-            </a>
+            {primaryNavItems.map((item) => (
+              <a
+                key={item.href}
+                className="transition hover:text-white"
+                href={item.href}
+              >
+                {item.label}
+              </a>
+            ))}
           </nav>
 
           <a
@@ -118,16 +122,23 @@ export function SiteHeader() {
                 isSticky ? "gap-5" : "gap-7",
               )}
             >
-              <a className="transition hover:text-white" href="#offices">
-                Cities
-              </a>
-              <a className="transition hover:text-white" href="#why">
-                Why Altira Group
-              </a>
+              {secondaryNavItems.map((item) => (
+                <a
+                  key={item.href}
+                  className="transition hover:text-white"
+                  href={item.href}
+                >
+                  {item.label}
+                </a>
+              ))}
             </nav>
 
             <div className="hidden lg:block">
-              <HeaderPillButton href="#contact" label="Contact us" compact={isSticky} />
+              <HeaderPillButton
+                href={contactNavItem.href}
+                label={contactNavItem.label}
+                compact={isSticky}
+              />
             </div>
             <SterlingGateKineticNavigation />
           </div>

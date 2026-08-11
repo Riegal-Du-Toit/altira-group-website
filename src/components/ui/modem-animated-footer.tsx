@@ -102,7 +102,7 @@ export const Footer = ({
         </div>
 
         <div
-          className="pointer-events-none absolute bottom-40 left-1/2 -translate-x-1/2 select-none whitespace-nowrap px-4 text-center font-extrabold leading-none tracking-tighter text-[#3FE9EC] md:bottom-32"
+          className="pointer-events-none absolute bottom-40 left-1/2 -translate-x-1/2 select-none whitespace-nowrap px-4 text-center font-extrabold leading-none tracking-tighter text-white md:bottom-32"
           style={{
             fontSize: "clamp(2.4rem, 8vw, calc(6.5rem + 85px))",
           }}

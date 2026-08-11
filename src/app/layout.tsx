@@ -1,4 +1,7 @@
 import type { Metadata } from "next";
+
+import { SmoothScroll } from "@/components/smooth-scroll";
+
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -13,8 +16,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full antialiased">
-      <body className="min-h-full flex flex-col">{children}</body>
+    <html lang="en" className="antialiased">
+      <body className="relative flex min-h-screen flex-col overflow-x-clip">
+        <SmoothScroll />
+        {children}
+      </body>
     </html>
   );
 }
