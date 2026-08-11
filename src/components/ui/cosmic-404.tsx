@@ -5,7 +5,15 @@ import { useCallback, useEffect, useRef } from "react";
 
 import { cn } from "@/lib/utils";
 
-const GLOBE_CONFIG: COBEOptions = {
+type GlobeConfig = Omit<COBEOptions, "width" | "height" | "phi" | "theta"> & {
+  onRender?: (state: { phi: number; width: number; height: number }) => void;
+  width?: number;
+  height?: number;
+  phi?: number;
+  theta?: number;
+};
+
+const GLOBE_CONFIG: GlobeConfig = {
   width: 600,
   height: 600,
   onRender: () => {},
@@ -29,7 +37,7 @@ const GLOBE_CONFIG: COBEOptions = {
 
 export interface GlobeProps {
   className?: string;
-  config?: COBEOptions;
+  config?: GlobeConfig;
 }
 
 export function Globe({ className, config = GLOBE_CONFIG }: GlobeProps) {
@@ -60,7 +68,7 @@ export function Globe({ className, config = GLOBE_CONFIG }: GlobeProps) {
       width: widthRef.current * 2,
       height: widthRef.current * 2,
       onRender,
-    });
+    } as COBEOptions & { onRender: typeof onRender });
 
     return () => {
       globe.destroy();

@@ -20,25 +20,63 @@ interface DotData {
   lat: number;
 }
 
-type IdleDeadlineLike = {
-  didTimeout: boolean;
-  timeRemaining: () => number;
-};
-
-declare global {
-  interface Window {
-    requestIdleCallback?: (
-      callback: (deadline: IdleDeadlineLike) => void,
-      options?: { timeout: number },
-    ) => number;
-    cancelIdleCallback?: (handle: number) => void;
-  }
-}
-
 const INITIAL_ROTATION: [number, number, number] = [-28, -12, 0];
 const DOT_SPACING = 20;
+const LAND_DATA_URL =
+  "https://raw.githubusercontent.com/martynafford/natural-earth-geojson/refs/heads/master/110m/physical/ne_110m_land.json";
+const MAX_DEVICE_PIXEL_RATIO = 2.25;
+const TARGET_FRAME_MS = 1000 / 30;
 
-function scheduleIdleWork(callback: (deadline: IdleDeadlineLike) => void) {
+let landFeaturesPromise: Promise<LandFeatureCollection> | null = null;
+let dotCachePromise: Promise<DotData[]> | null = null;
+
+type IdleHandle = ReturnType<typeof window.setTimeout> | number;
+
+function generateDotsInFeature(
+  feature: GeoJSON.Feature<GeoJSON.Polygon | GeoJSON.MultiPolygon>,
+  dotSpacing = DOT_SPACING,
+) {
+  const dots: DotData[] = [];
+  const bounds = d3.geoBounds(feature);
+  const [[minLng, minLat], [maxLng, maxLat]] = bounds;
+  const stepSize = dotSpacing * 0.08;
+
+  for (let lng = minLng; lng <= maxLng; lng += stepSize) {
+    for (let lat = minLat; lat <= maxLat; lat += stepSize) {
+      if (d3.geoContains(feature, [lng, lat])) {
+        dots.push({ lng, lat });
+      }
+    }
+  }
+
+  return dots;
+}
+
+function getLandFeatures() {
+  if (!landFeaturesPromise) {
+    landFeaturesPromise = fetch(LAND_DATA_URL, { cache: "force-cache" }).then((response) => {
+      if (!response.ok) {
+        throw new Error("Failed to load land data");
+      }
+
+      return response.json() as Promise<LandFeatureCollection>;
+    });
+  }
+
+  return landFeaturesPromise;
+}
+
+function getAllDots() {
+  if (!dotCachePromise) {
+    dotCachePromise = getLandFeatures().then((landFeatures) =>
+      landFeatures.features.flatMap((feature) => generateDotsInFeature(feature)),
+    );
+  }
+
+  return dotCachePromise;
+}
+
+function scheduleIdleWork(callback: IdleRequestCallback) {
   if (typeof window !== "undefined" && window.requestIdleCallback) {
     return window.requestIdleCallback(callback, { timeout: 120 });
   }
@@ -48,14 +86,14 @@ function scheduleIdleWork(callback: (deadline: IdleDeadlineLike) => void) {
       callback({
         didTimeout: false,
         timeRemaining: () => 8,
-      }),
+      } as IdleDeadline),
     16,
   );
 }
 
-function cancelIdleWork(handle: number) {
+function cancelIdleWork(handle: IdleHandle) {
   if (typeof window !== "undefined" && window.cancelIdleCallback) {
-    window.cancelIdleCallback(handle);
+    window.cancelIdleCallback(handle as number);
     return;
   }
 
@@ -69,12 +107,16 @@ export default function RotatingEarth({
   square = false,
 }: RotatingEarthProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isInViewRef = useRef(true);
+  const isDocumentVisibleRef = useRef(true);
   const [isReady, setIsReady] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    const container = containerRef.current;
+    if (!canvas || !container) return;
 
     const context = canvas.getContext("2d");
     if (!context) return;
@@ -86,7 +128,7 @@ export default function RotatingEarth({
     const containerHeight = square ? squareSize : Math.min(height, viewportHeight);
     const radius = Math.min(containerWidth, containerHeight) / 2.5;
 
-    const dpr = window.devicePixelRatio || 1;
+    const dpr = Math.min(window.devicePixelRatio || 1, MAX_DEVICE_PIXEL_RATIO);
     canvas.width = containerWidth * dpr;
     canvas.height = containerHeight * dpr;
     canvas.style.width = square ? "100%" : `${containerWidth}px`;
@@ -102,12 +144,15 @@ export default function RotatingEarth({
       .clipAngle(90);
 
     const path = d3.geoPath(projection, context);
-    const allDots: DotData[] = [];
+    const graticule = d3.geoGraticule();
+    let allDots: DotData[] = [];
     let landFeatures: LandFeatureCollection | null = null;
+    let hasLoadedDots = false;
     let animationFrame = 0;
-    let idleHandle = 0;
+    let idleHandle: IdleHandle = 0;
     let cancelled = false;
     let phi = INITIAL_ROTATION[0];
+    let lastFrameTime = 0;
 
     const render = () => {
       context.clearRect(0, 0, containerWidth, containerHeight);
@@ -123,14 +168,15 @@ export default function RotatingEarth({
       context.lineWidth = 1.7 * scaleFactor;
       context.stroke();
 
-      if (!landFeatures) return;
-
-      const graticule = d3.geoGraticule();
       context.beginPath();
       path(graticule());
       context.strokeStyle = "rgba(255,255,255,0.16)";
       context.lineWidth = 0.9 * scaleFactor;
       context.stroke();
+
+      if (!landFeatures) {
+        return;
+      }
 
       context.beginPath();
       landFeatures.features.forEach((feature) => {
@@ -160,60 +206,33 @@ export default function RotatingEarth({
       }
     };
 
-    const generateDotsInFeature = (
-      feature: GeoJSON.Feature<GeoJSON.Polygon | GeoJSON.MultiPolygon>,
-      dotSpacing = DOT_SPACING,
-    ) => {
-      const dots: DotData[] = [];
-      const bounds = d3.geoBounds(feature);
-      const [[minLng, minLat], [maxLng, maxLat]] = bounds;
-      const stepSize = dotSpacing * 0.08;
+    const animate = (timestamp: number) => {
+      animationFrame = window.requestAnimationFrame(animate);
 
-      for (let lng = minLng; lng <= maxLng; lng += stepSize) {
-        for (let lat = minLat; lat <= maxLat; lat += stepSize) {
-          if (d3.geoContains(feature, [lng, lat])) {
-            dots.push({ lng, lat });
-          }
-        }
+      if (!hasLoadedDots || !isInViewRef.current || !isDocumentVisibleRef.current) {
+        return;
       }
 
-      return dots;
-    };
+      if (timestamp - lastFrameTime < TARGET_FRAME_MS) {
+        return;
+      }
 
-    const animate = () => {
+      lastFrameTime = timestamp;
       phi += 0.18;
       projection.rotate([phi, INITIAL_ROTATION[1], INITIAL_ROTATION[2]]);
       render();
-      animationFrame = window.requestAnimationFrame(animate);
     };
 
-    const processFeaturesInChunks = (features: LandFeatureCollection["features"]) => {
-      let featureIndex = 0;
+    const finishSetup = (dots: DotData[]) => {
+      if (cancelled) {
+        return;
+      }
 
-      const processChunk = (deadline: IdleDeadlineLike) => {
-        while (
-          featureIndex < features.length &&
-          (deadline.timeRemaining() > 4 || deadline.didTimeout)
-        ) {
-          allDots.push(...generateDotsInFeature(features[featureIndex]));
-          featureIndex += 1;
-        }
-
-        render();
-
-        if (featureIndex < features.length && !cancelled) {
-          idleHandle = scheduleIdleWork(processChunk);
-          return;
-        }
-
-        if (!cancelled) {
-          setIsReady(true);
-          canvas.style.opacity = "1";
-          animationFrame = window.requestAnimationFrame(animate);
-        }
-      };
-
-      idleHandle = scheduleIdleWork(processChunk);
+      allDots = dots;
+      hasLoadedDots = true;
+      setIsReady(true);
+      canvas.style.opacity = "1";
+      animationFrame = window.requestAnimationFrame(animate);
     };
 
     const loadWorldData = async () => {
@@ -222,30 +241,40 @@ export default function RotatingEarth({
         setIsReady(false);
         render();
 
-        const response = await fetch(
-          "https://raw.githubusercontent.com/martynafford/natural-earth-geojson/refs/heads/master/110m/physical/ne_110m_land.json",
-          { cache: "force-cache" },
-        );
-        if (!response.ok) throw new Error("Failed to load land data");
-
-        landFeatures = (await response.json()) as LandFeatureCollection;
-        if (cancelled) return;
-
-        processFeaturesInChunks(landFeatures.features);
+        landFeatures = await getLandFeatures();
+        const dots = await getAllDots();
+        finishSetup(dots);
       } catch {
         if (cancelled) return;
         setError("Failed to load land map data");
       }
     };
 
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isInViewRef.current = entry?.isIntersecting ?? false;
+      },
+      { threshold: 0.1 },
+    );
+
+    observer.observe(container);
+
+    const handleVisibilityChange = () => {
+      isDocumentVisibleRef.current = !document.hidden;
+    };
+
+    handleVisibilityChange();
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
     render();
-    const startHandle = window.setTimeout(() => {
+    idleHandle = scheduleIdleWork(() => {
       void loadWorldData();
-    }, 180);
+    });
 
     return () => {
       cancelled = true;
-      window.clearTimeout(startHandle);
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
       cancelIdleWork(idleHandle);
       window.cancelAnimationFrame(animationFrame);
     };
@@ -263,7 +292,7 @@ export default function RotatingEarth({
   }
 
   return (
-    <div className={`relative ${className}`}>
+    <div ref={containerRef} className={`relative ${className}`}>
       <canvas
         ref={canvasRef}
         className={`h-auto w-full rounded-2xl bg-transparent transition-opacity duration-300 ${

@@ -1,9 +1,8 @@
-import LunarGravityCard from "@/components/ui/lunar-gravity-card";
-import { GlobalPresence } from "@/components/global-presence";
 import { SiteHeader } from "@/components/site-header";
 import { ContactCard } from "@/components/ui/contact-card";
 import { FloatingConsultButton } from "@/components/ui/floating-consult-button";
 import HowItWorks from "@/components/ui/how-it-works";
+import { Globe } from "@/components/ui/globe";
 import { Input } from "@/components/ui/input";
 import IntegrationsSection from "@/components/ui/integrations-section";
 import { Label } from "@/components/ui/label";
@@ -14,22 +13,13 @@ import ProductDepthScroll from "@/components/ui/product-depth-scroll";
 import { Mail, MapPinIcon, PhoneIcon } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 
-function HeroPillButton({ href, label }: { href: string; label: string }) {
-  return (
-    <div className="rounded-[16px] bg-gradient-to-b from-gray-800/40 to-transparent p-[4px]">
-      <a
-        href={href}
-        className="group block rounded-[12px] bg-gradient-to-b from-gray-700 to-gray-600 p-[4px] shadow-[0_2px_4px_rgba(0,0,0,0.7)] transition-all duration-200 hover:shadow-[0_4px_8px_rgba(0,0,0,0.6)] active:scale-[0.995] active:shadow-[0_0px_1px_rgba(0,0,0,0.8)]"
-      >
-        <div className="rounded-[8px] bg-gradient-to-b from-gray-600 to-gray-700 px-4 py-3">
-          <div className="flex items-center gap-2">
-            <span className="text-sm font-semibold text-white">{label}</span>
-          </div>
-        </div>
-      </a>
-    </div>
-  );
-}
+const heroTimezones = [
+  { city: "Cape Town", timezone: "GMT+2" },
+  { city: "Durban", timezone: "GMT+2" },
+  { city: "Pretoria", timezone: "GMT+2" },
+  { city: "Cebu City", timezone: "GMT+8" },
+  { city: "Joburg", timezone: "GMT+2" },
+];
 
 export default function Home() {
   return (
@@ -37,40 +27,39 @@ export default function Home() {
       <SiteHeader />
 
       <main>
-        <section id="home" className="relative overflow-hidden bg-[#1E2021]">
-          <div className="w-full">
-            <LunarGravityCard
-              className="rounded-none border-0 shadow-none"
-              title={
-                <>
-                  <span className="inline-flex items-center gap-4 text-[1.08em] text-zinc-50 drop-shadow-sm">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src="/favicon.png"
-                      alt="Altira Group favicon"
-                      className="h-[0.8em] w-[0.8em] object-contain"
-                      draggable={false}
-                    />
-                    <span>With you,</span>
-                  </span>
-                  <br />
-                  <span className="whitespace-nowrap text-[1.08em] text-[#3FE9EC] drop-shadow-md">
-                    at every turn.
-                  </span>
-                </>
-              }
-              description="Altira Group connects medical insurance, funeral insurance and personal loans into one partner-led relationship model."
-              actions={
-                <>
-                  <HeroPillButton href="#products" label="Explore products" />
-                  <HeroPillButton href="#contact" label="Start a conversation" />
-                </>
-              }
-            />
+        <section id="home" className="relative h-[100svh] overflow-hidden bg-black">
+          <div className="flex h-full items-end justify-center overflow-hidden px-6 pb-0 pt-0 sm:px-8 lg:px-12">
+            <div className="w-full max-w-[96rem] translate-y-[48%]">
+              <div className="relative mx-auto aspect-square w-full max-w-[90rem] overflow-hidden rounded-full opacity-50 [mask-image:linear-gradient(to_top,transparent_0%,rgba(0,0,0,0.04)_10%,rgba(0,0,0,0.18)_18%,rgba(0,0,0,0.4)_26%,rgba(0,0,0,0.72)_34%,black_46%)]">
+                <Globe className="max-w-none" />
+              </div>
+            </div>
+          </div>
+
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 bottom-0 z-[6] h-[48vh] bg-gradient-to-t from-black via-black via-[52%] to-transparent"
+          />
+
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 bottom-0 z-[7] h-[22vh] bg-black"
+          />
+
+          <div className="absolute inset-x-0 bottom-0 z-10 bg-black">
+            <div className="mx-auto flex min-h-24 w-full max-w-[1720px] flex-wrap items-center justify-center gap-x-10 gap-y-3 px-6 py-5 text-base text-white sm:px-8 lg:px-12 lg:text-lg">
+              {heroTimezones.map((location, index) => (
+                <div key={location.city} className="flex items-center gap-3">
+                  <span className="font-semibold text-white">{location.city}</span>
+                  <span className="text-white">{location.timezone}</span>
+                  {index < heroTimezones.length - 1 ? (
+                    <span className="pl-3 text-white/45">/</span>
+                  ) : null}
+                </div>
+              ))}
+            </div>
           </div>
         </section>
-
-        <GlobalPresence />
 
         <section id="why" className="section-spacing w-full">
           <AboutSection3 />
@@ -287,9 +276,7 @@ export default function Home() {
         </section>
       </main>
 
-      <div className="bg-[#1E2021] px-6 pb-16 pt-8 sm:px-8 lg:px-12">
-        <Footer />
-      </div>
+      <Footer />
 
       <FloatingConsultButton
         imageSrc="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=600&auto=format&fit=crop"
