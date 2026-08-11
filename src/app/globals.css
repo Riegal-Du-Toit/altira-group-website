@@ -181,6 +181,7 @@ button {
   padding-block: var(--section-space);
 }
 
+
 .section-head h2 {
   font-size: clamp(2rem, 3vw, 3rem);
   line-height: 1.05;

@@ -193,7 +193,7 @@ export default function HowItWorks({
 
         <div className="relative z-10 mx-auto max-w-6xl">
           <div
-            className="relative mx-auto flex h-auto w-full max-w-[1000px] flex-col space-y-8 md:block md:h-[var(--md-height)] md:space-y-0"
+          className="relative mx-auto flex h-auto w-full max-w-[1000px] flex-col space-y-8 md:block md:h-[var(--md-height)] md:space-y-0"
             style={{ "--md-height": `${height}px` } as React.CSSProperties}
           >
             {data.length > 1 && (
