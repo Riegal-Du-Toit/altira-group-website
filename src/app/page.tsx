@@ -1,12 +1,14 @@
 import { SiteHeader } from "@/components/site-header";
 import { ContactCard } from "@/components/ui/contact-card";
+import { ExperienceHeroText } from "@/components/ui/experience-hero";
 import { FloatingConsultButton } from "@/components/ui/floating-consult-button";
 import HowItWorks from "@/components/ui/how-it-works";
-import { Globe } from "@/components/ui/globe";
 import { Input } from "@/components/ui/input";
 import IntegrationsSection from "@/components/ui/integrations-section";
 import { Label } from "@/components/ui/label";
+import { LabeledOrbitEarth } from "@/components/ui/labeled-orbit-earth";
 import { RegionalPresenceMap } from "@/components/ui/regional-presence-map";
+import RotatingEarth from "@/components/ui/wireframe-dotted-globe";
 import { Footer } from "@/components/ui/footer-section";
 import AboutSection3 from "@/components/ui/about-section";
 import ProductDepthScroll from "@/components/ui/product-depth-scroll";
@@ -28,23 +30,59 @@ export default function Home() {
 
       <main>
         <section id="home" className="relative h-[100svh] overflow-hidden bg-black">
-          <div className="flex h-full items-end justify-center overflow-hidden px-6 pb-0 pt-0 sm:px-8 lg:px-12">
-            <div className="w-full max-w-[96rem] translate-y-[48%]">
-              <div className="relative mx-auto aspect-square w-full max-w-[90rem] overflow-hidden rounded-full opacity-50 [mask-image:linear-gradient(to_top,transparent_0%,rgba(0,0,0,0.04)_10%,rgba(0,0,0,0.18)_18%,rgba(0,0,0,0.4)_26%,rgba(0,0,0,0.72)_34%,black_46%)]">
-                <Globe className="max-w-none" />
+          <div className="pointer-events-none absolute inset-x-0 top-[calc(44%+20px)] z-[8] mx-auto w-full max-w-[1720px] -translate-y-1/2 px-0 sm:px-2 lg:px-4">
+            <div className="max-w-[32rem]">
+              <ExperienceHeroText />
+
+              <p className="mt-12 max-w-[34rem] text-[calc(1.1rem+6px)] font-semibold leading-[1.45] text-white">
+                Earth is your platform, where ideas become
+                <br />
+                real. We took care of the rest. All that&apos;s
+                <br />
+                left for you is to build.
+              </p>
+
+              <div className="mt-10 flex flex-wrap items-center gap-4">
+                <a
+                  href="#contact"
+                  className="pointer-events-auto inline-flex min-h-14 items-center justify-center bg-white px-8 text-[1.05rem] font-semibold text-black transition-opacity duration-200 hover:opacity-90"
+                >
+                  Get started
+                </a>
+                <a
+                  href="#products"
+                  className="pointer-events-auto inline-flex min-h-14 items-center justify-center bg-white/16 px-8 text-[1.05rem] font-semibold text-white transition-colors duration-200 hover:bg-white/24"
+                >
+                  Explore builds
+                </a>
               </div>
             </div>
           </div>
 
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 bottom-0 z-[6] h-[48vh] bg-gradient-to-t from-black via-black via-[52%] to-transparent"
-          />
+          <div className="pointer-events-none absolute right-[4rem] top-[calc(44%+20px)] z-[5] -translate-y-1/2 px-0 sm:right-[5rem] sm:px-2 lg:right-[7rem] lg:px-4">
+            <LabeledOrbitEarth
+              size={720}
+              className="w-[20rem] opacity-60 sm:w-[24rem] lg:w-[28rem]"
+              earthClassName="overflow-hidden rounded-full [mask-image:radial-gradient(circle,black_58%,rgba(0,0,0,0.82)_72%,transparent_100%)]"
+              labelClassName="scale-[1.08]"
+              labelSpeed={16}
+            />
+          </div>
 
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 bottom-0 z-[7] h-[22vh] bg-black"
-          />
+          <div className="flex h-full items-end justify-center overflow-hidden px-6 pb-0 pt-0 sm:px-8 lg:px-12">
+            <div className="w-full max-w-[96rem] translate-y-[48%]">
+              <div className="relative mx-auto aspect-square w-full max-w-[90rem] overflow-hidden rounded-full opacity-70">
+                <RotatingEarth
+                  width={1560}
+                  height={1560}
+                  square
+                  autoRotateSpeed={0.06}
+                  interactive
+                  className="size-full"
+                />
+              </div>
+            </div>
+          </div>
 
           <div className="absolute inset-x-0 bottom-0 z-10 bg-black">
             <div className="mx-auto flex min-h-24 w-full max-w-[1720px] flex-wrap items-center justify-center gap-x-10 gap-y-3 px-6 py-5 text-base text-white sm:px-8 lg:px-12 lg:text-lg">
@@ -285,6 +323,7 @@ export default function Home() {
         popupDescription="Bring your distribution, underwriting or affinity opportunity to Altira Group and we will align on the best commercial next step."
         ctaButtonText="Start a conversation"
         ctaHref="#contact"
+        hideWhileVisibleSelector="#home"
       />
     </div>
   );
