@@ -7,16 +7,16 @@ type PresenceVariant = "ticker" | "grid";
 
 const offices = [
   {
-    city: "Joburg",
-    role: "Commercial",
-    tz: "Africa/Johannesburg",
-    location: [-26.2041, 28.0473] as [number, number],
-  },
-  {
     city: "Cape Town",
     role: "Headquarters",
     tz: "Africa/Johannesburg",
     location: [-33.9249, 18.4241] as [number, number],
+  },
+  {
+    city: "Cebu City",
+    role: "Regional Support",
+    tz: "Asia/Manila",
+    location: [10.3157, 123.8854] as [number, number],
   },
   {
     city: "Durban",
@@ -25,16 +25,16 @@ const offices = [
     location: [-29.8587, 31.0218] as [number, number],
   },
   {
+    city: "Johannesburg",
+    role: "Commercial",
+    tz: "Africa/Johannesburg",
+    location: [-26.2041, 28.0473] as [number, number],
+  },
+  {
     city: "Pretoria",
     role: "Government & Regulatory",
     tz: "Africa/Johannesburg",
     location: [-25.7479, 28.2293] as [number, number],
-  },
-  {
-    city: "Cebu City",
-    role: "Regional Support",
-    tz: "Asia/Manila",
-    location: [10.3157, 123.8854] as [number, number],
   },
 ];
 

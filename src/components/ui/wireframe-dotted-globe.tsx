@@ -227,6 +227,7 @@ export default function RotatingEarth({
     let allDots: DotData[] = [];
     let hasLoadedData = false;
     let cancelled = false;
+    let isMostlyVisible = true;
 
     const rotation: [number, number, number] = [
       initialRotation[0],
@@ -479,7 +480,7 @@ export default function RotatingEarth({
     };
 
     const rotate = () => {
-      if (!hasLoadedData) {
+      if (!hasLoadedData || !isMostlyVisible) {
         return;
       }
 
@@ -576,6 +577,17 @@ export default function RotatingEarth({
     });
 
     resizeObserver.observe(container);
+    const visibilityObserver = new IntersectionObserver(
+      ([entry]) => {
+        isMostlyVisible = entry.intersectionRatio > 0.2;
+        if (isMostlyVisible) {
+          render();
+        }
+      },
+      { threshold: [0, 0.2, 0.5, 1] },
+    );
+
+    visibilityObserver.observe(container);
     if (interactive) {
       canvas.style.cursor = "grab";
       canvas.addEventListener("pointerdown", handlePointerDown);
@@ -589,6 +601,7 @@ export default function RotatingEarth({
     return () => {
       cancelled = true;
       resizeObserver.disconnect();
+      visibilityObserver.disconnect();
       timer?.stop();
       if (interactive) {
         canvas.removeEventListener("pointerdown", handlePointerDown);

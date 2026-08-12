@@ -32,8 +32,8 @@ export default function Home() {
       <SiteHeader />
 
       <main>
-        <section id="home" className="relative h-[100svh] overflow-hidden bg-black">
-          <div className="absolute inset-x-0 top-[calc(44%+20px-50px)] z-[8] mx-auto w-full max-w-[1720px] -translate-y-1/2 px-0 sm:px-2 lg:px-4">
+        <section id="home" className="relative z-10 h-[100svh] overflow-hidden bg-black">
+          <div className="absolute inset-x-0 top-[calc(44%+20px-50px+65px)] z-[8] mx-auto w-full max-w-[1720px] -translate-y-1/2 px-0 sm:px-2 lg:px-4">
             <div className="max-w-[46rem] px-6 sm:px-8 lg:px-10">
               <ExperienceHeroText />
             </div>
@@ -60,14 +60,14 @@ export default function Home() {
                   dragSensitivityX={0.035}
                   dragSensitivityY={0.024}
                   initialRotation={[-72, 6, 0]}
-                  jumpingArcCount={3}
+                  jumpingArcCount={0}
                   dotSpacing={22}
                   maxDevicePixelRatio={1}
                   className="size-full opacity-50"
                   earthWrapClassName="inset-[6%]"
                   earthClassName="overflow-hidden rounded-full brightness-[1.18] contrast-[1.12] [mask-image:radial-gradient(circle,black_62%,rgba(0,0,0,0.9)_78%,transparent_100%)]"
                 />
-                <div className="pointer-events-none absolute inset-x-[14%] bottom-[8%] h-[22%] bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.1),transparent_72%)] blur-2xl" />
+                <div className="pointer-events-none absolute inset-x-[14%] bottom-[calc(8%+160px)] h-[22%] bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.1),transparent_72%)] blur-2xl" />
               </div>
             </div>
           </div>
@@ -77,7 +77,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="why" className="w-full pt-12">
+        <section id="why" className="relative z-0 w-full">
           <AboutSection3 />
         </section>
 

@@ -8,7 +8,6 @@ import { cn } from "@/lib/utils";
 
 export function ExperienceHeroText({
   className,
-  eyebrow = "ALTIRA GROUP",
   titleTop = "Proprietary",
   titleBottom = "Technology",
   subheading = "powered by Altira's orbit engine",
@@ -17,7 +16,6 @@ export function ExperienceHeroText({
   ctaHref = "#contact",
 }: {
   className?: string;
-  eyebrow?: string;
   titleTop?: string;
   titleBottom?: string;
   subheading?: string;
@@ -27,27 +25,18 @@ export function ExperienceHeroText({
 }) {
   return (
     <div className={cn("w-full", className)}>
-      <div className="flex items-center gap-3">
-        <div className="relative h-2.5 w-2.5 rounded-full bg-white">
-          <div className="absolute inset-0 rounded-full bg-white opacity-30 animate-ping" />
-        </div>
-        <span className="font-mono text-[11px] font-bold uppercase tracking-[0.24em] text-white/88">
-          {eyebrow}
-        </span>
-      </div>
-
-      <div className="mt-5">
+      <div className="mt-0">
         <h1 className="font-black uppercase leading-[0.88] tracking-[-0.07em] text-white">
-          <span className="block text-[clamp(3.2rem,6.4vw,7rem)]">{titleTop}</span>
-          <span className="mt-1 block text-[clamp(3.2rem,6.4vw,7rem)] text-transparent [-webkit-text-stroke:1.8px_rgba(255,255,255,0.28)]">
+          <span className="block text-[clamp(1.92rem,3.84vw,4.2rem)]">{titleTop}</span>
+          <span className="mt-1 block text-[clamp(1.92rem,3.84vw,4.2rem)] text-transparent [-webkit-text-stroke:1.8px_rgba(255,255,255,0.28)]">
             {titleBottom}
           </span>
         </h1>
 
-        <p className="mt-8 max-w-[24rem] font-mono text-[11px] uppercase tracking-[0.33em] text-white/42">
+        <p className="mt-8 max-w-[24rem] font-mono text-[14px] uppercase tracking-[0.33em] text-white/42">
           {subheading}
         </p>
-        <p className="mt-3 max-w-[24rem] font-mono text-[11px] uppercase tracking-[0.33em] text-white/42">
+        <p className="mt-3 max-w-[24rem] font-mono text-[14px] uppercase tracking-[0.33em] text-white/42">
           {supporting}
         </p>
       </div>

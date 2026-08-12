@@ -4,10 +4,10 @@ import { useEffect, useMemo, useState } from "react";
 
 const locations = [
   { city: "Cape Town", timeZone: "Africa/Johannesburg" },
-  { city: "Durban", timeZone: "Africa/Johannesburg" },
-  { city: "Pretoria", timeZone: "Africa/Johannesburg" },
   { city: "Cebu City", timeZone: "Asia/Manila" },
-  { city: "Joburg", timeZone: "Africa/Johannesburg" },
+  { city: "Durban", timeZone: "Africa/Johannesburg" },
+  { city: "Johannesburg", timeZone: "Africa/Johannesburg" },
+  { city: "Pretoria", timeZone: "Africa/Johannesburg" },
 ];
 
 function formatTime(timeZone: string, now: Date) {
