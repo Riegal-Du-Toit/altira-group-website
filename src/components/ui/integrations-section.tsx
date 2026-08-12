@@ -12,11 +12,13 @@ export default function IntegrationsSection() {
         </div>
 
         <div className="max-w-[46rem]">
-          <h2 className="bright-section-heading landing-title text-balance text-[3.4rem] md:text-[4.6rem] lg:text-[5.35rem]">
-            Integrate with your <span className="heading-accent">favorite tools</span>
+          <h2 className="bright-section-heading landing-title text-balance text-[2.75rem] md:text-[3.65rem] xl:text-[4rem]">
+            Powered by <span className="heading-accent">top-tier partners</span>
           </h2>
           <p className="landing-copy section-copy-gap max-w-[42rem] text-[1.22rem] leading-8 md:text-[1.36rem] md:leading-9">
-            Connect seamlessly with popular platforms and services to enhance your workflow.
+            Altira Group works with leading software brands and specialist platform partners to
+            bring premium, reliable solutions into one operating model for distribution,
+            operations, automation and customer experience.
           </p>
 
           <Button
@@ -26,7 +28,7 @@ export default function IntegrationsSection() {
             asChild
           >
             <Link href="https://cdn.21st.dev/meschacirung/integrations-5/default/bundle.1783659514828.html?theme=light#">
-              Get Started
+              Explore our partners
             </Link>
           </Button>
         </div>

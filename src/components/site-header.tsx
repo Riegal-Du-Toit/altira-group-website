@@ -78,13 +78,13 @@ export const productLinks: NavItemType[] = [
     title: "Partner-Led Model",
     href: "#why",
     icon: PlugIcon,
-    description: "See how Altira structures aligned distribution relationships.",
+    description: "See how Altira aligns distribution with trusted specialist partners.",
   },
   {
     title: "Five-Stage Method",
     href: "#method",
     icon: DollarSign,
-    description: "Follow the sequence from discovery to orchestration.",
+    description: "Follow the sequence from discovery to premium partner delivery.",
   },
   {
     title: "Regional Footprint",
@@ -96,7 +96,7 @@ export const productLinks: NavItemType[] = [
     title: "Orbit Engine",
     href: "#integrations",
     icon: CodeIcon,
-    description: "Understand the platform layer that connects Altira's workflow.",
+    description: "See the partner and platform layer behind Altira's premium solutions.",
   },
 ];
 
@@ -104,7 +104,7 @@ export const companyLinks: NavItemType[] = [
   {
     title: "Why Altira Group",
     href: "#why",
-    description: "See how Altira connects insurance, credit and distribution.",
+    description: "See how Altira combines products, partners and distribution.",
     icon: Users,
   },
   {
@@ -116,7 +116,7 @@ export const companyLinks: NavItemType[] = [
   {
     title: "Connected Footprint",
     href: "#why",
-    description: "What the multi-market model actually buys a distribution partner.",
+    description: "What the multi-market partner model unlocks.",
     icon: FileText,
   },
   {
@@ -128,7 +128,7 @@ export const companyLinks: NavItemType[] = [
   {
     title: "Orbit Engine",
     href: "#integrations",
-    description: "Altira's proprietary technology layer for orchestration and integration.",
+    description: "Altira's technology layer for orchestrating top-tier partners.",
     icon: RotateCcw,
   },
   {
@@ -153,7 +153,7 @@ export const companyLinks: NavItemType[] = [
     title: "Start a Conversation",
     href: "#contact",
     icon: HelpCircle,
-    description: "Speak with Altira about distribution, underwriting or channel growth.",
+    description: "Speak with Altira about distribution, underwriting or premium partnerships.",
   },
 ];
 
@@ -311,11 +311,11 @@ function MoileNav() {
       name: "Overview",
       list: [
         { title: "Home", href: "#home", description: "Return to the hero section." },
-        { title: "Why Altira Group", href: "#why", description: "See the partner-led model." },
+        { title: "Why Altira Group", href: "#why", description: "See the premium partner-led model." },
         { title: "Products", href: "#products", description: "Browse the three-product portfolio." },
         { title: "Method", href: "#method", description: "Review the five-stage process." },
         { title: "Offices", href: "#offices", description: "View the regional footprint." },
-        { title: "Orbit Engine", href: "#integrations", description: "See the platform and integration layer." },
+        { title: "Orbit Engine", href: "#integrations", description: "See the partner and platform layer." },
         { title: "Contact", href: "#contact", description: "Start a commercial conversation." },
       ],
     },

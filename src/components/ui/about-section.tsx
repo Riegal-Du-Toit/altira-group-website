@@ -19,14 +19,14 @@ export default function AboutSection3() {
               <div className="text-xs sm:text-base">
                 <p className="text-justify leading-relaxed">
                   Altira Group&apos;s Orbit Engine brings medical insurance, funeral insurance and personal
-                  loans into one connected operating model built around household resilience. It
-                  turns a multi-product business into a single, coordinated experience.
+                  loans into one connected operating model built around household resilience,
+                  strengthened by trusted partners and proven platform capability.
                 </p>
               </div>
               <div className="text-xs sm:text-base">
                 <p className="text-justify leading-relaxed">
                   Through underwriting, distribution and sourcing relationships across Cape Town,
-                  Johannesburg, Shenzhen, New York and London, Altira Group connects the right
+                  Johannesburg, Shenzhen, New York and London, Altira Group connects best-in-class
                   partners, channels and capabilities so protection and credit feel simpler to use.
                 </p>
               </div>
@@ -42,7 +42,7 @@ export default function AboutSection3() {
 
               <div className="mb-6">
                 <p className="mb-4 font-medium text-white">
-                  Ready to turn connected products, partners and channels into one coherent system?
+                  Ready to turn premium partners, products and channels into one coherent system?
                 </p>
               </div>
 

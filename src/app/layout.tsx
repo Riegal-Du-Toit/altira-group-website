@@ -7,7 +7,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Altira Group — With you, at every turn.",
   description:
-    "Altira Group is a partner-led financial services distribution business spanning medical insurance, funeral insurance and personal loans.",
+    "Altira Group combines trusted partners, premium platform capability and partner-led distribution across medical insurance, funeral insurance and personal loans.",
   icons: {
     icon: "/favicon.png",
     shortcut: "/favicon.png",

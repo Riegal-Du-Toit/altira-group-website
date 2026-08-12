@@ -17,7 +17,7 @@ const products: readonly Product[] = [
     number: "01",
     title: "Medical Insurance",
     description:
-      "Altira Group operates at the intersection of health, protection and credit - the essential needs that, taken together, determine whether a household can absorb a shock or is undone by it.",
+      "Altira Group operates at the intersection of health, protection and credit, combining specialist partners and proven platforms around the needs that determine household resilience.",
     detail:
       "Quality primary care within reach, closing the gap between formal medical aid and complete uninsurance.",
     image:
@@ -28,7 +28,7 @@ const products: readonly Product[] = [
     number: "02",
     title: "Funeral Insurance",
     description:
-      "Dignified, rapid cover so the burden of a farewell never falls entirely on a grieving family.",
+      "Dignified, rapid cover shaped with trusted underwriting and service partners so the burden of a farewell never falls entirely on a grieving family.",
     image:
       "https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=1800&h=1100&auto=format&fit=crop",
     imageAlt: "Developer coding on a laptop in a modern workspace",
@@ -37,7 +37,7 @@ const products: readonly Product[] = [
     number: "03",
     title: "Personal Loans",
     description:
-      "Responsible, transparent short-term credit that bridges real cash-flow gaps without straining them further.",
+      "Responsible, transparent short-term credit delivered through capable partners and practical systems that bridge real cash-flow gaps without straining households further.",
     image:
       "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1800&h=1100&auto=format&fit=crop",
     imageAlt: "Team meeting around a table brainstorming ideas",

@@ -39,7 +39,10 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="pointer-events-none absolute right-[calc(4rem-100px)] top-[calc(44%+20px-94px+56px)] z-[5] -translate-y-1/2 px-0 sm:right-[calc(5rem-100px)] sm:px-2 lg:right-[calc(7rem-100px)] lg:px-4">
+          <div
+            data-hero-powered-globe
+            className="pointer-events-none absolute right-[calc(4rem-100px)] top-[calc(44%+20px-94px+56px)] z-[5] -translate-y-1/2 px-0 sm:right-[calc(5rem-100px)] sm:px-2 lg:right-[calc(7rem-100px)] lg:px-4"
+          >
             <LabeledOrbitEarth
               size={720}
               className="w-[11.25rem] opacity-60 sm:w-[13.5rem] lg:w-[15.75rem]"
@@ -164,8 +167,9 @@ export default function Home() {
               A <span className="heading-accent">Five-Stage</span> Methodology
             </h2>
             <p className="section-copy-gap mx-auto max-w-4xl text-lg leading-8 text-white/64">
-              Every Altira Group product moves through the same disciplined sequence â€” from genuine
-              customer insight to a continuously improving experience.
+              Every Altira Group product moves through the same disciplined sequence - from
+              genuine customer insight to partner selection, premium delivery and continuous
+              improvement.
             </p>
           </div>
 
@@ -178,22 +182,22 @@ export default function Home() {
               },
               {
                 title: "Map",
-                description: "Plot the end-to-end journey.",
+                description: "Plot the journey and partner requirements.",
                 colorTheme: "blue",
               },
               {
                 title: "Design",
-                description: "Design the experience and UI.",
+                description: "Design the product, experience and partner fit.",
                 colorTheme: "purple",
               },
               {
                 title: "Build",
-                description: "Build the product and flows.",
+                description: "Build with proven platforms and specialists.",
                 colorTheme: "orange",
               },
               {
                 title: "Orchestrate",
-                description: "Connect and optimise across channels.",
+                description: "Coordinate partners, platforms and channels.",
                 colorTheme: "blue",
               },
             ]}
@@ -218,8 +222,8 @@ export default function Home() {
 
                 <p className="landing-copy section-copy-gap max-w-[39rem] text-[1.24rem] leading-9 xl:text-[1.36rem] xl:leading-10">
                   Altira Group is headquartered in Cape Town, with a focused presence across markets
-                  that shape distribution, operations and regional support for the business
-                  we&apos;re building.
+                  that give the business access to trusted partners, specialist capability and
+                  regional support for premium platform delivery.
                 </p>
               </div>
 
@@ -235,10 +239,10 @@ export default function Home() {
       <FloatingConsultButton
         ctaHref="#offices"
         popupHeading="Start a conversation"
-        popupDescription="Speak with Altira Group about distribution, underwriting or partnership opportunities and we will determine the right next step together."
+        popupDescription="Speak with Altira Group about distribution, underwriting or premium platform partnerships and we will determine the right next step together."
         ctaButtonText="Let's collaborate"
-        hideWhileVisibleSelector="#home, [data-site-footer]"
-        hideWhileVisibleThreshold={0.92}
+        hideWhileVisibleSelector="[data-hero-powered-globe], [data-site-footer]"
+        hideWhileVisibleThreshold={0.01}
       />
       <Footer
         leftSlot={
@@ -248,7 +252,7 @@ export default function Home() {
             imageSize={82}
             ctaHref="#offices"
             popupHeading="Start a conversation"
-            popupDescription="Speak with Altira Group about distribution, underwriting or partnership opportunities and we will determine the right next step together."
+            popupDescription="Speak with Altira Group about distribution, underwriting or premium platform partnerships and we will determine the right next step together."
             ctaButtonText="Let's collaborate"
             showOnlyWhenVisibleSelector="[data-site-footer]"
             showOnlyWhenVisibleThreshold={0.92}

@@ -12,7 +12,6 @@ interface FloatingConsultButtonProps {
   revolvingSpeed?: number;
   popupHeading?: string;
   popupDescription?: string;
-  popupBadgeText?: string;
   ctaButtonText?: string;
   ctaHref?: string;
   ctaButtonAction?: () => void;
@@ -37,8 +36,7 @@ export function FloatingConsultButton({
   revolvingText = "START A CONVERSATION - ALTIRA GROUP - ",
   revolvingSpeed = 10,
   popupHeading = "30-minute call",
-  popupDescription = "Speak with Altira Group about distribution, underwriting or partnership opportunities and we will determine the right next step together.",
-  popupBadgeText = "Free",
+  popupDescription = "Speak with Altira Group about distribution, underwriting or premium platform partnerships and we will determine the right next step together.",
   ctaButtonText = "Book a call",
   ctaHref = "#contact",
   ctaButtonAction,
@@ -60,14 +58,13 @@ export function FloatingConsultButton({
 
   useEffect(() => {
     if (!hideWhileVisibleSelector) {
-      setIsHiddenBySelector(false);
       return;
     }
 
     const targets = Array.from(document.querySelectorAll(hideWhileVisibleSelector));
     if (targets.length === 0) {
-      setIsHiddenBySelector(false);
-      return;
+      const timeoutId = window.setTimeout(() => setIsHiddenBySelector(false), 0);
+      return () => window.clearTimeout(timeoutId);
     }
 
     const visibilityMap = new Map<Element, boolean>();
@@ -95,14 +92,13 @@ export function FloatingConsultButton({
 
   useEffect(() => {
     if (!showOnlyWhenVisibleSelector) {
-      setIsShownBySelector(true);
       return;
     }
 
     const target = document.querySelector(showOnlyWhenVisibleSelector);
     if (!target) {
-      setIsShownBySelector(false);
-      return;
+      const timeoutId = window.setTimeout(() => setIsShownBySelector(false), 0);
+      return () => window.clearTimeout(timeoutId);
     }
 
     const observer = new IntersectionObserver(
