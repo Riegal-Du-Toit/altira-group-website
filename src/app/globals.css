@@ -207,6 +207,20 @@ button {
   color: #3FE9EC;
 }
 
+.bright-section-heading {
+  color: #ffffff;
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.16),
+    0 16px 42px rgba(0, 0, 0, 0.42);
+}
+
+.bright-section-heading .heading-accent {
+  color: #3FE9EC;
+  text-shadow:
+    0 0 18px rgba(63, 233, 236, 0.24),
+    0 14px 38px rgba(0, 0, 0, 0.36);
+}
+
 .section-spacing {
   padding-block: var(--section-space);
 }

@@ -57,8 +57,8 @@ export default function ProductDepthScroll() {
         <div className="pointer-events-none absolute inset-x-0 top-0 z-40 h-44 bg-linear-to-b from-[#1e2021] via-[#1e2021]/94 to-transparent" />
 
         <div className="absolute inset-x-0 top-[9vh] z-50 mx-auto w-[min(90vw,76rem)] text-white">
-          <h2 className="text-2xl font-semibold tracking-[-0.035em] sm:text-3xl lg:text-[2.55rem]">
-            Three needs that define household resilience.
+          <h2 className="bright-section-heading text-2xl font-extrabold tracking-[-0.04em] sm:text-3xl lg:text-[2.85rem]">
+            Three needs that define <span className="heading-accent">household resilience.</span>
           </h2>
         </div>
 
@@ -151,7 +151,7 @@ function DepthCard({
 
           <div className="py-5">
             <div className="mb-5 h-0.5 w-14 bg-[#3FE9EC]" />
-            <h3 className="max-w-[12ch] text-3xl font-bold leading-[0.98] tracking-[-0.045em] sm:text-4xl lg:text-[3.55rem]">
+            <h3 className="bright-section-heading max-w-[12ch] text-3xl font-extrabold leading-[0.98] tracking-[-0.045em] sm:text-4xl lg:text-[3.55rem]">
               {product.title}
             </h3>
             <p className="mt-5 max-w-[37rem] text-sm leading-7 text-white/76 sm:text-base sm:leading-8 lg:text-[1.05rem]">

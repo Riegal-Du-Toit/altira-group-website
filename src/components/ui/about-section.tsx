@@ -9,9 +9,9 @@ export default function AboutSection3() {
       <LampBeam className="-mt-[10px]" contentClassName="mx-auto max-w-6xl px-6 pb-16 sm:px-8 lg:px-12">
         <div className="grid gap-8 md:grid-cols-3">
           <div className="md:col-span-2">
-            <h1 className="landing-title mb-8 max-w-[15ch] text-[clamp(1.65rem,2.9vw,3.35rem)] leading-[0.95] tracking-[-0.065em] text-white">
+            <h1 className="bright-section-heading landing-title mb-8 max-w-[15ch] text-[clamp(1.65rem,2.9vw,3.35rem)] leading-[0.95] tracking-[-0.065em]">
               <span className="block">What that</span>
-              <span className="block translate-x-[0.45ch] text-[#3FE9EC]">proprietary engine</span>
+              <span className="heading-accent block translate-x-[0.45ch]">proprietary engine</span>
               <span className="block translate-x-[0.9ch]">actually unlocks.</span>
             </h1>
 

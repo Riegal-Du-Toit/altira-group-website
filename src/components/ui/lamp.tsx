@@ -51,7 +51,7 @@ export function LampBeam({
         <motion.div
           initial={{ opacity: 0.5, scaleX: 0.5 }}
           whileInView={{ opacity: 1, scaleX: 1 }}
-          viewport={{ once: true, amount: 0.15 }}
+          viewport={{ once: false, amount: 0.15 }}
           transition={lampRevealTransition}
           style={{
             backgroundImage:
@@ -65,7 +65,7 @@ export function LampBeam({
         <motion.div
           initial={{ opacity: 0.5, scaleX: 0.5 }}
           whileInView={{ opacity: 1, scaleX: 1 }}
-          viewport={{ once: true, amount: 0.15 }}
+          viewport={{ once: false, amount: 0.15 }}
           transition={lampRevealTransition}
           style={{
             backgroundImage:
@@ -82,14 +82,14 @@ export function LampBeam({
         <motion.div
           initial={{ scaleX: 0.5 }}
           whileInView={{ scaleX: 1 }}
-          viewport={{ once: true, amount: 0.15 }}
+          viewport={{ once: false, amount: 0.15 }}
           transition={lampRevealTransition}
           className="absolute inset-auto z-30 h-36 w-[50rem] -translate-y-[6rem] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(34,211,238,0.82)_0%,rgba(34,211,238,0.48)_34%,rgba(34,211,238,0.18)_62%,transparent_82%)] blur-2xl will-change-transform"
         />
         <motion.div
           initial={{ scaleX: 0.5 }}
           whileInView={{ scaleX: 1 }}
-          viewport={{ once: true, amount: 0.15 }}
+          viewport={{ once: false, amount: 0.15 }}
           transition={lampRevealTransition}
           className="absolute inset-auto z-50 h-0.5 w-[50rem] -translate-y-[7rem] bg-cyan-400 will-change-transform"
         />
@@ -99,7 +99,7 @@ export function LampBeam({
         <motion.div
           initial={{ opacity: 0.85, y: 32 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.05 }}
+          viewport={{ once: false, amount: 0.05 }}
           transition={{
             delay: 0,
             duration: 0.32,

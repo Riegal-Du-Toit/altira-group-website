@@ -39,10 +39,10 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="pointer-events-none absolute right-[calc(4rem-100px)] top-[calc(44%+20px-94px)] z-[5] -translate-y-1/2 px-0 sm:right-[calc(5rem-100px)] sm:px-2 lg:right-[calc(7rem-100px)] lg:px-4">
+          <div className="pointer-events-none absolute right-[calc(4rem-100px)] top-[calc(44%+20px-94px+56px)] z-[5] -translate-y-1/2 px-0 sm:right-[calc(5rem-100px)] sm:px-2 lg:right-[calc(7rem-100px)] lg:px-4">
             <LabeledOrbitEarth
               size={720}
-              className="w-[15rem] opacity-60 sm:w-[18rem] lg:w-[21rem]"
+              className="w-[11.25rem] opacity-60 sm:w-[13.5rem] lg:w-[15.75rem]"
               earthClassName="overflow-hidden rounded-full [mask-image:radial-gradient(circle,black_58%,rgba(0,0,0,0.82)_72%,transparent_100%)]"
               labelClassName="scale-[1.08]"
               labelSpeed={16}
@@ -160,8 +160,8 @@ export default function Home() {
 
         <section id="method" className="section-shell">
           <div className="section-header flex flex-col items-center text-center">
-            <h2 className="text-4xl font-bold tracking-[-0.04em] text-white sm:text-5xl lg:text-[4rem]">
-              A Five-Stage Methodology
+            <h2 className="bright-section-heading text-4xl font-extrabold tracking-[-0.04em] sm:text-5xl lg:text-[4rem]">
+              A <span className="heading-accent">Five-Stage</span> Methodology
             </h2>
             <p className="section-copy-gap mx-auto max-w-4xl text-lg leading-8 text-white/64">
               Every Altira Group product moves through the same disciplined sequence â€” from genuine
@@ -207,10 +207,10 @@ export default function Home() {
           <div className="mx-auto w-full max-w-[1720px]">
             <div className="grid items-center gap-12 lg:grid-cols-[minmax(400px,0.62fr)_minmax(0,1fr)] lg:gap-10 xl:grid-cols-[minmax(600px,0.82fr)_minmax(0,1fr)] xl:gap-12">
               <div className="max-w-[46rem]">
-                <h2 className="landing-title max-w-[18ch] text-[2.75rem] text-white sm:max-w-[20ch] sm:text-[3.3rem] lg:max-w-none lg:text-[3.65rem] xl:text-[4rem]">
+                <h2 className="bright-section-heading landing-title max-w-[18ch] text-[2.75rem] sm:max-w-[20ch] sm:text-[3.3rem] lg:max-w-none lg:text-[3.65rem] xl:text-[4rem]">
                   <span className="block">Three locations.</span>
                   <span className="block whitespace-nowrap">
-                    One connected <span className="landing-accent">team.</span>
+                    One <span className="heading-accent">connected team.</span>
                   </span>
                 </h2>
 

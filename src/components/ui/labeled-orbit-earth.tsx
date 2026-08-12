@@ -41,7 +41,7 @@ export function LabeledOrbitEarth({
               d="M 100, 100 m -72, 0 a 72,72 0 1,1 144,0 a 72,72 0 1,1 -144,0"
             />
           </defs>
-          <text className="fill-white/68 text-[6.5px] font-semibold uppercase tracking-[0.32em]">
+          <text className="fill-[#3FE9EC] text-[8.5px] font-semibold uppercase tracking-[0.32em]">
             <textPath href={`#${pathId}`} startOffset="0%">
               {label}
             </textPath>

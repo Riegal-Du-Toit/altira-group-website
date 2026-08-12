@@ -28,7 +28,7 @@ export function ExperienceHeroText({
       <div className="mt-0">
         <h1 className="font-black uppercase leading-[0.88] tracking-[-0.07em] text-white">
           <span className="block text-[clamp(1.92rem,3.84vw,4.2rem)]">{titleTop}</span>
-          <span className="mt-1 block text-[clamp(1.92rem,3.84vw,4.2rem)] text-transparent [-webkit-text-stroke:1.8px_rgba(255,255,255,0.28)]">
+          <span className="mt-1 block text-[clamp(1.92rem,3.84vw,4.2rem)] text-transparent [-webkit-text-stroke:1.8px_rgba(63,233,236,0.82)] drop-shadow-[0_0_18px_rgba(63,233,236,0.2)]">
             {titleBottom}
           </span>
         </h1>
