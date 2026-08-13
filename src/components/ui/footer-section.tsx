@@ -223,7 +223,7 @@ export function Footer({ leftSlot }: { leftSlot?: ReactNode }) {
 						aria-hidden="true"
 					>
 						<div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(63,233,236,0.06),transparent_24%,transparent_76%,rgba(63,233,236,0.05)),radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.12),transparent_38%)]" />
-						<div className="relative flex translate-x-[30px] items-center justify-center">
+						<div className="relative flex items-center justify-center">
 							<span className="inline-flex items-center justify-center align-baseline">
 								<span className="absolute left-0 top-[62%] h-[0.34em] w-[1.42em] rounded-full bg-white/22 blur-xl" />
 							<Image
@@ -231,7 +231,7 @@ export function Footer({ leftSlot }: { leftSlot?: ReactNode }) {
 								alt=""
 								width={120}
 								height={120}
-								className="relative mr-[0.12em] h-[1.3464em] w-[1.3464em] object-contain"
+								className="relative z-10 mr-[0.16em] h-[1.22em] w-[1.22em] shrink-0 object-contain drop-shadow-[0_0_16px_rgba(255,255,255,0.2)]"
 								draggable={false}
 							/>
 							<span className="text-white">ALT<span className="ml-[5px]">IR</span><span className="ml-[5px]">A</span> </span>
