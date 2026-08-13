@@ -17,25 +17,39 @@ type AppSlide = {
 
 const slides: AppSlide[] = [
   {
-    title: "Join from the app.",
-    description: "The Altira app is the entry point for members. Clear access, direct onboarding and one premium place to begin.",
+    title: "Join the Altira app.",
+    description: "Member access starts here. A clear mobile entry point with guided onboarding, direct updates and premium support from the first tap.",
     image: "/employee.gif",
     imageAlt: "Altira mobile member access",
     imagePosition: "center",
   },
   {
-    title: "Stay connected in the app.",
-    description: "Updates, support and member touchpoints stay together in one focused mobile experience.",
+    title: "Stay connected inside.",
+    description: "Updates, support and key member touchpoints stay together in one focused mobile experience built for daily confidence.",
     image: "/company.gif",
     imageAlt: "Altira member service experience",
     imagePosition: "center",
   },
   {
-    title: "Experience Altira from the app.",
-    description: "A polished member layer built around access, confidence and a smoother relationship from the first step.",
+    title: "Experience Altira anywhere.",
+    description: "A polished member layer built around access, confidence and smoother relationship moments wherever members choose to engage.",
     image: "/map.png",
     imageAlt: "Altira connected member footprint",
     imagePosition: "center 58%",
+  },
+  {
+    title: "Follow one guided path.",
+    description: "A clear member route from first touch to active access, shaped around confidence, continuity and a more considered start.",
+    image: "/employee.gif",
+    imageAlt: "Altira guided onboarding path",
+    imagePosition: "center",
+  },
+  {
+    title: "Keep every step premium.",
+    description: "Member access, service moments and relationship updates stay inside one polished Altira environment designed to feel considered.",
+    image: "/company.gif",
+    imageAlt: "Altira premium member experience",
+    imagePosition: "center",
   },
 ];
 
@@ -72,12 +86,12 @@ export function DownloadShowcase() {
   }, []);
 
   const gridPatternStyle = {
-    "--grid-color": "rgba(63, 233, 236, 0.11)",
+    "--grid-color": "rgba(5, 6, 6, 0.12)",
     backgroundImage: `
       linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
       linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px)
     `,
-    backgroundSize: "3.5rem 3.5rem",
+    backgroundSize: "2.625rem 2.625rem",
   } as React.CSSProperties;
 
   return (
@@ -88,8 +102,8 @@ export function DownloadShowcase() {
       style={{ height: `${slides.length * 100}vh` }}
     >
       <div className="sticky top-0 flex min-h-screen items-center justify-center overflow-hidden px-4 py-10 sm:px-6 lg:px-8">
-        <div className="mx-auto w-full max-w-[1640px] overflow-hidden rounded-[1.8rem] border border-white/10 bg-[#3FE9EC] shadow-[0_34px_120px_rgba(0,0,0,0.42)]">
-          <div className="grid min-h-[78vh] grid-cols-1 lg:grid-cols-2">
+        <div className="mx-auto w-[calc(100%-40px)] max-w-[1354px] overflow-hidden rounded-[1.8rem] border border-white/10 bg-[#3FE9EC] shadow-[0_34px_120px_rgba(0,0,0,0.42)]">
+          <div className="grid min-h-[calc(66vh-30px)] grid-cols-1 lg:grid-cols-2">
             <div className="relative flex min-h-[34rem] flex-col justify-center border-white/12 bg-[#3FE9EC] px-8 py-14 text-[#050606] md:px-16 lg:border-r lg:py-18">
               <div className="absolute left-8 top-10 flex gap-2 md:left-16">
                 {slides.map((slide, index) => (
@@ -114,7 +128,7 @@ export function DownloadShowcase() {
                 ))}
               </div>
 
-              <div className="relative h-[22rem] w-full md:h-[24rem]">
+              <div className="relative h-[20.5rem] w-full md:h-[21.5rem]">
                 {slides.map((slide, index) => (
                   <div
                     key={slide.title}
@@ -125,10 +139,10 @@ export function DownloadShowcase() {
                         : "translate-y-10 opacity-0",
                     )}
                   >
-                    <h2 className="max-w-[10ch] text-[3.4rem] font-black leading-[0.9] text-[#050606] md:text-[5rem] lg:text-[5.7rem]">
+                    <h2 className="line-clamp-2 min-h-[1.8em] max-w-[12ch] text-[3.4rem] font-black leading-[0.9] text-[#050606] md:text-[4.7rem] lg:text-[5.1rem]">
                       {slide.title}
                     </h2>
-                    <p className="mt-8 max-w-[34rem] text-xl font-semibold leading-8 text-[#050606]/82 md:text-2xl md:leading-9">
+                    <p className="mt-8 line-clamp-3 min-h-[4.5em] max-w-[34rem] text-xl font-semibold leading-[1.5] text-[#050606]/82 md:text-[1.35rem]">
                       {slide.description}
                     </p>
                   </div>
@@ -137,7 +151,7 @@ export function DownloadShowcase() {
 
               <Link
                 href="#offices"
-                className="absolute bottom-10 left-8 inline-flex h-14 items-center gap-3 rounded-full bg-[#050606] px-10 text-sm font-black uppercase tracking-[0.06em] text-white transition-colors hover:bg-[#162426] md:left-16"
+                className="absolute bottom-8 left-8 inline-flex h-14 items-center gap-3 rounded-full bg-[#050606] px-10 text-sm font-black uppercase tracking-[0.06em] text-white transition-colors hover:bg-[#162426] md:left-16"
               >
                 Join the app
                 <ArrowRight className="h-5 w-5" />
@@ -148,8 +162,8 @@ export function DownloadShowcase() {
               className="relative hidden min-h-[34rem] items-center justify-center overflow-hidden bg-[#3FE9EC] p-8 lg:flex"
               style={gridPatternStyle}
             >
-              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_58%_42%,rgba(255,255,255,0.28),transparent_24%),linear-gradient(90deg,rgba(5,6,6,0.04),transparent_38%,rgba(5,6,6,0.05))]" />
-              <div className="relative h-[72vh] max-h-[38rem] w-[48%] min-w-[18rem] overflow-hidden rounded-[1rem] border-[5px] border-[#050606]/8 bg-[#050606] shadow-[0_26px_80px_rgba(0,0,0,0.36)]">
+              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_58%_42%,rgba(255,255,255,0.18),transparent_24%),linear-gradient(90deg,rgba(5,6,6,0.03),transparent_38%,rgba(5,6,6,0.04))]" />
+              <div className="relative h-[61vh] max-h-[32.3rem] w-[48%] min-w-[15.3rem] overflow-hidden rounded-[1rem] border-[5px] border-[#050606]/8 bg-[#050606] shadow-[0_26px_80px_rgba(0,0,0,0.36)]">
                 <div
                   className="absolute left-0 top-0 h-full w-full transition-transform duration-700 ease-in-out"
                   style={{ transform: `translateY(-${activeIndex * 100}%)` }}
