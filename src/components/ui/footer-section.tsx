@@ -1,7 +1,7 @@
 'use client';
 
 import Cal, { getCalApi } from '@calcom/embed-react';
-import { GlobeIcon, InstagramIcon, Link, LinkedinIcon, X } from 'lucide-react';
+import { InstagramIcon, Link, LinkedinIcon, X } from 'lucide-react';
 import Image from 'next/image';
 import { ReactNode, useEffect } from 'react';
 
@@ -163,25 +163,29 @@ export function Footer({ leftSlot }: { leftSlot?: ReactNode }) {
 					</div>
 
 					<div
-						className="pointer-events-none absolute inset-x-0 bottom-0 translate-y-[20%] select-none text-center text-[clamp(5rem,16vw,16rem)] font-semibold tracking-[-0.09em] text-white/8"
+						className="pointer-events-none absolute inset-x-0 bottom-0 z-20 flex min-h-[10.5rem] select-none items-center justify-center whitespace-nowrap border-t border-white/14 bg-[linear-gradient(180deg,rgba(47,55,67,0.86),rgba(25,29,34,0.78))] px-8 pb-4 pt-6 text-center text-[clamp(2.25rem,calc(6vw-1px),6rem)] font-black uppercase leading-none tracking-[-0.07em] opacity-95 shadow-[inset_0_1px_0_rgba(255,255,255,0.16),inset_0_-1px_0_rgba(0,0,0,0.3),0_-18px_70px_rgba(0,0,0,0.34)] backdrop-blur-xl"
 						aria-hidden="true"
 					>
-						ALTIRA GROUP
-					</div>
-
-					<div className="relative z-10 mt-6 flex flex-col gap-6 border-t border-[#3FE9EC]/22 pt-4 text-xs text-white/68 sm:flex-row sm:items-center sm:justify-between">
-						<div className="text-white/88">&copy; 2026 Altira Group, Inc.</div>
-
-						<div className="text-center sm:flex-1" />
-
-						<div className="flex items-center gap-2 self-end sm:self-auto">
-							<span className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-[#3FE9EC]/50 bg-[#3FE9EC]/15 text-[#3FE9EC]">
-								<GlobeIcon className="h-3.5 w-3.5" />
-							</span>
-							<span className="inline-flex h-2.5 w-2.5 rounded-full bg-[#3FE9EC]/45" />
-							<span className="inline-flex h-2.5 w-2.5 rounded-full bg-white/18" />
+						<div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(63,233,236,0.06),transparent_24%,transparent_76%,rgba(63,233,236,0.05)),radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.12),transparent_38%)]" />
+						<div className="relative flex translate-x-[30px] items-center justify-center">
+							<span className="inline-flex items-center justify-center align-baseline">
+								<span className="absolute left-0 top-[62%] h-[0.34em] w-[1.42em] rounded-full bg-white/22 blur-xl" />
+							<Image
+								src="/favicon.png"
+								alt=""
+								width={120}
+								height={120}
+								className="relative mr-[0.12em] h-[1.3464em] w-[1.3464em] object-contain"
+								draggable={false}
+							/>
+							<span className="text-white">ALT<span className="ml-[5px]">IR</span><span className="ml-[5px]">A</span> </span>
+						</span>
+						<span className="ml-1 inline-block align-baseline text-transparent [-webkit-text-stroke:2px_#3FE9EC] [text-shadow:0_0_18px_rgba(63,233,236,0.18)]">
+							GROUP
+						</span>
 						</div>
 					</div>
+
 				</div>
 			</div>
 		</footer>
