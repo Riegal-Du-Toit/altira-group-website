@@ -83,7 +83,7 @@ function FooterCalendar() {
 					</div>
 					<div className="flex items-center gap-2">
 						<span className="h-1.5 w-1.5 rounded-full bg-white/42" />
-						<span>Asia/Singapore</span>
+						<span>South Africa</span>
 					</div>
 				</div>
 			</div>
