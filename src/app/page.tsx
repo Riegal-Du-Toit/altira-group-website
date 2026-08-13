@@ -3,7 +3,6 @@ import dynamic from "next/dynamic";
 import { SiteHeader } from "@/components/site-header";
 import { ExperienceHeroText } from "@/components/ui/experience-hero";
 import { Footer } from "@/components/ui/footer-section";
-import { FloatingConsultButton } from "@/components/ui/floating-consult-button";
 import { HeroTimezones } from "@/components/ui/hero-timezones";
 import { LabeledOrbitEarth } from "@/components/ui/labeled-orbit-earth";
 import { OrbitEarth } from "@/components/ui/orbit-earth";
@@ -26,6 +25,12 @@ const RegionalPresenceMap = dynamic(
 const IntegrationsSection = dynamic(() => import("@/components/ui/integrations-section"), {
   loading: () => <div className="min-h-screen w-full bg-[#1e2021]" />,
 });
+const DownloadShowcase = dynamic(
+  () => import("@/components/ui/download-options-section").then((mod) => mod.DownloadShowcase),
+  {
+    loading: () => <div className="min-h-screen w-full bg-[#1e2021]" />,
+  },
+);
 export default function Home() {
   return (
     <div className="min-h-screen bg-[#1E2021] text-[var(--ink)]">
@@ -235,32 +240,9 @@ export default function Home() {
         </section>
 
         <IntegrationsSection />
+        <DownloadShowcase />
       </main>
-      <FloatingConsultButton
-        ctaHref="#offices"
-        popupHeading="Start a conversation"
-        popupDescription="Speak with Altira Group about distribution, underwriting or premium platform partnerships and we will determine the right next step together."
-        ctaButtonText="Let's collaborate"
-        hideWhileVisibleSelector="[data-hero-powered-globe], [data-site-footer]"
-        hideWhileVisibleThreshold={0.01}
-      />
-      <Footer
-        leftSlot={
-          <FloatingConsultButton
-            inline
-            buttonSize={130}
-            imageSize={82}
-            ctaHref="#offices"
-            popupHeading="Start a conversation"
-            popupDescription="Speak with Altira Group about distribution, underwriting or premium platform partnerships and we will determine the right next step together."
-            ctaButtonText="Let's collaborate"
-            showOnlyWhenVisibleSelector="[data-site-footer]"
-            showOnlyWhenVisibleThreshold={0.92}
-            revolvingText="START A CONVERSATION - ALTIRA GROUP - "
-            revolvingSpeed={10}
-          />
-        }
-      />
+      <Footer />
     </div>
   );
 }
