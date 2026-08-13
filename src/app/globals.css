@@ -350,6 +350,55 @@ button {
   }
 }
 
+@keyframes staticFloat {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -3px, 0);
+  }
+}
+
+@keyframes partnerOrbitCw {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes partnerOrbitCcw {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+.partner-orbit-spin {
+  animation-duration: var(--partner-orbit-duration);
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.partner-orbit-cw {
+  animation-name: partnerOrbitCw;
+}
+
+.partner-orbit-ccw {
+  animation-name: partnerOrbitCcw;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .partner-orbit-spin {
+    animation-duration: var(--partner-orbit-duration) !important;
+    animation-iteration-count: infinite !important;
+  }
+}
+
 @keyframes accordion-down {
   from {
     height: 0;

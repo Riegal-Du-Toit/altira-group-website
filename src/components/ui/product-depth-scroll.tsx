@@ -38,8 +38,7 @@ const products: readonly Product[] = [
     title: "Personal Loans",
     description:
       "Responsible, transparent short-term credit delivered through capable partners and practical systems that bridge real cash-flow gaps without straining households further.",
-    image:
-      "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1800&h=1100&auto=format&fit=crop",
+    image: "/personal loans.avif",
     imageAlt: "Team meeting around a table brainstorming ideas",
   },
 ];
@@ -56,7 +55,7 @@ export default function ProductDepthScroll() {
       <div className="sticky top-0 h-screen overflow-hidden bg-[radial-gradient(circle_at_50%_52%,rgba(63,233,236,0.045),transparent_38%)]">
         <div className="pointer-events-none absolute inset-x-0 top-0 z-40 h-44 bg-linear-to-b from-[#1e2021] via-[#1e2021]/94 to-transparent" />
 
-        <div className="absolute inset-x-0 top-[9vh] z-50 mx-auto w-[min(90vw,76rem)] text-white">
+        <div className="absolute inset-x-0 top-[9vh] z-50 mx-auto w-[min(90vw,76rem)] text-center text-white">
           <h2 className="bright-section-heading text-2xl font-extrabold tracking-[-0.04em] sm:text-3xl lg:text-[2.85rem]">
             Three needs that define <span className="heading-accent">household resilience.</span>
           </h2>
@@ -132,7 +131,7 @@ function DepthCard({
         zIndex: products.length - index,
         transformStyle: "preserve-3d",
       }}
-      className="absolute left-1/2 top-[25vh] h-[62vh] min-h-[30rem] w-[min(90vw,76rem)] overflow-hidden rounded-[1.15rem] border border-white/14 bg-[#303337] p-[3px] shadow-[0_28px_75px_rgba(0,0,0,0.48)]"
+      className="absolute left-1/2 top-[20vh] h-[62vh] min-h-[30rem] w-[min(90vw,76rem)] overflow-hidden rounded-[1.15rem] border border-white/14 bg-[#303337] p-[3px] shadow-[0_28px_75px_rgba(0,0,0,0.48)]"
     >
       <div className="grid h-full grid-rows-[1.15fr_0.85fr] overflow-hidden rounded-[0.9rem] bg-[#242729] md:grid-cols-[0.94fr_1.06fr] md:grid-rows-1">
         <div className="relative z-10 flex min-h-0 flex-col justify-between border-b border-white/8 bg-[#242729] p-7 text-white sm:p-9 md:border-r md:border-b-0 lg:p-12">

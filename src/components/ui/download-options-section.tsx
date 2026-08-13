@@ -17,36 +17,36 @@ type AppSlide = {
 
 const slides: AppSlide[] = [
   {
-    title: "Join the Altira app.",
-    description: "Member access starts here. A clear mobile entry point with guided onboarding, direct updates and premium support from the first tap.",
+    title: "Live inside Altira.",
+    description: "One premium member space where everything starts, connects and keeps moving around you.",
     image: "/employee.gif",
     imageAlt: "Altira mobile member access",
     imagePosition: "center",
   },
   {
-    title: "Stay connected inside.",
-    description: "Updates, support and key member touchpoints stay together in one focused mobile experience built for daily confidence.",
+    title: "Everything in one place.",
+    description: "Onboarding, updates, support and access stay together in a single app experience.",
     image: "/company.gif",
     imageAlt: "Altira member service experience",
     imagePosition: "center",
   },
   {
-    title: "Experience Altira anywhere.",
-    description: "A polished member layer built around access, confidence and smoother relationship moments wherever members choose to engage.",
+    title: "Smart navigation.",
+    description: "Members move with clarity, guided by simple paths that make every next step obvious.",
     image: "/map.png",
     imageAlt: "Altira connected member footprint",
     imagePosition: "center 58%",
   },
   {
-    title: "Follow one guided path.",
-    description: "A clear member route from first touch to active access, shaped around confidence, continuity and a more considered start.",
+    title: "Feel looked after.",
+    description: "The experience is built to feel personal, responsive and intentionally premium.",
     image: "/employee.gif",
     imageAlt: "Altira guided onboarding path",
     imagePosition: "center",
   },
   {
-    title: "Keep every step premium.",
-    description: "Member access, service moments and relationship updates stay inside one polished Altira environment designed to feel considered.",
+    title: "Opportunity within reach.",
+    description: "Altira brings members closer to services, support and life-changing possibilities.",
     image: "/company.gif",
     imageAlt: "Altira premium member experience",
     imagePosition: "center",
@@ -153,7 +153,7 @@ export function DownloadShowcase() {
                 href="#offices"
                 className="absolute bottom-8 left-8 inline-flex h-14 items-center gap-3 rounded-full bg-[#050606] px-10 text-sm font-black uppercase tracking-[0.06em] text-white transition-colors hover:bg-[#162426] md:left-16"
               >
-                Join the app
+                Join Altira Now
                 <ArrowRight className="h-5 w-5" />
               </Link>
             </div>

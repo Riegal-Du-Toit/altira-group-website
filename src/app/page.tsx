@@ -214,9 +214,9 @@ export default function Home() {
           className="section-spacing flex min-h-screen w-full items-center bg-[#1e2021] px-4 text-white sm:px-6 lg:px-8"
         >
           <div className="mx-auto w-full max-w-[1720px]">
-            <div className="grid items-center gap-12 lg:grid-cols-[minmax(400px,0.62fr)_minmax(0,1fr)] lg:gap-10 xl:grid-cols-[minmax(600px,0.82fr)_minmax(0,1fr)] xl:gap-12">
-              <div className="max-w-[46rem]">
-                <h2 className="bright-section-heading landing-title max-w-[18ch] text-[2.75rem] sm:max-w-[20ch] sm:text-[3.3rem] lg:max-w-none lg:text-[3.65rem] xl:text-[4rem]">
+            <div className="grid items-center gap-10 lg:grid-cols-[minmax(360px,0.58fr)_minmax(0,1fr)] lg:gap-6 xl:grid-cols-[minmax(520px,0.74fr)_minmax(0,1fr)] xl:gap-8">
+              <div className="max-w-[40rem] lg:pl-28 xl:pl-40">
+                <h2 className="bright-section-heading landing-title max-w-[18ch] text-[2.35rem] sm:max-w-[20ch] sm:text-[2.85rem] lg:max-w-none lg:text-[3.15rem] xl:text-[3.45rem]">
                   <span className="block">Three locations.</span>
                   <span className="block whitespace-nowrap">
                     One <span className="heading-accent">connected team.</span>
@@ -225,14 +225,14 @@ export default function Home() {
 
                 <div className="section-title-gap h-0.5 w-24 bg-[#3FE9EC]" />
 
-                <p className="landing-copy section-copy-gap max-w-[39rem] text-[1.24rem] leading-9 xl:text-[1.36rem] xl:leading-10">
+                <p className="landing-copy section-copy-gap max-w-[35rem] text-[1.05rem] leading-8 xl:text-[1.14rem] xl:leading-9">
                   Altira Group is headquartered in Cape Town, with a focused presence across markets
                   that give the business access to trusted partners, specialist capability and
                   regional support for premium platform delivery.
                 </p>
               </div>
 
-              <div className="min-w-0">
+              <div className="min-w-0 lg:-ml-12 xl:-ml-20">
                 <RegionalPresenceMap />
               </div>
             </div>

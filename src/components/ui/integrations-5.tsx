@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { motion } from "motion/react";
+import { type CSSProperties, useState } from "react";
 
 import { LabeledOrbitEarth } from "@/components/ui/labeled-orbit-earth";
 import { cn } from "@/lib/utils";
@@ -42,7 +42,7 @@ export default function IntegrationsSection() {
       <div>
         <div className="mx-auto w-full px-0">
           <div
-            className="group relative mx-auto aspect-16/10 w-full max-w-[44rem] sm:max-w-[52rem] lg:max-w-[60rem]"
+            className="group relative mx-auto aspect-16/10 w-full max-w-[36rem] sm:max-w-[43rem] lg:max-w-[50rem]"
             style={{ clipPath: "inset(-6rem -6rem 0 -6rem)" }}
           >
             <Orbit
@@ -53,7 +53,7 @@ export default function IntegrationsSection() {
             />
 
             <Orbit
-              className="inset-16 md:inset-24 lg:inset-28"
+              className="inset-14 md:inset-20 lg:inset-24"
               direction="counter-clockwise"
               duration={28}
               icons={innerPartners}
@@ -61,21 +61,13 @@ export default function IntegrationsSection() {
 
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute inset-x-[-4%] bottom-0 z-20 h-32 bg-gradient-to-b from-transparent via-[#1e2021]/72 to-[#1e2021] md:inset-x-[-5%] md:h-44"
-            />
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-y-[20%] left-[-2%] z-20 w-[9%] bg-gradient-to-r from-[#1e2021] via-[#1e2021]/88 to-transparent md:left-[-3%] md:w-[10%]"
-            />
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-y-[20%] right-[-2%] z-20 w-[9%] bg-gradient-to-l from-[#1e2021] via-[#1e2021]/88 to-transparent md:right-[-3%] md:w-[10%]"
+              className="pointer-events-none absolute left-[-8%] right-[calc(-8%+9px)] -bottom-8 z-20 h-48 bg-gradient-to-b from-transparent via-[#1e2021]/82 to-[#1e2021] md:left-[-10%] md:right-[calc(-10%+9px)] md:-bottom-10 md:h-60"
             />
 
             <div className="absolute inset-x-0 bottom-0 z-30 mx-auto flex w-fit justify-center">
               <LabeledOrbitEarth
-                size={400}
-                className="size-72 md:size-96"
+                size={260}
+                className="size-52 md:size-64"
                 earthClassName="overflow-hidden rounded-full drop-shadow-[0_12px_28px_rgba(0,0,0,0.55)]"
               />
             </div>
@@ -97,7 +89,11 @@ function Orbit({
   duration: number;
   icons: readonly PartnerIcon[];
 }) {
-  const orbitRotation = direction === "clockwise" ? 360 : -360;
+  const [isPaused, setIsPaused] = useState(false);
+  const orbitStyle = {
+    "--partner-orbit-duration": `${duration}s`,
+    animationPlayState: isPaused ? "paused" : "running",
+  } as CSSProperties;
 
   return (
     <div
@@ -106,10 +102,12 @@ function Orbit({
         className,
       )}
     >
-      <motion.div
-        className="absolute inset-0"
-        animate={{ rotate: orbitRotation }}
-        transition={{ duration, ease: "linear", repeat: Infinity }}
+      <div
+        className={cn(
+          "partner-orbit-spin absolute inset-0",
+          direction === "clockwise" ? "partner-orbit-cw" : "partner-orbit-ccw",
+        )}
+        style={orbitStyle}
       >
         {icons.map((icon, index) => {
           const angle = (index * 360) / icons.length;
@@ -121,32 +119,39 @@ function Orbit({
               style={{ transform: `rotate(${angle}deg)` }}
             >
               <div className="absolute left-1/2 top-0 z-20 -translate-x-1/2 -translate-y-1/2">
-                <motion.div
-                  animate={{ rotate: -orbitRotation }}
-                  transition={{ duration, ease: "linear", repeat: Infinity }}
+                <div
+                  className={cn(
+                    "partner-orbit-spin",
+                    direction === "clockwise" ? "partner-orbit-ccw" : "partner-orbit-cw",
+                  )}
+                  style={orbitStyle}
                 >
                   <div style={{ transform: `rotate(${-angle}deg)` }}>
-                    <IntegrationCard>
+                    <IntegrationCard
+                      label={icon.alt}
+                      onPointerEnter={() => setIsPaused(true)}
+                      onPointerLeave={() => setIsPaused(false)}
+                    >
                       <Image
                         src={icon.src}
                         alt={icon.alt}
                         width={icon.wide ? 48 : 36}
                         height={36}
                         className={cn(
-                          "h-9 w-9 object-contain",
-                          icon.wide && "w-12",
+                          "h-7 w-7 object-contain md:h-8 md:w-8",
+                          icon.wide && "w-10 md:w-11",
                           icon.invert && "invert",
                         )}
                         unoptimized
                       />
                     </IntegrationCard>
                   </div>
-                </motion.div>
+                </div>
               </div>
             </div>
           );
         })}
-      </motion.div>
+      </div>
     </div>
   );
 }
@@ -154,18 +159,50 @@ function Orbit({
 function IntegrationCard({
   children,
   className,
+  label,
+  onPointerEnter,
+  onPointerLeave,
 }: {
   children: React.ReactNode;
   className?: string;
+  label: string;
+  onPointerEnter: () => void;
+  onPointerLeave: () => void;
 }) {
   return (
     <div
+      onPointerEnter={onPointerEnter}
+      onPointerLeave={onPointerLeave}
       className={cn(
-        "relative z-30 flex size-16 rounded-full border border-white/15 bg-[#202226] shadow-sm shadow-black/30 backdrop-blur-md md:size-20",
+        "group/tooltip relative z-30 size-14 overflow-visible outline-none md:size-16",
         className,
       )}
     >
-      <div className="m-auto flex size-12 items-center justify-center md:size-14">{children}</div>
+      <span className="pointer-events-none absolute left-1/2 top-0 z-50 -translate-x-1/2 rounded-lg bg-[#333] px-3 py-1.5 text-sm font-medium capitalize text-[#e8e8e8] opacity-0 shadow-[rgba(0,0,0,0.25)_0_8px_15px] transition-all duration-300 ease-out before:absolute before:bottom-[-0.2em] before:left-1/2 before:size-2 before:-translate-x-1/2 before:rotate-45 before:bg-[#333] group-hover/tooltip:-top-10 group-hover/tooltip:opacity-100">
+        {label}
+      </span>
+
+      <div className="absolute inset-0 z-10">
+        <div className="absolute inset-0 overflow-hidden rounded-full border border-white/10 bg-[#111] shadow-[inset_-8px_-8px_16px_rgba(0,0,0,0.9),inset_6px_6px_14px_rgba(255,255,255,0.15),0_12px_20px_rgba(0,0,0,0.5)]">
+          <div className="absolute left-[10%] top-[8%] h-[35%] w-[65%] -rotate-[25deg] rounded-[50%] bg-[linear-gradient(135deg,rgba(255,255,255,0.35)_0%,transparent_100%)] blur-[1px]" />
+          <div className="absolute bottom-[8%] right-[10%] h-[25%] w-[55%] -rotate-[25deg] rounded-[50%] bg-[linear-gradient(315deg,rgba(255,255,255,0.15)_0%,transparent_100%)] blur-[1px]" />
+        </div>
+      </div>
+
+      <div className="absolute inset-0 z-20 animate-[staticFloat_4s_ease-in-out_infinite] rounded-full">
+        <div className="absolute inset-0 overflow-hidden rounded-full border border-white/25 bg-white/[0.035] shadow-[inset_0_1px_1px_rgba(255,255,255,0.3),inset_0_-1px_2px_rgba(0,0,0,0.3),0_4px_15px_rgba(0,0,0,0.2)] backdrop-blur-[15px] backdrop-saturate-[1.8]">
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.15),rgba(255,255,255,0.02))]" />
+          <div className="absolute left-3 top-[5px] h-[25%] w-[65%] rounded-full bg-[linear-gradient(to_bottom,rgba(255,255,255,0.5),transparent)] blur-[3px]" />
+          <div className="absolute inset-0 bg-[radial-gradient(#fff_1px,transparent_1px)] bg-[length:3px_3px] opacity-[0.03] mix-blend-overlay" />
+          <div className="absolute -inset-1/2 -translate-x-[35%] rotate-[25deg] bg-[linear-gradient(130deg,transparent_42%,rgba(255,255,255,0.18)_50%,transparent_58%)]" />
+
+          <div className="absolute inset-0 z-10 flex items-center justify-center">
+            <div className="flex min-h-9 min-w-9 items-center justify-center drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)]">
+              {children}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

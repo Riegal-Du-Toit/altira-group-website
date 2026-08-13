@@ -4,14 +4,15 @@ import React from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
+import TextLoop from "@/components/ui/text-loop";
 import { cn } from "@/lib/utils";
 
 export function ExperienceHeroText({
   className,
   titleTop = "Proprietary",
   titleBottom = "Technology",
-  subheading = "powered by Altira's orbit engine",
-  supporting = "with you at every turn",
+  subheading = "Powered by Altira's orbit engine",
+  supporting = "with you, at every turn",
   ctaLabel = "Join the experience",
   ctaHref = "#app-experience",
 }: {
@@ -33,12 +34,20 @@ export function ExperienceHeroText({
           </span>
         </h1>
 
-        <p className="mt-8 max-w-[24rem] font-mono text-[14px] uppercase tracking-[0.33em] text-white/42">
-          {subheading}
-        </p>
-        <p className="mt-3 max-w-[24rem] font-mono text-[14px] uppercase tracking-[0.33em] text-white/42">
-          {supporting}
-        </p>
+        <div className="mt-8 font-mono text-[14px] uppercase tracking-[0.24em] text-white/44">
+          <TextLoop
+            staticText="System"
+            rotatingTexts={[subheading, supporting]}
+            interval={5200}
+            transition={{ duration: 1.45, ease: "easeInOut" }}
+            className="max-w-full text-[14px]"
+            staticTextClassName="font-bold text-white/72"
+            rotatingTextClassName="font-bold uppercase tracking-[0.24em]"
+            rotatingTextClassNames={["!text-[#3FE9EC]", "!text-[#A855F7]"]}
+            backgroundClassName="rounded-[0.2rem]"
+            cursorClassName="ml-1"
+          />
+        </div>
       </div>
 
       <Link

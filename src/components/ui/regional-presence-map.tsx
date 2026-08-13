@@ -156,7 +156,7 @@ export function RegionalPresenceMap({ className }: { className?: string }) {
   const svgMap = useMemo(
     () =>
       map.getSVG({
-        radius: 0.2,
+        radius: 0.145,
         color: "#0b6b82",
         shape: "circle",
         backgroundColor: "transparent",
@@ -345,7 +345,7 @@ export function RegionalPresenceMap({ className }: { className?: string }) {
       <div className="relative overflow-hidden bg-transparent">
         <div
           ref={containerRef}
-          className="relative aspect-[174/100] w-full overflow-hidden"
+          className="relative mx-auto aspect-[174/100] w-[80%] overflow-hidden"
           onClick={(event) => {
             if (event.target === event.currentTarget) {
               closePopover();
@@ -389,7 +389,7 @@ export function RegionalPresenceMap({ className }: { className?: string }) {
                   d={route.path}
                   fill="none"
                   stroke="url(#presence-route-gradient)"
-                  strokeWidth="0.48"
+                  strokeWidth="0.32"
                   strokeLinecap="round"
                   filter="url(#presence-route-glow)"
                   initial={{ pathLength: 0, opacity: 0.2 }}
@@ -413,7 +413,7 @@ export function RegionalPresenceMap({ className }: { className?: string }) {
 
                 {!shouldReduceMotion ? (
                   <motion.circle
-                    r="0.88"
+                    r="0.56"
                     fill={ROUTE_COLOR}
                     filter="url(#presence-route-glow)"
                     initial={{ offsetDistance: "0%", opacity: 0 }}
@@ -479,7 +479,7 @@ export function RegionalPresenceMap({ className }: { className?: string }) {
                   aria-pressed={isSelected}
                   aria-label={`View ${location.name} location details`}
                 >
-                  <span className="relative flex h-14 w-14 items-center justify-center rounded-full">
+                  <span className="relative flex h-9 w-9 items-center justify-center rounded-full">
                     {allowMotion ? (
                       <>
                         <motion.span
@@ -494,7 +494,7 @@ export function RegionalPresenceMap({ className }: { className?: string }) {
                             repeat: Number.POSITIVE_INFINITY,
                             ease: "easeOut",
                           }}
-                          style={{ width: 20, height: 20 }}
+                          style={{ width: 13, height: 13 }}
                         />
                         <motion.span
                           className={cn(
@@ -507,14 +507,14 @@ export function RegionalPresenceMap({ className }: { className?: string }) {
                             repeat: Number.POSITIVE_INFINITY,
                             ease: "easeInOut",
                           }}
-                          style={{ width: 32, height: 32 }}
+                          style={{ width: 21, height: 21 }}
                         />
                       </>
                     ) : null}
 
                     <motion.span
                       className={cn(
-                        "relative flex h-5 w-5 rounded-full border-4 shadow-[0_0_26px_rgba(63,233,236,0.62)]",
+                        "relative flex h-3.5 w-3.5 rounded-full border-2 shadow-[0_0_16px_rgba(63,233,236,0.54)]",
                         isSelected || isHovered
                           ? "border-[#d4ffff] bg-[#3FE9EC]"
                           : "border-[#bffcff] bg-[#3FE9EC]",
@@ -529,7 +529,7 @@ export function RegionalPresenceMap({ className }: { className?: string }) {
 
                     <span
                       className={cn(
-                        "pointer-events-none absolute left-0 hidden min-w-[150px] -translate-y-1/2 text-left transition-opacity sm:block",
+                        "pointer-events-none absolute left-0 hidden min-w-[112px] -translate-y-1/2 text-left transition-opacity sm:block",
                         selectedLocation?.id === location.id ? "opacity-45" : "opacity-100",
                         location.labelAlign === "left" && "-translate-x-full text-right",
                       )}
@@ -538,10 +538,10 @@ export function RegionalPresenceMap({ className }: { className?: string }) {
                         top: `calc(50% + ${location.labelOffset.y}px)`,
                       }}
                     >
-                      <span className="block text-[1.08rem] font-semibold leading-tight text-white">
+                      <span className="block text-[0.82rem] font-semibold leading-tight text-white">
                         {location.name}
                       </span>
-                      <span className="mt-1.5 block text-[0.88rem] leading-tight text-white/76">
+                      <span className="mt-0.5 block text-[0.66rem] leading-tight text-white/76">
                         {location.country}
                       </span>
                     </span>

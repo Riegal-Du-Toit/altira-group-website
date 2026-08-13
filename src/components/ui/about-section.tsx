@@ -12,7 +12,7 @@ export default function AboutSection3() {
             <h1 className="bright-section-heading landing-title mb-8 max-w-[15ch] text-[clamp(1.65rem,2.9vw,3.35rem)] leading-[0.95] tracking-[-0.065em]">
               <span className="block">What that</span>
               <span className="heading-accent block translate-x-[0.45ch]">proprietary engine</span>
-              <span className="block translate-x-[0.9ch]">actually unlocks.</span>
+              <span className="block translate-x-[319px] translate-y-1">actually unlocks.</span>
             </h1>
 
             <div className="landing-copy grid gap-8 text-white/72 md:grid-cols-2">

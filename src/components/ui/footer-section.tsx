@@ -1,9 +1,8 @@
 'use client';
 
-import Cal, { getCalApi } from '@calcom/embed-react';
 import { InstagramIcon, Link, LinkedinIcon, X } from 'lucide-react';
 import Image from 'next/image';
-import { ReactNode, useEffect } from 'react';
+import { ReactNode } from 'react';
 
 interface FooterColumn {
 	label: string;
@@ -55,33 +54,90 @@ const socialLinks = [
 	{ icon: Link, href: 'https://altiragroup.co.za/', label: 'Website' },
 ];
 
-function FooterCalendar() {
-	useEffect(() => {
-		(async function () {
-			const cal = await getCalApi({ namespace: 'testy' });
-			cal('ui', {
-				theme: 'dark',
-				cssVarsPerTheme: {
-					light: { 'cal-brand': '#0099FF' },
-					dark: { 'cal-brand': '#fafafa' },
-				},
-				hideEventTypeDetails: false,
-				layout: 'month_view',
-			});
-		})();
-	}, []);
+const calendarDays = Array.from({ length: 30 }, (_, index) => index + 1);
+const weekDays = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
+function FooterCalendar() {
 	return (
-		<Cal
-			namespace="testy"
-			calLink="aiforeverymind/testy"
-			style={{ width: '100%', height: '100%', overflow: 'scroll' }}
-			config={{
-				layout: 'month_view',
-				useSlotsViewOnSmallScreen: 'true',
-				theme: 'dark',
-			}}
-		/>
+		<div className="grid h-full grid-cols-[minmax(160px,0.42fr)_minmax(240px,0.58fr)] bg-[#111314] text-white">
+			<div className="flex flex-col border-r border-white/8 bg-[radial-gradient(circle_at_12%_8%,rgba(63,233,236,0.1),transparent_28%)] p-5">
+				<div className="flex h-7 w-7 items-center justify-center rounded-full border border-[#3FE9EC]/30 bg-[#3FE9EC]/10 text-[0.68rem] font-black text-[#3FE9EC]">
+					A
+				</div>
+				<div className="mt-4 text-xs font-semibold text-white/42">Altira Group</div>
+				<h3 className="mt-2 text-[1.35rem] font-bold tracking-[-0.03em] text-white">
+					Member Experience Call
+				</h3>
+				<p className="mt-3 max-w-[15rem] text-sm leading-6 text-white/58">
+					A calm first conversation to understand the member journey and where Altira can help.
+				</p>
+
+				<div className="mt-auto space-y-3 pt-5 text-sm text-white/72">
+					<div className="flex items-center gap-2">
+						<span className="h-1.5 w-1.5 rounded-full bg-[#3FE9EC]" />
+						<span>15 min</span>
+					</div>
+					<div className="flex items-center gap-2">
+						<span className="h-1.5 w-1.5 rounded-full bg-[#A855F7]" />
+						<span>Video introduction</span>
+					</div>
+					<div className="flex items-center gap-2">
+						<span className="h-1.5 w-1.5 rounded-full bg-white/42" />
+						<span>Asia/Singapore</span>
+					</div>
+				</div>
+			</div>
+
+			<div className="grid grid-cols-[minmax(0,1fr)_minmax(120px,0.34fr)]">
+				<div className="p-5">
+					<div className="flex items-center justify-between">
+						<div className="text-base font-bold text-white">September 2026</div>
+						<div className="flex gap-2 text-white/34">
+							<span>‹</span>
+							<span>›</span>
+						</div>
+					</div>
+
+					<div className="mt-6 grid grid-cols-7 gap-y-4 text-center">
+						{weekDays.map((day) => (
+							<div key={day} className="text-[0.62rem] font-black tracking-[0.14em] text-white/74">
+								{day}
+							</div>
+						))}
+						{calendarDays.map((day) => (
+							<div key={day} className="flex justify-center text-sm text-white/78">
+								<span
+									className={
+										day === 1
+											? 'flex h-9 w-9 items-center justify-center rounded-lg bg-white text-[#050606] shadow-[0_0_24px_rgba(255,255,255,0.16)]'
+											: 'flex h-9 w-9 items-center justify-center rounded-lg transition-colors'
+									}
+								>
+									{day}
+								</span>
+							</div>
+						))}
+					</div>
+				</div>
+
+				<div className="border-l border-white/8 p-5">
+					<div className="flex items-center justify-between">
+						<div className="font-bold text-white">Tue 01</div>
+						<div className="flex rounded-full bg-black/45 p-1 text-[0.68rem] font-bold text-white/48">
+							<span className="rounded-full bg-[#3FE9EC]/12 px-2 py-1 text-[#3FE9EC]">12h</span>
+							<span className="px-2 py-1">24h</span>
+						</div>
+					</div>
+
+					<div className="mt-8 rounded-xl border border-dashed border-white/12 bg-white/[0.025] p-4 text-center">
+						<div className="text-sm font-semibold text-white/72">No slots selected</div>
+						<p className="mt-2 text-xs leading-5 text-white/42">
+							Interactive scheduling will be added here later.
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
 	);
 }
 
@@ -91,7 +147,7 @@ export function Footer({ leftSlot }: { leftSlot?: ReactNode }) {
 			data-site-footer
 			className="bg-[#1E2021] px-4 pb-8 pt-16 text-white sm:px-6 lg:px-8"
 		>
-			<div className="mx-auto w-full max-w-[1720px]">
+			<div className="mx-auto w-full max-w-[1354px]">
 				<div className="relative min-h-[38rem] w-full overflow-hidden rounded-[1.6rem] border border-[#3FE9EC]/55 bg-[#07090a] px-6 pb-12 pt-9 shadow-[0_0_0_1px_rgba(63,233,236,0.08),0_28px_90px_rgba(0,0,0,0.44),0_0_80px_rgba(63,233,236,0.08)] sm:px-8 lg:px-10">
 					<div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_0%,rgba(63,233,236,0.14),transparent_24%),radial-gradient(circle_at_82%_18%,rgba(255,255,255,0.045),transparent_20%),linear-gradient(180deg,rgba(255,255,255,0.024),transparent_42%)]" />
 					<div className="pointer-events-none absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-[#3FE9EC]/90 to-transparent" />

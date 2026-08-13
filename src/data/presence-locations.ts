@@ -54,8 +54,8 @@ export const presenceLocations: PresenceLocation[] = [
       y: 0,
     },
     markerOffset: {
-      x: -20,
-      y: -50,
+      x: -10,
+      y: -35,
     },
     labelAlign: "right",
   },
