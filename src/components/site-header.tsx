@@ -150,10 +150,10 @@ export const companyLinks: NavItemType[] = [
     description: "Regional support services that strengthen cross-market delivery.",
   },
   {
-    title: "Start a Conversation",
-    href: "#contact",
+    title: "Join the Experience",
+    href: "#app-experience",
     icon: HelpCircle,
-    description: "Speak with Altira about distribution, underwriting or premium partnerships.",
+    description: "Enter the premium member experience and begin guided onboarding.",
   },
 ];
 
@@ -222,7 +222,7 @@ export function SiteHeader() {
 
           <div className="relative z-10 flex items-center gap-2">
             <Button asChild>
-              <a href="#contact">Start a conversation</a>
+              <a href="#app-experience">Join the experience</a>
             </Button>
             <MoileNav />
           </div>
@@ -316,7 +316,7 @@ function MoileNav() {
         { title: "Method", href: "#method", description: "Review the five-stage process." },
         { title: "Offices", href: "#offices", description: "View the regional footprint." },
         { title: "Orbit Engine", href: "#integrations", description: "See the partner and platform layer." },
-        { title: "Contact", href: "#contact", description: "Start a commercial conversation." },
+        { title: "Join the Experience", href: "#app-experience", description: "Enter guided onboarding." },
       ],
     },
     {

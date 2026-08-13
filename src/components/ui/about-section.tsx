@@ -42,15 +42,15 @@ export default function AboutSection3() {
 
               <div className="mb-6">
                 <p className="mb-4 font-medium text-white">
-                  Ready to turn premium partners, products and channels into one coherent system?
+                  Ready to bring members into a premium experience built around satisfaction?
                 </p>
               </div>
 
               <a
-                href="#contact"
+                href="#app-experience"
                 className="ml-auto flex w-fit cursor-pointer gap-2 rounded-[12px] border border-white/12 bg-gradient-to-b from-[#3d4c63] to-[#344154] px-5 py-3 font-semibold text-white shadow-[0_12px_30px_rgba(0,0,0,0.28)] transition-all duration-300 ease-in-out hover:gap-4 hover:from-[#465875] hover:to-[#3b4b62]"
               >
-                LET&apos;S COLLABORATE <ArrowRight />
+                JOIN THE EXPERIENCE <ArrowRight />
               </a>
             </div>
           </div>

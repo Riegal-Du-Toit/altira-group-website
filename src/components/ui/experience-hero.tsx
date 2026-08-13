@@ -12,8 +12,8 @@ export function ExperienceHeroText({
   titleBottom = "Technology",
   subheading = "powered by Altira's orbit engine",
   supporting = "with you at every turn",
-  ctaLabel = "Start a conversation",
-  ctaHref = "#contact",
+  ctaLabel = "Join the experience",
+  ctaHref = "#app-experience",
 }: {
   className?: string;
   titleTop?: string;
