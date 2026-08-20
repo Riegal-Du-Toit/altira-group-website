@@ -22,6 +22,12 @@ interface RotatingEarthProps {
     glowColor?: string;
   }>;
   jumpingArcCount?: number;
+  onReady?: () => void;
+  instantReady?: boolean;
+  pauseWhenHidden?: boolean;
+  networkConnections?: boolean;
+  networkStartDelayMs?: number;
+  baseOpacity?: number;
 }
 
 interface DotData {
@@ -29,10 +35,25 @@ interface DotData {
   lat: number;
 }
 
+const EMPTY_MARKERS: Array<{
+  location: [number, number];
+  color?: string;
+  radius?: number;
+  glowColor?: string;
+}> = [];
+
 interface JumpingArcData {
   from: [number, number];
   to: [number, number];
 }
+
+type NetworkRoute = {
+  from: [number, number];
+  to: [number, number];
+  points: Array<[number, number]>;
+  elevation: number;
+  duration: number;
+};
 
 type LandFeature = {
   geometry: {
@@ -50,6 +71,31 @@ const LAND_DATA_URL =
   "https://raw.githubusercontent.com/martynafford/natural-earth-geojson/refs/heads/master/110m/physical/ne_110m_land.json";
 const INITIAL_ROTATION: [number, number, number] = [0, 0, 0];
 const FULL_TURN = Math.PI * 2;
+
+const NETWORK_LINKS: Array<[[number, number], [number, number]]> = [
+  [[-33.9249, 18.4241], [51.5074, -0.1278]],
+  [[51.5074, -0.1278], [25.2048, 55.2708]],
+  [[25.2048, 55.2708], [1.3521, 103.8198]],
+  [[1.3521, 103.8198], [-33.8688, 151.2093]],
+  [[40.7128, -74.006], [51.5074, -0.1278]],
+  [[-33.9249, 18.4241], [25.2048, 55.2708]],
+  [[-26.2041, 28.0473], [-1.2921, 36.8219]],
+  [[-1.2921, 36.8219], [25.2048, 55.2708]],
+  [[48.8566, 2.3522], [51.5074, -0.1278]],
+  [[50.1109, 8.6821], [25.2048, 55.2708]],
+  [[19.076, 72.8777], [1.3521, 103.8198]],
+  [[35.6762, 139.6503], [1.3521, 103.8198]],
+  [[37.5665, 126.978], [35.6762, 139.6503]],
+  [[-33.8688, 151.2093], [-36.8485, 174.7633]],
+  [[-23.5505, -46.6333], [40.7128, -74.006]],
+  [[43.6532, -79.3832], [40.7128, -74.006]],
+  [[19.4326, -99.1332], [40.7128, -74.006]],
+  [[6.5244, 3.3792], [51.5074, -0.1278]],
+  [[6.5244, 3.3792], [25.2048, 55.2708]],
+  [[41.0082, 28.9784], [25.2048, 55.2708]],
+  [[51.5074, -0.1278], [50.1109, 8.6821]],
+  [[-1.2921, 36.8219], [1.3521, 103.8198]],
+];
 
 let landDataPromise: Promise<LandFeatureCollection> | null = null;
 const dotCache = new Map<number, Promise<DotData[]>>();
@@ -189,6 +235,17 @@ function interpolateGreatArc(
   });
 }
 
+const NETWORK_ROUTES: NetworkRoute[] = NETWORK_LINKS.map(([from, to], index) => {
+  const distance = d3.geoDistance([from[1], from[0]], [to[1], to[0]]);
+  return {
+    from,
+    to,
+    points: interpolateGreatArc(from, to, 32),
+    elevation: 0.055 + (distance / Math.PI) * 0.13,
+    duration: 560 + (index % 5) * 55,
+  };
+});
+
 export default function RotatingEarth({
   width = 800,
   height = 600,
@@ -201,8 +258,14 @@ export default function RotatingEarth({
   dragSensitivityX = 0.5,
   dragSensitivityY = 0.5,
   initialRotation = INITIAL_ROTATION,
-  markers = [],
+  markers = EMPTY_MARKERS,
   jumpingArcCount = 0,
+  onReady,
+  instantReady = false,
+  pauseWhenHidden = true,
+  networkConnections = false,
+  networkStartDelayMs = 0,
+  baseOpacity = 1,
 }: RotatingEarthProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -227,7 +290,10 @@ export default function RotatingEarth({
     let allDots: DotData[] = [];
     let hasLoadedData = false;
     let cancelled = false;
+    let readyFrame = 0;
+    let settledFrame = 0;
     let isMostlyVisible = true;
+    let networkStartAt = Number.POSITIVE_INFINITY;
 
     const rotation: [number, number, number] = [
       initialRotation[0],
@@ -311,11 +377,102 @@ export default function RotatingEarth({
       graticule = d3.geoGraticule();
     };
 
+    const drawNetworkNode = (location: [number, number]) => {
+      if (!isLocationVisible(location, rotation, 0.015)) return;
+      const projected = projection([location[1], location[0]]);
+      if (!projected) return;
+
+      const nodeRadius = Math.max(1.2, 1.7 * (projection.scale() / baseRadius));
+      const glowRadius = nodeRadius * 5.5;
+      const glow = context.createRadialGradient(
+        projected[0],
+        projected[1],
+        0,
+        projected[0],
+        projected[1],
+        glowRadius,
+      );
+      glow.addColorStop(0, "rgba(255,255,255,1)");
+      glow.addColorStop(0.16, "rgba(255,255,255,1)");
+      glow.addColorStop(0.42, "rgba(255,255,255,1)");
+      glow.addColorStop(1, "rgba(255,255,255,0)");
+      context.beginPath();
+      context.arc(projected[0], projected[1], glowRadius, 0, FULL_TURN);
+      context.fillStyle = glow;
+      context.fill();
+      context.beginPath();
+      context.arc(projected[0], projected[1], nodeRadius, 0, FULL_TURN);
+      context.fillStyle = "rgba(255,255,255,1)";
+      context.fill();
+    };
+
+    const drawConnectionNetwork = () => {
+      if (!networkConnections || !Number.isFinite(networkStartAt)) return;
+      const elapsed = performance.now() - networkStartAt;
+      if (elapsed < 0) return;
+
+      const centerX = containerWidth / 2;
+      const centerY = containerHeight / 2;
+      const scaleFactor = projection.scale() / baseRadius;
+
+      NETWORK_ROUTES.forEach((route, routeIndex) => {
+        const startedAt = routeIndex * 92;
+        const progress = Math.max(0, Math.min(1, (elapsed - startedAt) / route.duration));
+        if (progress <= 0) return;
+
+        const pointCount = Math.max(2, Math.ceil((route.points.length - 1) * progress) + 1);
+        let previousPoint: [number, number] | null = null;
+
+        context.beginPath();
+        for (let pointIndex = 0; pointIndex < pointCount; pointIndex += 1) {
+          const point = route.points[pointIndex];
+          if (!point || !isLocationVisible(point, rotation, 0.01)) {
+            previousPoint = null;
+            continue;
+          }
+
+          const projected = projection([point[1], point[0]]);
+          if (!projected) {
+            previousPoint = null;
+            continue;
+          }
+
+          const progressAlongRoute = pointIndex / (route.points.length - 1);
+          const lift = 1 + route.elevation * Math.sin(Math.PI * progressAlongRoute);
+          const elevatedPoint: [number, number] = [
+            centerX + (projected[0] - centerX) * lift,
+            centerY + (projected[1] - centerY) * lift,
+          ];
+
+          if (previousPoint) {
+            context.moveTo(previousPoint[0], previousPoint[1]);
+            context.lineTo(elevatedPoint[0], elevatedPoint[1]);
+          }
+          previousPoint = elevatedPoint;
+        }
+
+        context.strokeStyle = "rgba(235,235,235,1)";
+        context.lineWidth = Math.max(0.8, 1.05 * scaleFactor);
+        context.lineCap = "round";
+        context.lineJoin = "round";
+        context.shadowColor = "rgba(255,255,255,0.2)";
+        context.shadowBlur = 2 * scaleFactor;
+        context.stroke();
+        context.shadowBlur = 0;
+
+        drawNetworkNode(route.from);
+        if (progress >= 1) {
+          drawNetworkNode(route.to);
+        }
+      });
+    };
+
     const render = () => {
       if (!containerWidth || !containerHeight) return;
 
       projection.rotate(rotation);
       context.clearRect(0, 0, containerWidth, containerHeight);
+      context.globalAlpha = baseOpacity;
 
       const currentScale = projection.scale();
       const scaleFactor = currentScale / baseRadius;
@@ -336,9 +493,9 @@ export default function RotatingEarth({
       path(graticule());
       context.strokeStyle = "#ffffff";
       context.lineWidth = 1 * scaleFactor;
-      context.globalAlpha = 0.25;
+      context.globalAlpha = baseOpacity * 0.25;
       context.stroke();
-      context.globalAlpha = 1;
+      context.globalAlpha = baseOpacity;
 
       context.beginPath();
       landFeatures.features.forEach((feature) => {
@@ -363,6 +520,9 @@ export default function RotatingEarth({
           context.fill();
         }
       });
+
+      context.globalAlpha = 1;
+      drawConnectionNetwork();
 
       const centerLng = -rotation[0];
       const centerLat = -rotation[1];
@@ -451,6 +611,9 @@ export default function RotatingEarth({
         landFeatures = features;
         allDots = dots;
         hasLoadedData = true;
+        networkStartAt = networkConnections
+          ? performance.now() + networkStartDelayMs
+          : Number.POSITIVE_INFINITY;
         jumpingArcs.length = 0;
         if (jumpingArcCount > 0) {
           const firstArc = spawnJumpingArc();
@@ -472,6 +635,14 @@ export default function RotatingEarth({
         jumpingArcSwapInterval = randomBetween(110, 170);
         render();
         setIsReady(true);
+        readyFrame = window.requestAnimationFrame(() => {
+          settledFrame = window.requestAnimationFrame(() => {
+            if (cancelled) return;
+            syncCanvasSize();
+            render();
+            onReady?.();
+          });
+        });
       } catch {
         if (cancelled) return;
         setError("Failed to load land map data");
@@ -577,17 +748,19 @@ export default function RotatingEarth({
     });
 
     resizeObserver.observe(container);
-    const visibilityObserver = new IntersectionObserver(
-      ([entry]) => {
-        isMostlyVisible = entry.intersectionRatio > 0.2;
-        if (isMostlyVisible) {
-          render();
-        }
-      },
-      { threshold: [0, 0.2, 0.5, 1] },
-    );
+    const visibilityObserver = pauseWhenHidden
+      ? new IntersectionObserver(
+          ([entry]) => {
+            isMostlyVisible = entry.intersectionRatio > 0.2;
+            if (isMostlyVisible) {
+              render();
+            }
+          },
+          { threshold: [0, 0.2, 0.5, 1] },
+        )
+      : null;
 
-    visibilityObserver.observe(container);
+    visibilityObserver?.observe(container);
     if (interactive) {
       canvas.style.cursor = "grab";
       canvas.addEventListener("pointerdown", handlePointerDown);
@@ -596,12 +769,16 @@ export default function RotatingEarth({
     syncCanvasSize();
     render();
     void loadWorldData();
-    timer = d3.timer(rotate);
+    if (autoRotateSpeed !== 0 || interactive) {
+      timer = d3.timer(rotate);
+    }
 
     return () => {
       cancelled = true;
+      window.cancelAnimationFrame(readyFrame);
+      window.cancelAnimationFrame(settledFrame);
       resizeObserver.disconnect();
-      visibilityObserver.disconnect();
+      visibilityObserver?.disconnect();
       timer?.stop();
       if (interactive) {
         canvas.removeEventListener("pointerdown", handlePointerDown);
@@ -618,6 +795,11 @@ export default function RotatingEarth({
     initialRotation,
     markers,
     jumpingArcCount,
+    onReady,
+    networkConnections,
+    networkStartDelayMs,
+    baseOpacity,
+    pauseWhenHidden,
     square,
     width,
   ]);
@@ -637,10 +819,10 @@ export default function RotatingEarth({
     <div ref={containerRef} className={`relative ${className}`}>
       <canvas
         ref={canvasRef}
-        className={`h-auto w-full rounded-2xl bg-transparent transition-opacity duration-300 ${
+        className={`block max-w-full rounded-2xl bg-transparent ${instantReady ? "" : "transition-opacity duration-300"} ${
           isReady ? "opacity-100" : "opacity-0"
         }`}
-        style={{ maxWidth: "100%", height: "auto" }}
+        style={{ maxWidth: "100%" }}
       />
     </div>
   );

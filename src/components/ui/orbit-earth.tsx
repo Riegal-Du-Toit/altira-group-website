@@ -17,6 +17,12 @@ interface OrbitEarthProps {
   dragSensitivityY?: number;
   initialRotation?: [number, number, number];
   jumpingArcCount?: number;
+  onReady?: () => void;
+  instantReady?: boolean;
+  pauseWhenHidden?: boolean;
+  networkConnections?: boolean;
+  networkStartDelayMs?: number;
+  baseOpacity?: number;
   markers?: Array<{
     location: [number, number];
     color?: string;
@@ -39,6 +45,12 @@ export function OrbitEarth({
   dragSensitivityY,
   initialRotation,
   jumpingArcCount,
+  onReady,
+  instantReady,
+  pauseWhenHidden,
+  networkConnections,
+  networkStartDelayMs,
+  baseOpacity,
   markers,
 }: OrbitEarthProps) {
   return (
@@ -57,6 +69,12 @@ export function OrbitEarth({
           dragSensitivityY={dragSensitivityY}
           initialRotation={initialRotation}
           jumpingArcCount={jumpingArcCount}
+          onReady={onReady}
+          instantReady={instantReady}
+          pauseWhenHidden={pauseWhenHidden}
+          networkConnections={networkConnections}
+          networkStartDelayMs={networkStartDelayMs}
+          baseOpacity={baseOpacity}
           markers={markers}
           className={cn("size-full", earthClassName)}
         />

@@ -1,8 +1,10 @@
 'use client';
 
-import { InstagramIcon, Link, LinkedinIcon, X } from 'lucide-react';
+import { ArrowLeftIcon, ArrowRightIcon, CircleCheckIcon, GlobeIcon, InstagramIcon, Link, LinkedinIcon, X } from 'lucide-react';
 import Image from 'next/image';
-import { ReactNode } from 'react';
+import { ReactNode, useMemo, useState } from 'react';
+
+import { Calendar } from '@/components/ui/calendar';
 
 interface FooterColumn {
 	label: string;
@@ -141,7 +143,146 @@ function FooterCalendar() {
 	);
 }
 
-export function Footer({ leftSlot }: { leftSlot?: ReactNode }) {
+const bookingSlots = ['09:00', '10:30', '13:00', '14:30'];
+
+export function InteractiveFooterCalendar() {
+	const today = useMemo(() => {
+		const date = new Date();
+		return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+	}, []);
+	const [month, setMonth] = useState(new Date(today.getFullYear(), today.getMonth(), 1));
+	const [date, setDate] = useState(today);
+	const [time, setTime] = useState<string | null>(null);
+	const bookedDates = useMemo(() => [
+		new Date(today.getFullYear(), today.getMonth(), today.getDate() + 2),
+		new Date(today.getFullYear(), today.getMonth(), today.getDate() + 5),
+	], [today]);
+	const monthLabel = month.toLocaleDateString('en-ZA', { month: 'long', year: 'numeric' });
+	const dateLabel = date.toLocaleDateString('en-ZA', { weekday: 'short', day: 'numeric', month: 'short' });
+	const mailto = `mailto:hello@altiragroup.co.za?subject=${encodeURIComponent(`Member Experience Call — ${dateLabel}${time ? ` at ${time}` : ''}`)}`;
+
+	return (
+		<div className="grid h-full grid-cols-[minmax(174px,0.42fr)_minmax(0,0.58fr)] bg-[#111314] text-white">
+			<div className="flex flex-col border-r border-white/8 bg-[radial-gradient(circle_at_12%_8%,rgba(63,233,236,0.1),transparent_40%)] p-5">
+				<div className="flex h-7 w-7 items-center justify-center rounded-full border border-[#3FE9EC]/30 bg-[#3FE9EC]/10 text-[0.68rem] font-black text-[#3FE9EC]">A</div>
+				<div className="mt-4 text-xs font-semibold text-white/42">Altira Group</div>
+				<h3 className="mt-2 text-[1.25rem] font-bold tracking-[-0.03em] text-white">Member Experience Call</h3>
+				<p className="mt-2.5 max-w-[15rem] text-sm leading-5 text-white/58">A focused 15-minute video introduction with the Altira team.</p>
+				<div className="mt-auto space-y-2.5 pt-4 text-sm text-white/72">
+					<div className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-[#3FE9EC]" />15 min</div>
+					<div className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-[#A855F7]" />Video introduction</div>
+				</div>
+			</div>
+
+			<div className="flex min-w-0 flex-col p-4">
+				<div className="flex items-center justify-between gap-2">
+					<div className="flex items-center gap-2 text-sm font-bold text-white"><GlobeIcon className="h-4 w-4 text-[#3FE9EC]" />{monthLabel}</div>
+					<div className="flex gap-1">
+						<button type="button" aria-label="Previous month" onClick={() => setMonth(new Date(month.getFullYear(), month.getMonth() - 1, 1))} className="rounded-md p-1 text-white/55 transition hover:bg-white/10 hover:text-white"><ArrowLeftIcon className="h-4 w-4" /></button>
+						<button type="button" aria-label="Next month" onClick={() => setMonth(new Date(month.getFullYear(), month.getMonth() + 1, 1))} className="rounded-md p-1 text-white/55 transition hover:bg-white/10 hover:text-white"><ArrowRightIcon className="h-4 w-4" /></button>
+					</div>
+				</div>
+
+				<Calendar
+					mode="single"
+					month={month}
+					onMonthChange={setMonth}
+					selected={date}
+					onSelect={(selectedDate) => {
+						if (selectedDate) {
+							setDate(selectedDate);
+							setTime(null);
+						}
+					}}
+					disabled={[{ before: today }, ...bookedDates]}
+					modifiers={{ booked: bookedDates }}
+					showOutsideDays={false}
+					formatters={{ formatWeekdayName: (day) => day.toLocaleString('en-ZA', { weekday: 'narrow' }) }}
+					className="mt-2"
+				/>
+
+				<div className="mt-3 border-t border-white/8 pt-2">
+					<div className="flex items-center justify-between text-xs"><span className="font-semibold text-white/70">{dateLabel}</span><span className="text-white/38">SAST</span></div>
+					<div className="mt-1.5 grid grid-cols-4 gap-1.5">
+						{bookingSlots.map((slot) => <button key={slot} type="button" onClick={() => setTime(slot)} className={`rounded-md border px-1 py-1 text-[0.68rem] font-semibold transition ${time === slot ? 'border-[#3FE9EC] bg-[#3FE9EC] text-[#071011]' : 'border-white/10 text-white/68 hover:border-[#3FE9EC]/50 hover:text-white'}`}>{slot}</button>)}
+					</div>
+					<button type="button" disabled={!time} onClick={() => { window.location.href = mailto; }} className="mt-2 flex w-full items-center justify-center rounded-md bg-white px-3 py-1.5 text-xs font-bold text-[#080909] transition hover:bg-[#3FE9EC] disabled:cursor-not-allowed disabled:bg-white/18 disabled:text-white/38">{time ? `Book ${time}` : 'Choose a time'}</button>
+				</div>
+			</div>
+		</div>
+	);
+}
+
+export function AppointmentBookingCalendar() {
+	const today = useMemo(() => {
+		const current = new Date();
+		return new Date(current.getFullYear(), current.getMonth(), current.getDate());
+	}, []);
+	const [date, setDate] = useState<Date | undefined>(today);
+	const [selectedTime, setSelectedTime] = useState<string | null>(null);
+	const bookedDates = useMemo(() => [
+		new Date(today.getFullYear(), today.getMonth(), today.getDate() + 2),
+		new Date(today.getFullYear(), today.getMonth(), today.getDate() + 5),
+	], [today]);
+	const dateLabel = date?.toLocaleDateString('en-ZA', { weekday: 'short', day: 'numeric', month: 'short' });
+	const mailto = `mailto:hello@altiragroup.co.za?subject=${encodeURIComponent(`Member Experience Call — ${dateLabel ?? ''}${selectedTime ? ` at ${selectedTime}` : ''}`)}`;
+
+	return (
+		<div className="flex h-full flex-col bg-[#202022] text-white">
+			<div className="flex items-center justify-between border-b border-white/8 px-5 py-4">
+				<div>
+					<div className="text-[0.64rem] font-semibold uppercase tracking-[0.18em] text-white/48">Altira Group</div>
+					<h3 className="mt-1 text-[0.95rem] font-medium">Book your appointment</h3>
+				</div>
+				<div className="rounded-full border border-white/12 bg-white/[0.045] px-2.5 py-1 text-[0.65rem] font-medium text-white/62">15 min</div>
+			</div>
+
+			<div className="grid min-h-0 flex-1 grid-cols-[minmax(0,1fr)_8rem]">
+				<div className="flex min-w-0 items-center justify-center px-3 py-4">
+					<Calendar
+						mode="single"
+						selected={date}
+						onSelect={setDate}
+						defaultMonth={date}
+						disabled={[{ before: today }, ...bookedDates]}
+						modifiers={{ booked: bookedDates }}
+						showOutsideDays={false}
+						formatters={{ formatWeekdayName: (day) => day.toLocaleString('en-ZA', { weekday: 'narrow' }) }}
+						classNames={{
+							month_caption: 'relative mx-7 mb-0 flex h-6 items-center justify-center',
+							caption_label: 'text-[0.78rem] font-semibold',
+							button_previous: 'inline-flex size-6 items-center justify-center rounded-md text-white/45 transition hover:bg-white/10 hover:text-white',
+							button_next: 'inline-flex size-6 items-center justify-center rounded-md text-white/45 transition hover:bg-white/10 hover:text-white',
+							weekday: 'size-6 p-0 text-[0.56rem] font-semibold text-white/38',
+							day: 'group size-6 p-0 text-[0.68rem]',
+							day_button: 'flex size-6 items-center justify-center rounded-md text-white/74 transition hover:bg-white/10 hover:text-white group-data-[selected]:bg-white group-data-[selected]:font-semibold group-data-[selected]:text-[#171719] group-data-[disabled]:cursor-not-allowed group-data-[disabled]:text-white/16 group-data-[booked]:line-through group-data-[booked]:text-white/25',
+							weeks: 'space-y-0',
+						}}
+					/>
+				</div>
+				<div className="border-l border-white/8 px-3 py-4">
+					<div className="text-[0.68rem] font-medium text-white/52">Available times</div>
+					<div className="mt-3 grid gap-2">
+						{bookingSlots.map((time) => (
+							<button key={time} type="button" onClick={() => setSelectedTime(time)} className={`rounded-md border px-2 py-1.5 text-[0.68rem] font-medium transition ${selectedTime === time ? 'border-white bg-white text-[#171719]' : 'border-white/12 bg-white/[0.025] text-white/62 hover:border-white/30 hover:text-white'}`}>
+								{time}
+							</button>
+						))}
+					</div>
+				</div>
+			</div>
+
+			<div className="flex items-center gap-2 border-t border-white/8 px-4 py-3">
+				<div className="min-w-0 flex-1 text-[0.68rem] text-white/48">
+					{date && selectedTime ? <span className="flex items-center gap-1.5"><CircleCheckIcon className="h-3.5 w-3.5 shrink-0 text-white/82" />{dateLabel}, {selectedTime} SAST</span> : 'Select a date and time.'}
+				</div>
+				<button type="button" disabled={!date || !selectedTime} onClick={() => { window.location.href = mailto; }} className="shrink-0 rounded-md bg-white px-3 py-1.5 text-[0.68rem] font-semibold text-[#171719] transition hover:bg-white/85 disabled:cursor-not-allowed disabled:bg-white/12 disabled:text-white/30">Continue</button>
+			</div>
+		</div>
+	);
+}
+
+export function Footer({ leftSlot, interactiveCalendar = false }: { leftSlot?: ReactNode; interactiveCalendar?: boolean }) {
 	return (
 		<footer
 			data-site-footer
@@ -214,7 +355,7 @@ export function Footer({ leftSlot }: { leftSlot?: ReactNode }) {
 
 						<div className="relative h-[22rem] overflow-hidden rounded-[1.1rem] border border-[#3FE9EC]/48 bg-black/45 shadow-[inset_0_1px_0_rgba(63,233,236,0.16),0_18px_60px_rgba(0,0,0,0.26),0_0_32px_rgba(63,233,236,0.07)]">
 							<div className="pointer-events-none absolute inset-0 z-10 rounded-[1.1rem] ring-1 ring-inset ring-[#3FE9EC]/22" />
-							<FooterCalendar />
+							{interactiveCalendar ? <AppointmentBookingCalendar /> : <FooterCalendar />}
 						</div>
 					</div>
 

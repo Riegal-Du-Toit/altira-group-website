@@ -131,7 +131,7 @@ function DepthCard({
         zIndex: products.length - index,
         transformStyle: "preserve-3d",
       }}
-      className="absolute left-1/2 top-[20vh] h-[62vh] min-h-[30rem] w-[min(90vw,76rem)] overflow-hidden rounded-[1.15rem] border border-white/14 bg-[#303337] p-[3px] shadow-[0_28px_75px_rgba(0,0,0,0.48)]"
+      className="absolute left-1/2 top-[20vh] h-[62vh] min-h-[30rem] w-[min(90vw,76rem)] overflow-hidden rounded-[1.15rem] border border-white/14 bg-[#303337] p-[3px]"
     >
       <div className="grid h-full grid-rows-[1.15fr_0.85fr] overflow-hidden rounded-[0.9rem] bg-[#242729] md:grid-cols-[0.94fr_1.06fr] md:grid-rows-1">
         <div className="relative z-10 flex min-h-0 flex-col justify-between border-b border-white/8 bg-[#242729] p-7 text-white sm:p-9 md:border-r md:border-b-0 lg:p-12">

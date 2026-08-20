@@ -98,7 +98,7 @@ export function DownloadShowcase() {
     <section
       id="app-experience"
       ref={sectionRef}
-      className="app-experience-scrollbar relative w-full max-w-full overflow-x-clip bg-transparent text-white"
+      className="app-experience-scrollbar relative w-full max-w-full overflow-x-clip bg-[#090909] text-white"
       style={{ height: `${slides.length * 100}vh` }}
     >
       <div className="sticky top-0 flex min-h-screen items-center justify-center overflow-hidden px-4 py-10 sm:px-6 lg:px-8">

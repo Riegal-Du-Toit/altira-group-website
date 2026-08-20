@@ -14,26 +14,26 @@ interface PartnerIcon {
 }
 
 const outerPartners: readonly PartnerIcon[] = [
-  { src: "/partner-icons/github.svg", alt: "GitHub", invert: true },
-  { src: "/partner-icons/vercel.svg", alt: "Vercel" },
-  { src: "/partner-icons/docker.svg", alt: "Docker" },
-  { src: "/partner-icons/stripe.svg", alt: "Stripe", wide: true },
-  { src: "/partner-icons/openai.svg", alt: "OpenAI" },
-  { src: "/partner-icons/grok.svg", alt: "Grok" },
-  { src: "/partner-icons/deepseek.svg", alt: "DeepSeek" },
-  { src: "/partner-icons/postgresql.svg", alt: "PostgreSQL" },
-  { src: "/partner-icons/attached-partner-1.svg", alt: "GitHub Copilot" },
+  { src: "/icons/user-shield.svg", alt: "Member protection" },
+  { src: "/icons/shield-security-risk.svg", alt: "Risk protection" },
+  { src: "/icons/payment-gateway.svg", alt: "Payment gateway" },
+  { src: "/icons/payment-pos.svg", alt: "Payments" },
+  { src: "/icons/business-deal.svg", alt: "Business solutions" },
+  { src: "/icons/car-crash.svg", alt: "Motor protection" },
+  { src: "/icons/family-dress.svg", alt: "Family protection" },
+  { src: "/icons/anatomical-heart.svg", alt: "Health protection" },
+  { src: "/icons/wildfire.svg", alt: "Property protection" },
 ];
 
 const innerPartners: readonly PartnerIcon[] = [
-  { src: "/partner-icons/claude.svg", alt: "Claude" },
-  { src: "/partner-icons/supabase.svg", alt: "Supabase" },
-  { src: "/partner-icons/vscode.svg", alt: "Visual Studio Code" },
-  { src: "/partner-icons/cloudflare.svg", alt: "Cloudflare", wide: true },
-  { src: "/partner-icons/gemini.svg", alt: "Gemini" },
-  { src: "/partner-icons/google-cloud.svg", alt: "Google Cloud" },
-  { src: "/partner-icons/mistral.svg", alt: "Mistral" },
-  { src: "/partner-icons/attached-partner-2.svg", alt: "Microsoft Copilot" },
+  { src: "/icons/payment-pos.svg", alt: "Payments" },
+  { src: "/icons/payment-gateway.svg", alt: "Payment gateway" },
+  { src: "/icons/user-shield.svg", alt: "Member protection" },
+  { src: "/icons/shield-security-risk.svg", alt: "Risk protection" },
+  { src: "/icons/business-deal.svg", alt: "Business solutions" },
+  { src: "/icons/anatomical-heart.svg", alt: "Health protection" },
+  { src: "/icons/family-dress.svg", alt: "Family protection" },
+  { src: "/icons/wildfire.svg", alt: "Property protection" },
 ];
 
 export default function IntegrationsSection() {
@@ -61,7 +61,7 @@ export default function IntegrationsSection() {
 
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute left-[-8%] right-[calc(-8%+9px)] -bottom-8 z-20 h-48 bg-gradient-to-b from-transparent via-[#1e2021]/82 to-[#1e2021] md:left-[-10%] md:right-[calc(-10%+9px)] md:-bottom-10 md:h-60"
+              className="pointer-events-none absolute left-[-8%] right-[calc(-8%+9px)] -bottom-8 z-20 h-48 bg-gradient-to-b from-transparent via-[#090909]/82 to-[#090909] md:left-[-10%] md:right-[calc(-10%+9px)] md:-bottom-10 md:h-60"
             />
 
             <div className="absolute inset-x-0 bottom-0 z-30 mx-auto flex w-fit justify-center">
@@ -113,11 +113,7 @@ function Orbit({
           const angle = (index * 360) / icons.length;
 
           return (
-            <div
-              key={icon.src}
-              className="absolute inset-0"
-              style={{ transform: `rotate(${angle}deg)` }}
-            >
+            <div key={icon.src} className="absolute inset-0" style={{ transform: `rotate(${angle}deg)` }}>
               <div className="absolute left-1/2 top-0 z-20 -translate-x-1/2 -translate-y-1/2">
                 <div
                   className={cn(
@@ -140,7 +136,7 @@ function Orbit({
                         className={cn(
                           "h-7 w-7 object-contain md:h-8 md:w-8",
                           icon.wide && "w-10 md:w-11",
-                          icon.invert && "invert",
+                          "brightness-0 invert",
                         )}
                         unoptimized
                       />

@@ -158,12 +158,20 @@ export default function HowItWorks({
   ];
 
   const data = features && features.length > 0 ? features : defaultFeatures;
-  const positions = stepPositions || DEFAULT_CARD_POSITIONS;
+  const positions =
+    stepPositions ||
+    (data.length === 3
+      ? [
+          { className: "md:absolute md:left-[3%] md:top-[64px]", rotate: "rotate-2" },
+          { className: "md:absolute md:left-1/2 md:top-0 md:-translate-x-1/2", rotate: "-rotate-1" },
+          { className: "md:absolute md:right-[3%] md:top-[64px]", rotate: "rotate-2" },
+        ]
+      : DEFAULT_CARD_POSITIONS);
 
   let height = 1130;
   if (data.length === 1) height = 400;
   else if (data.length === 2) height = 450;
-  else if (data.length === 3) height = 800;
+  else if (data.length === 3) height = 400;
   else if (data.length === 4) height = 900;
   else height = 1130;
 
@@ -196,7 +204,7 @@ export default function HowItWorks({
           className="relative mx-auto flex h-auto w-full max-w-[1000px] flex-col space-y-8 md:block md:h-[var(--md-height)] md:space-y-0"
             style={{ "--md-height": `${height}px` } as React.CSSProperties}
           >
-            {data.length > 1 && (
+            {data.length > 3 && (
               <svg
                 className="pointer-events-none absolute left-0 top-0 z-0 hidden h-full w-full md:block"
                 viewBox={`0 0 1000 ${height}`}
