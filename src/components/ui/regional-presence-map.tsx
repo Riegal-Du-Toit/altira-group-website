@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import DottedMap from "dotted-map";
 import { X } from "lucide-react";
 import {
@@ -128,7 +128,7 @@ function getPopoverPosition(
 }
 
 export function RegionalPresenceMap({ className }: { className?: string }) {
-  const shouldReduceMotion = useReducedMotion();
+  const shouldReduceMotion = false;
   const isHydrated = useIsHydrated();
   const containerRef = useRef<HTMLDivElement | null>(null);
   const popoverRef = useRef<HTMLDivElement | null>(null);

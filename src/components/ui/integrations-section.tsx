@@ -5,7 +5,7 @@ import IntegrationsPrompt from "@/components/ui/integrations-5";
 
 export default function IntegrationsSection() {
   return (
-    <section id="integrations" className="section-spacing flex min-h-screen w-full items-center bg-[#1e2021] px-6 text-white sm:px-8 lg:px-14">
+    <section id="integrations" className="section-spacing flex min-h-screen w-full items-center bg-[#090909] px-6 text-white sm:px-8 lg:px-14">
       <div className="mx-auto grid w-full max-w-[1380px] items-center gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,0.95fr)] lg:gap-12 xl:gap-14">
         <div className="integrations-prompt-theme dark min-w-0 lg:translate-x-8">
           <IntegrationsPrompt />

@@ -57,6 +57,14 @@ export const Building2 = createIcon(
 );
 export const ChevronDown = createIcon(<path d="m6 9 6 6 6-6" />);
 export const ChevronDownIcon = ChevronDown;
+export const ChevronLeft = createIcon(<path d="m15 18-6-6 6-6" />);
+export const ChevronRight = createIcon(<path d="m9 18 6-6-6-6" />);
+export const CircleCheckIcon = createIcon(
+  <>
+    <circle cx="12" cy="12" r="10" />
+    <path d="m8 12 2.5 2.5L16 9" />
+  </>,
+);
 export const CodeIcon = createIcon(
   <>
     <path d="m16 18 6-6-6-6" />
@@ -186,6 +194,12 @@ export const RotateCcw = createIcon(
     <path d="M3 8a9 9 0 1 0 3-3.36L3 8" />
   </>,
 );
+export const Search = createIcon(
+  <>
+    <circle cx="11" cy="11" r="7" />
+    <path d="m20 20-3.5-3.5" />
+  </>,
+);
 export const Shield = createIcon(
   <>
     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" />
@@ -200,6 +214,12 @@ export const UserPlusIcon = createIcon(
     <circle cx="9.5" cy="7" r="4" />
     <path d="M19 8v6" />
     <path d="M16 11h6" />
+  </>,
+);
+export const User = createIcon(
+  <>
+    <circle cx="12" cy="8" r="4" />
+    <path d="M4 20a8 8 0 0 1 16 0" />
   </>,
 );
 export const Users = createIcon(
