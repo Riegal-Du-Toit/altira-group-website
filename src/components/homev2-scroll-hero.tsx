@@ -133,17 +133,23 @@ export function HomeV2ScrollHero() {
 
         {!hasScrolled ? (
           <motion.div
-            className="pointer-events-none absolute bottom-6 left-1/2 z-[8] flex -translate-x-1/2 flex-col items-center gap-2 text-[#2E2E38]/60"
-            animate={{ y: [0, 6, 0] }}
-            transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+            className="pointer-events-none absolute bottom-6 left-1/2 z-[8] flex -translate-x-1/2 flex-col items-center text-[#2E2E38]"
           >
-            <span className="text-[0.62rem] font-light uppercase tracking-[0.24em]">Scroll Down</span>
-            <span aria-hidden="true" className="relative block h-9 w-px overflow-hidden bg-[#2E2E38]/20">
-              <motion.i
-                className="absolute inset-x-0 top-0 block h-4 bg-gradient-to-b from-[#37D8C6] to-[#5B5CEB]"
-                animate={{ y: ["-100%", "240%"] }}
-                transition={{ duration: 1.35, repeat: Infinity, ease: "easeIn" }}
-              />
+            <span className="mb-2 text-[12px] font-light uppercase tracking-[0.24em]">Scroll Down</span>
+            <span aria-hidden="true" className="flex flex-col items-center -space-y-2">
+              {Array.from({ length: 5 }, (_, index) => (
+                <motion.svg
+                  key={index}
+                  viewBox="0 0 24 14"
+                  className="h-[14px] w-[22px] stroke-[#2E2E38]"
+                  fill="none"
+                  strokeWidth="1.5"
+                  animate={{ opacity: [0.15, 1, 0.15], y: [-2, 2, -2] }}
+                  transition={{ duration: 1.5, delay: index * 0.16, repeat: Infinity, ease: "easeInOut" }}
+                >
+                  <path d="m3 3 9 8 9-8" />
+                </motion.svg>
+              ))}
             </span>
           </motion.div>
         ) : null}

@@ -63,7 +63,7 @@ export function HomeV2Footer() {
               </div>
             </div>
 
-            <div className="aspect-[1184/1536] w-full max-w-[25rem] overflow-hidden rounded-[1.4rem] lg:ml-auto lg:-mt-[9rem]">
+            <div className="relative aspect-[1184/1536] w-full max-w-[25rem] overflow-hidden rounded-[1.4rem] lg:ml-auto lg:-mt-[9rem]">
               {isBookingOpen ? (
                 <iframe
                   src="https://outlook.office.com/book/G855be4c9beb647649a95f2642eabb914@altiragroup.co.za/?ismsaljsauthenabled"
@@ -85,6 +85,16 @@ export function HomeV2Footer() {
                     height={1536}
                     className="size-full object-contain"
                   />
+                </button>
+              )}
+              {isBookingOpen && (
+                <button
+                  type="button"
+                  onClick={() => setIsBookingOpen(false)}
+                  aria-label="Close calendar"
+                  className="absolute left-3 top-3 z-10 grid size-10 place-items-center rounded-full border border-white/50 !bg-[linear-gradient(135deg,#5B5CEB,#37D8C6)] !text-[#F7F8FA] shadow-[0_8px_20px_rgba(17,22,61,0.3)] transition hover:scale-105"
+                >
+                  <X className="size-4 !text-[#F7F8FA]" />
                 </button>
               )}
             </div>
