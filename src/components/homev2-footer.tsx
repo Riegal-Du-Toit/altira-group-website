@@ -20,9 +20,12 @@ const socials = [
 
 export function HomeV2Footer() {
   const [isBookingOpen, setIsBookingOpen] = useState(false);
+  const [emailCopied, setEmailCopied] = useState(false);
 
   const copyEmail = async () => {
     await navigator.clipboard?.writeText("info@altiragroup.co.za");
+    setEmailCopied(true);
+    window.setTimeout(() => setEmailCopied(false), 1800);
   };
 
   return (
@@ -58,6 +61,7 @@ export function HomeV2Footer() {
                     <span className="leading-none"><span className="block text-[0.48rem]">GET IT ON</span><span className="mt-0.5 block text-sm font-semibold">Google Play</span></span>
                   </a>
                   <div className="btn-wrapper">
+                    {emailCopied && <span className="email-copy-confirmation">Email copied!</span>}
                     <button type="button" className="btn" onClick={copyEmail} aria-label="Copy info@altiragroup.co.za">
                       <span className="frame" aria-hidden="true">
                         <i className="point top left" />
@@ -71,7 +75,7 @@ export function HomeV2Footer() {
                       </span>
                     </button>
                     <span className="txt-secondary" id="hint1">Hover to reveal address</span>
-                    <span className="txt-secondary" id="hint2">Click to copy</span>
+                    <span className="txt-secondary" id="hint2">{emailCopied ? "Email copied!" : "Click to copy"}</span>
                   </div>
                 </div>
                 <div className="mt-5 flex gap-4 text-white/66">

@@ -299,6 +299,19 @@ button {
   user-select: none;
 }
 
+.email-copy-confirmation {
+  position: absolute;
+  bottom: calc(100% + 0.55rem);
+  z-index: 10;
+  padding: 0.35rem 0.65rem;
+  border-radius: 0.4rem;
+  background: #2E2E38;
+  color: #F7F8FA !important;
+  font: 600 0.72rem var(--font-poppins), sans-serif;
+  white-space: nowrap;
+  box-shadow: 0 5px 14px rgb(46 46 56 / 26%);
+}
+
 .txt-secondary {
   position: absolute;
   bottom: -2rem;
@@ -401,7 +414,7 @@ button {
 @keyframes frame { 50% { inset: 0 50%; } }
 
 .btn::before {
-  content: "Address copied";
+  content: "Email copied!";
   position: absolute;
   inset: 0;
   font: 400 1em "Inter", sans-serif;

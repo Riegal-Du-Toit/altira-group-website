@@ -111,13 +111,13 @@ export function HomeV2ScrollHero() {
         </motion.p>
 
         <motion.p
-          className={`${poppins.className} pointer-events-none absolute z-[8] w-[min(82vw,34rem)] -translate-y-1/2 text-left text-[14.5px] leading-[1.45] text-[#2E2E38]`}
+          className={`${poppins.className} pointer-events-none absolute z-[8] w-[min(82vw,40rem)] -translate-y-1/2 text-left text-[14.5px] leading-[1.45] text-[#2E2E38]`}
           style={{ left: headingLeft, top: descriptionTop }}
         >
           Altira Group <strong className="font-semibold text-[#2E2E38]">redesigns onboarding and sales processes</strong>{" "}
           and deploys
           <br />
-          <span className="text-[13px] font-bold text-[#2E2E38]">plug-and-play distribution technology</span>{" "}
+          <span className="font-semibold text-[#2E2E38]">plug-and-play distribution technology</span>{" "}
           for <em className="font-medium text-[#2E2E38]">insurance and lending products</em>
           <br />
           so partners can <strong className="font-semibold text-[#2E2E38]">launch and scale faster</strong>, without building from scratch.
