@@ -1,12 +1,24 @@
 "use client";
 
-import { createContext, useContext, useMemo, useState, type ReactNode } from "react";
+import { createContext, useContext, useLayoutEffect, useMemo, useState, type ReactNode } from "react";
 
 const HomeV2PreloaderContext = createContext<{ markModelReady: () => void } | null>(null);
 
 export function HomeV2Preloader({ children }: { children: ReactNode }) {
   const [isReady, setIsReady] = useState(false);
   const value = useMemo(() => ({ markModelReady: () => setIsReady(true) }), []);
+
+  useLayoutEffect(() => {
+    const previousScrollRestoration = window.history.scrollRestoration;
+    window.history.scrollRestoration = "manual";
+    window.scrollTo(0, 0);
+    const frameId = window.requestAnimationFrame(() => window.scrollTo(0, 0));
+
+    return () => {
+      window.cancelAnimationFrame(frameId);
+      window.history.scrollRestoration = previousScrollRestoration;
+    };
+  }, []);
 
   return (
     <HomeV2PreloaderContext.Provider value={value}>
