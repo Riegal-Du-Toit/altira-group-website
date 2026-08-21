@@ -1,7 +1,7 @@
 import { MotionConfig } from "motion/react";
 import { HomeV2Header } from "@/components/homev2-header";
 import { anton } from "@/lib/fonts";
-import { openSansThin } from "@/lib/google-fonts";
+import { openSansThin, poppins } from "@/lib/google-fonts";
 import { HomeV2AnimatedPlanet } from "@/components/homev2-animated-planet";
 import { HomeV2Preloader } from "@/components/homev2-preloader";
 import { HomeV2Footer } from "@/components/homev2-footer";
@@ -21,6 +21,8 @@ export default function HomeV2() {
         showHeroContent={false}
         showHeroPoweredGlobe={false}
         methodologyContent={<HomeV2Methodology />}
+        pageClassName="homev2-light-backgrounds"
+        mainClassName={poppins.variable}
         heroClassName="rounded-b-[2rem] [--homev2-orbit-y:calc(58%-110px)]"
         heroBackdropText="ORBIT"
         heroBackdropFontClassName={anton.className}

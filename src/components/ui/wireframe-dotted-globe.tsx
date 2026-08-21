@@ -28,6 +28,11 @@ interface RotatingEarthProps {
   networkConnections?: boolean;
   networkStartDelayMs?: number;
   baseOpacity?: number;
+  colors?: {
+    fill?: string;
+    line?: string;
+    dot?: string;
+  };
 }
 
 interface DotData {
@@ -266,6 +271,7 @@ export default function RotatingEarth({
   networkConnections = false,
   networkStartDelayMs = 0,
   baseOpacity = 1,
+  colors,
 }: RotatingEarthProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -479,9 +485,9 @@ export default function RotatingEarth({
 
       context.beginPath();
       context.arc(containerWidth / 2, containerHeight / 2, currentScale, 0, 2 * Math.PI);
-      context.fillStyle = "#000000";
+      context.fillStyle = colors?.fill ?? "#000000";
       context.fill();
-      context.strokeStyle = "#ffffff";
+      context.strokeStyle = colors?.line ?? "#ffffff";
       context.lineWidth = 2 * scaleFactor;
       context.stroke();
 
@@ -491,7 +497,7 @@ export default function RotatingEarth({
 
       context.beginPath();
       path(graticule());
-      context.strokeStyle = "#ffffff";
+      context.strokeStyle = colors?.line ?? "#ffffff";
       context.lineWidth = 1 * scaleFactor;
       context.globalAlpha = baseOpacity * 0.25;
       context.stroke();
@@ -501,7 +507,7 @@ export default function RotatingEarth({
       landFeatures.features.forEach((feature) => {
         path(feature as never);
       });
-      context.strokeStyle = "#ffffff";
+      context.strokeStyle = colors?.line ?? "#ffffff";
       context.lineWidth = 1 * scaleFactor;
       context.stroke();
 
@@ -516,7 +522,7 @@ export default function RotatingEarth({
         ) {
           context.beginPath();
           context.arc(projected[0], projected[1], 1.2 * scaleFactor, 0, 2 * Math.PI);
-          context.fillStyle = "#999999";
+          context.fillStyle = colors?.dot ?? "#999999";
           context.fill();
         }
       });
@@ -799,6 +805,7 @@ export default function RotatingEarth({
     networkConnections,
     networkStartDelayMs,
     baseOpacity,
+    colors,
     pauseWhenHidden,
     square,
     width,

@@ -61,7 +61,7 @@ export default function IntegrationsSection() {
 
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute left-[-8%] right-[calc(-8%+9px)] -bottom-8 z-20 h-48 bg-gradient-to-b from-transparent via-[#090909]/82 to-[#090909] md:left-[-10%] md:right-[calc(-10%+9px)] md:-bottom-10 md:h-60"
+              className="pointer-events-none absolute left-[-8%] right-[calc(-8%+9px)] -bottom-8 z-20 h-48 bg-gradient-to-b from-transparent via-[#F7F8FA]/82 to-[#F7F8FA] md:left-[-10%] md:right-[calc(-10%+9px)] md:-bottom-10 md:h-60"
             />
 
             <div className="absolute inset-x-0 bottom-0 z-30 mx-auto flex w-fit justify-center">

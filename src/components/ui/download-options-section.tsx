@@ -1,11 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 import { cn } from "@/lib/utils";
+import { NavigationCta } from "@/components/homev2-header";
 
 type AppSlide = {
   title: string;
@@ -102,7 +102,7 @@ export function DownloadShowcase() {
       style={{ height: `${slides.length * 100}vh` }}
     >
       <div className="sticky top-0 flex min-h-screen items-center justify-center overflow-hidden px-4 py-10 sm:px-6 lg:px-8">
-        <div className="mx-auto w-[calc(100%-40px)] max-w-[1354px] overflow-hidden rounded-[1.8rem] border border-white/10 bg-[#3FE9EC] shadow-[0_34px_120px_rgba(0,0,0,0.42)]">
+        <div className="mx-auto w-[calc(100%-40px)] max-w-[1354px] overflow-hidden rounded-[1.8rem] border border-white/10 bg-[#3FE9EC]">
           <div className="grid min-h-[calc(66vh-30px)] grid-cols-1 lg:grid-cols-2">
             <div className="relative flex min-h-[34rem] flex-col justify-center border-white/12 bg-[#3FE9EC] px-8 py-14 text-[#050606] md:px-16 lg:border-r lg:py-18">
               <div className="absolute left-8 top-10 flex gap-2 md:left-16">
@@ -149,20 +149,19 @@ export function DownloadShowcase() {
                 ))}
               </div>
 
-              <Link
+              <NavigationCta
                 href="#offices"
-                className="absolute bottom-8 left-8 inline-flex h-14 items-center gap-3 rounded-full bg-[#050606] px-10 text-sm font-black uppercase tracking-[0.06em] text-white transition-colors hover:bg-[#162426] md:left-16"
+                className="absolute bottom-8 left-8 uppercase tracking-[0.06em] md:left-16"
               >
                 Join Altira Now
                 <ArrowRight className="h-5 w-5" />
-              </Link>
+              </NavigationCta>
             </div>
 
             <div
               className="relative hidden min-h-[34rem] items-center justify-center overflow-hidden bg-[#3FE9EC] p-8 lg:flex"
               style={gridPatternStyle}
             >
-              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_58%_42%,rgba(255,255,255,0.18),transparent_24%),linear-gradient(90deg,rgba(5,6,6,0.03),transparent_38%,rgba(5,6,6,0.04))]" />
               <div className="relative h-[61vh] max-h-[32.3rem] w-[48%] min-w-[15.3rem] overflow-hidden rounded-[1rem] border-[5px] border-[#050606]/8 bg-[#050606] shadow-[0_26px_80px_rgba(0,0,0,0.36)]">
                 <div
                   className="absolute left-0 top-0 h-full w-full transition-transform duration-700 ease-in-out"

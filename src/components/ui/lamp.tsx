@@ -45,7 +45,7 @@ export function LampBeam({
       )}
     >
       <div
-        className="pointer-events-none absolute inset-x-0 top-[20px] flex h-[18rem] scale-y-125 items-center justify-center isolate z-0"
+        className="pointer-events-none absolute inset-x-0 top-[20px] flex h-[18rem] scale-y-125 items-center justify-center isolate z-0 [-webkit-mask-image:linear-gradient(to_bottom,#000_0%,#000_45%,transparent_100%)] [mask-image:linear-gradient(to_bottom,#000_0%,#000_45%,transparent_100%)]"
         aria-hidden="true"
       >
         <motion.div
@@ -59,8 +59,8 @@ export function LampBeam({
           }}
           className="absolute inset-auto right-1/2 h-56 w-[50rem] origin-right overflow-visible will-change-transform [mask-image:linear-gradient(to_right,transparent_0%,black_26%,black_100%)]"
         >
-          <div className="absolute bottom-0 left-0 z-20 h-40 w-full bg-[#1E2021] [mask-image:linear-gradient(to_top,white,transparent)]" />
-          <div className="absolute bottom-0 left-0 z-20 h-full w-40 bg-[#1E2021] [mask-image:linear-gradient(to_right,white,transparent)]" />
+          <div className="absolute bottom-0 left-0 z-20 h-40 w-full bg-transparent [mask-image:linear-gradient(to_top,white,transparent)]" />
+          <div className="absolute bottom-0 left-0 z-20 h-full w-40 bg-transparent [mask-image:linear-gradient(to_right,white,transparent)]" />
         </motion.div>
         <motion.div
           initial={{ opacity: 0.5, scaleX: 0.5 }}
@@ -73,10 +73,10 @@ export function LampBeam({
           }}
           className="absolute inset-auto left-1/2 h-56 w-[50rem] origin-left will-change-transform [mask-image:linear-gradient(to_left,transparent_0%,black_26%,black_100%)]"
         >
-          <div className="absolute bottom-0 right-0 z-20 h-full w-40 bg-[#1E2021] [mask-image:linear-gradient(to_left,white,transparent)]" />
-          <div className="absolute bottom-0 right-0 z-20 h-40 w-full bg-[#1E2021] [mask-image:linear-gradient(to_top,white,transparent)]" />
+          <div className="absolute bottom-0 right-0 z-20 h-full w-40 bg-transparent [mask-image:linear-gradient(to_left,white,transparent)]" />
+          <div className="absolute bottom-0 right-0 z-20 h-40 w-full bg-transparent [mask-image:linear-gradient(to_top,white,transparent)]" />
         </motion.div>
-        <div className="absolute top-1/2 h-48 w-full translate-y-12 scale-x-150 bg-[#1E2021] blur-2xl" />
+        <div className="absolute top-1/2 h-48 w-full translate-y-12 scale-x-150 bg-transparent blur-2xl" />
         <div className="absolute top-1/2 z-50 h-48 w-full bg-transparent opacity-10 backdrop-blur-md" />
         <div className="absolute inset-auto z-50 h-36 w-[62rem] -translate-y-1/2 rounded-full bg-cyan-500 opacity-50 blur-3xl" />
         <motion.div
@@ -91,9 +91,9 @@ export function LampBeam({
           whileInView={{ scaleX: 1 }}
           viewport={{ once: false, amount: 0.15 }}
           transition={lampRevealTransition}
-          className="absolute inset-auto z-50 h-0.5 w-[50rem] -translate-y-[7rem] bg-cyan-400 will-change-transform"
+          className="absolute inset-auto z-50 h-0.5 w-[50rem] -translate-y-[8rem] bg-cyan-400 will-change-transform"
         />
-        <div className="absolute inset-auto z-40 h-44 w-full -translate-y-[12.5rem] bg-[#1E2021]" />
+        <div className="absolute inset-auto z-40 h-44 w-full -translate-y-[12.5rem] bg-transparent" />
       </div>
       {children ? (
         <motion.div

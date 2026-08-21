@@ -256,6 +256,74 @@ button {
   padding-block: var(--section-space);
 }
 
+.homev2-light-backgrounds,
+.homev2-light-backgrounds main > section,
+.homev2-light-backgrounds main > section > div:first-child,
+.homev2-light-backgrounds footer {
+  background-color: #F7F8FA !important;
+}
+
+.homev2-light-backgrounds {
+  background-color: #F7F8FA !important;
+}
+
+.homev2-light-backgrounds footer > div:first-child {
+  background-color: #E4E5EA !important;
+}
+
+.homev2-light-backgrounds footer * {
+  color: #2E2E38 !important;
+}
+
+.homev2-light-backgrounds footer .google-play-button,
+.homev2-light-backgrounds footer .google-play-button * {
+  color: #F7F8FA !important;
+}
+
+.homev2-light-backgrounds main > section:not(.homev2-hero) *,
+.homev2-light-backgrounds main > section:not(.homev2-hero) {
+  color: #2E2E38 !important;
+  font-family: var(--font-poppins), sans-serif !important;
+}
+
+.homev2-light-backgrounds main > section:not(.homev2-hero) h1 {
+  font-weight: 700 !important;
+}
+
+.homev2-light-backgrounds main > section:not(.homev2-hero) :is(h2, h3, h4) {
+  font-weight: 600 !important;
+}
+
+.homev2-light-backgrounds main > section:not(.homev2-hero) :is(p, a, button, li, span) {
+  font-weight: 400 !important;
+}
+
+.homev2-light-backgrounds main > section:not(.homev2-hero):not(#offices):not(#integrations):not(#app-experience),
+.homev2-light-backgrounds main > section:not(.homev2-hero):not(#offices):not(#integrations):not(#app-experience) > div:first-child {
+  background-color: #E4E5EA !important;
+}
+
+.homev2-light-backgrounds main > :is(#offices, #integrations, #app-experience),
+.homev2-light-backgrounds main > :is(#offices, #integrations, #app-experience) > div:first-child {
+  background-color: #F7F8FA !important;
+}
+
+.homev2-light-backgrounds main > #app-experience,
+.homev2-light-backgrounds main > #app-experience > div:first-child {
+  background: #F7F8FA !important;
+}
+
+.homev2-light-backgrounds #app-experience,
+.homev2-light-backgrounds #app-experience > div {
+  background-color: #F7F8FA !important;
+}
+
+.homev2-light-backgrounds .navigation-cta,
+.homev2-light-backgrounds .navigation-cta * {
+  color: #F7F8FA !important;
+}
+
+
 .homev2-orbit-entrance {
   opacity: 0;
   clip-path: inset(0 100% 0 0);

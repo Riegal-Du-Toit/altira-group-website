@@ -1,11 +1,9 @@
-import Link from "next/link";
-
-import { Button } from "@/components/ui/button";
+import { NavigationCta } from "@/components/homev2-header";
 import IntegrationsPrompt from "@/components/ui/integrations-5";
 
 export default function IntegrationsSection() {
   return (
-    <section id="integrations" className="section-spacing flex min-h-screen w-full items-center bg-[#090909] px-6 text-white sm:px-8 lg:px-14">
+    <section id="integrations" className="section-spacing flex min-h-screen w-full items-center !bg-[#F7F8FA] px-6 text-white sm:px-8 lg:px-14">
       <div className="mx-auto grid w-full max-w-[1380px] items-center gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,0.95fr)] lg:gap-12 xl:gap-14">
         <div className="integrations-prompt-theme dark min-w-0 lg:translate-x-8">
           <IntegrationsPrompt />
@@ -21,16 +19,12 @@ export default function IntegrationsSection() {
             operations, automation and customer experience.
           </p>
 
-          <Button
-            variant="outline"
-            size="sm"
-            className="mt-11 h-14 border-white/14 bg-[#2f333b] px-10 text-lg text-white hover:bg-[#3a4048] hover:text-white"
-            asChild
+          <NavigationCta
+            href="https://cdn.21st.dev/meschacirung/integrations-5/default/bundle.1783659514828.html?theme=light#"
+            className="mt-11"
           >
-            <Link href="https://cdn.21st.dev/meschacirung/integrations-5/default/bundle.1783659514828.html?theme=light#">
-              Explore our partners
-            </Link>
-          </Button>
+            Explore our partners
+          </NavigationCta>
         </div>
       </div>
     </section>
