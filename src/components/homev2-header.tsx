@@ -9,11 +9,11 @@ export function TalkButton() {
   return (
     <a
       href="/contact"
-      className={`relative inline-flex items-stretch overflow-hidden rounded-[12px] border-0 bg-[linear-gradient(180deg,rgb(56,56,56)_0%,rgb(36,36,36)_66%,rgb(41,41,41)_100%)] p-[1px] text-[16px] font-bold text-[#F7F8FA] transition-all duration-300 ease-out hover:shadow-[0_0_12px_rgba(255,255,255,0.08)] active:scale-[0.97] active:brightness-110 ${openSansThin.className}`}
+      className={`relative inline-flex items-stretch overflow-hidden rounded-[12px] border-[1.5px] border-[#F7F8FA] bg-[#37D8C6] p-0 text-[16px] font-bold text-[#F7F8FA] shadow-[0_8px_18px_rgba(17,22,61,0.18)] transition-all duration-300 ease-out hover:bg-[#2fc7b7] active:scale-[0.97] ${openSansThin.className}`}
     >
-      <span className="relative flex items-center gap-1.5 rounded-[10px] bg-[radial-gradient(at_95%_89%,rgb(15,15,15)_0px,transparent_50%),radial-gradient(at_0%_100%,rgb(17,17,17)_0px,transparent_50%),radial-gradient(at_0%_0%,rgb(29,29,29)_0px,transparent_50%)] px-[1.05em] py-[0.64em] pr-[0.95em] text-[0.8rem] font-light text-inherit shadow-[0_0_20px_#4b4b4b] transition-colors duration-300 hover:bg-[rgb(26,25,25)] sm:text-[0.88rem]">
+      <span className="relative flex items-center gap-1.5 rounded-[10px] bg-white/10 px-[1.05em] py-[0.64em] pr-[0.95em] text-[0.8rem] font-light text-inherit transition-colors duration-300 sm:text-[0.88rem]">
         <span>Talk to Us</span>
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 53 58" height="58" width="53" className="h-3.5 w-3.5">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 53 58" height="58" width="53" className="h-3.5 w-3.5 text-[#F7F8FA]">
           <path
             stroke="currentColor"
             strokeWidth="6"
@@ -67,6 +67,7 @@ export function HomeV2Header() {
   const [isHidden, setIsHidden] = useState(false);
   const [hasBackdrop, setHasBackdrop] = useState(false);
   const [isOnDarkerSection, setIsOnDarkerSection] = useState(false);
+  const [activeNavLabel, setActiveNavLabel] = useState("Home");
   const previousScrollY = useRef(0);
 
   useEffect(() => {
@@ -90,6 +91,7 @@ export function HomeV2Header() {
   useEffect(() => {
     let frameId = 0;
     let previousSectionColor = false;
+    let previousActiveNavLabel = "Home";
 
     const updateSectionColor = () => {
       const isInSectionTwoToFour = ["why", "products", "method"].some((id) => {
@@ -107,6 +109,24 @@ export function HomeV2Header() {
       if (useLightHeader !== previousSectionColor) {
         previousSectionColor = useLightHeader;
         setIsOnDarkerSection(useLightHeader);
+      }
+
+      const activeSection = [
+        ["home", "Home"],
+        ["why", "What We Do"],
+        ["products", "Orbit Platform"],
+        ["method", "Why Altira"],
+        ["offices", "Offices"],
+      ].find(([id]) => {
+        const section = document.getElementById(id);
+        if (!section) return false;
+        const bounds = section.getBoundingClientRect();
+        return bounds.top <= 100 && bounds.bottom > 100;
+      })?.[1] ?? "Home";
+
+      if (activeSection !== previousActiveNavLabel) {
+        previousActiveNavLabel = activeSection;
+        setActiveNavLabel(activeSection);
       }
       frameId = window.requestAnimationFrame(updateSectionColor);
     };
@@ -132,7 +152,7 @@ export function HomeV2Header() {
         <div className="flex items-center gap-4">
           <nav aria-label="Primary navigation" className="hidden items-center gap-5 xl:flex">
             {navLinks.map((link) => (
-              <Link key={link.label} href={link.href} className="text-[13px] font-light text-[#2E2E38] transition hover:text-[#2E2E38]">
+              <Link key={link.label} href={link.href} className={`relative pb-1 text-[13px] font-light text-[#2E2E38] transition hover:text-[#2E2E38] ${activeNavLabel === link.label ? "after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-[#37D8C6]" : ""}`}>
                 {link.label}
               </Link>
             ))}

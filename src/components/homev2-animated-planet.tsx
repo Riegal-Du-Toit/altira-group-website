@@ -16,7 +16,7 @@ export function HomeV2AnimatedPlanet({ animateOnEntry = true }: { animateOnEntry
   const handleReady = useCallback(() => markModelReady(), [markModelReady]);
 
   return (
-    <div className={`${animateOnEntry ? "homev2-planet-entrance" : ""} size-full`}>
+    <div className={`${animateOnEntry ? "homev2-planet-entrance" : ""} relative size-full`}>
       <OrbitEarth
         size={90}
         delayMs={0}

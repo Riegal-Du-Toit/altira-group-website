@@ -21,6 +21,10 @@ const socials = [
 export function HomeV2Footer() {
   const [isBookingOpen, setIsBookingOpen] = useState(false);
 
+  const copyEmail = async () => {
+    await navigator.clipboard?.writeText("info@altiragroup.co.za");
+  };
+
   return (
     <footer className="bg-[#F7F8FA] px-0 pt-0 text-[#2E2E38]">
       <div className="rounded-t-[2rem] bg-[#E4E5EA] px-7 pb-[7px] pt-4 sm:px-12 lg:px-[11%] lg:pt-6">
@@ -43,7 +47,7 @@ export function HomeV2Footer() {
               ))}
 
               <div className="col-span-full mt-1 border-t border-white/8 pt-7">
-                <div>
+                <div className="flex flex-wrap items-center gap-5">
                   <a href="/contact" aria-label="Get it on Google Play" className="google-play-button inline-flex h-12 items-center gap-2 rounded-xl !bg-[#2E2E38] px-3 text-[#F7F8FA] transition hover:!bg-[#25252d]">
                     <svg viewBox="30 336.7 120.9 129.2" className="w-5" aria-hidden="true">
                       <path d="M119.2 421.2c15.3-8.4 27-14.8 28-15.3 3.2-1.7 6.5-6.2 0-9.7-2.1-1.1-13.4-7.3-28-15.3l-20.1 20.2 20.1 20.1Z" fill="#FFD400" />
@@ -53,6 +57,22 @@ export function HomeV2Footer() {
                     </svg>
                     <span className="leading-none"><span className="block text-[0.48rem]">GET IT ON</span><span className="mt-0.5 block text-sm font-semibold">Google Play</span></span>
                   </a>
+                  <div className="btn-wrapper">
+                    <button type="button" className="btn" onClick={copyEmail} aria-label="Copy info@altiragroup.co.za">
+                      <span className="frame" aria-hidden="true">
+                        <i className="point top left" />
+                        <i className="point top right" />
+                        <i className="point bottom left" />
+                        <i className="point bottom right" />
+                      </span>
+                      <span className="txt-box">
+                        <span className="txt">Email Us</span>
+                        <span className="txt">info@altiragroup.co.za</span>
+                      </span>
+                    </button>
+                    <span className="txt-secondary" id="hint1">Hover to reveal address</span>
+                    <span className="txt-secondary" id="hint2">Click to copy</span>
+                  </div>
                 </div>
                 <div className="mt-5 flex gap-4 text-white/66">
                   {socials.map(({ label, icon: Icon }) => <a key={label} href="/contact" aria-label={label} className="transition hover:text-white"><Icon className="size-4" /></a>)}
