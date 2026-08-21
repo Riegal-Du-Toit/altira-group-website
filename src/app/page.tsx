@@ -78,6 +78,8 @@ export function LandingPage({
   heroBottomLeftClassName = "",
   methodologyContent,
   heroReplacement,
+  pageClassName = "",
+  mainClassName = "",
 }: {
   header?: ReactNode;
   footer?: ReactNode;
@@ -101,12 +103,14 @@ export function LandingPage({
   heroBottomLeftClassName?: string;
   methodologyContent?: ReactNode;
   heroReplacement?: ReactNode;
+  pageClassName?: string;
+  mainClassName?: string;
 }) {
   return (
-    <div className="min-h-screen bg-[#1E2021] text-[var(--ink)]">
+    <div className={`min-h-screen bg-[#1E2021] text-[var(--ink)] ${pageClassName}`}>
       {header}
 
-      <main>
+      <main className={mainClassName}>
           {heroReplacement ?? <section id="home" className={`relative z-10 h-[100svh] overflow-hidden bg-black ${heroClassName}`}>
           {heroBackground ? (
             <div
@@ -287,7 +291,7 @@ export function LandingPage({
 
         <section
           id="offices"
-          className="section-spacing flex min-h-screen w-full items-center bg-[#090909] px-4 text-white sm:px-6 lg:px-8"
+          className="section-spacing flex min-h-screen w-full items-center !bg-[#F7F8FA] px-4 text-white sm:px-6 lg:px-8"
         >
           <div className="mx-auto w-full max-w-[1720px]">
             <div className="grid items-center gap-10 lg:grid-cols-[minmax(360px,0.58fr)_minmax(0,1fr)] lg:gap-6 xl:grid-cols-[minmax(520px,0.74fr)_minmax(0,1fr)] xl:gap-8">

@@ -2,6 +2,7 @@
 
 import { ArrowRight } from "lucide-react";
 import { LampBeam } from "@/components/ui/lamp";
+import { NavigationCta } from "@/components/homev2-header";
 
 export default function AboutSection3() {
   return (
@@ -46,12 +47,12 @@ export default function AboutSection3() {
                 </p>
               </div>
 
-              <a
+              <NavigationCta
                 href="#app-experience"
-                className="ml-auto flex w-fit cursor-pointer gap-2 rounded-[12px] border border-white/12 bg-gradient-to-b from-[#3d4c63] to-[#344154] px-5 py-3 font-semibold text-white shadow-[0_12px_30px_rgba(0,0,0,0.28)] transition-all duration-300 ease-in-out hover:gap-4 hover:from-[#465875] hover:to-[#3b4b62]"
+                className="ml-auto"
               >
                 JOIN THE EXPERIENCE <ArrowRight />
-              </a>
+              </NavigationCta>
             </div>
           </div>
         </div>

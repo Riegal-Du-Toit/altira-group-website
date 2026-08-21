@@ -53,8 +53,6 @@ export default function ProductDepthScroll() {
   return (
     <section ref={sectionRef} id="products" className="relative h-[420vh] bg-[#1e2021]">
       <div className="sticky top-0 h-screen overflow-hidden bg-[radial-gradient(circle_at_50%_52%,rgba(63,233,236,0.045),transparent_38%)]">
-        <div className="pointer-events-none absolute inset-x-0 top-0 z-40 h-44 bg-linear-to-b from-[#1e2021] via-[#1e2021]/94 to-transparent" />
-
         <div className="absolute inset-x-0 top-[9vh] z-50 mx-auto w-[min(90vw,76rem)] text-center text-white">
           <h2 className="bright-section-heading text-2xl font-extrabold tracking-[-0.04em] sm:text-3xl lg:text-[2.85rem]">
             Three needs that define <span className="heading-accent">household resilience.</span>

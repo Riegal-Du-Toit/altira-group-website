@@ -23,6 +23,11 @@ interface OrbitEarthProps {
   networkConnections?: boolean;
   networkStartDelayMs?: number;
   baseOpacity?: number;
+  colors?: {
+    fill?: string;
+    line?: string;
+    dot?: string;
+  };
   markers?: Array<{
     location: [number, number];
     color?: string;
@@ -51,6 +56,7 @@ export function OrbitEarth({
   networkConnections,
   networkStartDelayMs,
   baseOpacity,
+  colors,
   markers,
 }: OrbitEarthProps) {
   return (
@@ -75,6 +81,7 @@ export function OrbitEarth({
           networkConnections={networkConnections}
           networkStartDelayMs={networkStartDelayMs}
           baseOpacity={baseOpacity}
+          colors={colors}
           markers={markers}
           className={cn("size-full", earthClassName)}
         />
