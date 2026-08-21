@@ -1,6 +1,9 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import { FacebookIcon, InstagramIcon, LinkedinIcon, X } from "lucide-react";
+import { useState } from "react";
 
 const columns = [
   { title: "Explore", links: [["Home", "/homev2"], ["What We Do", "/what-we-do"], ["Orbit Platform", "/orbit"], ["Why Altira", "/why-altira"]] },
@@ -16,6 +19,8 @@ const socials = [
 ];
 
 export function HomeV2Footer() {
+  const [isBookingOpen, setIsBookingOpen] = useState(false);
+
   return (
     <footer className="bg-[#F7F8FA] px-0 pt-0 text-[#2E2E38]">
       <div className="rounded-t-[2rem] bg-[#E4E5EA] px-7 pb-[7px] pt-4 sm:px-12 lg:px-[11%] lg:pt-6">
@@ -58,13 +63,30 @@ export function HomeV2Footer() {
               </div>
             </div>
 
-            <div className="h-[30rem] overflow-hidden rounded-[1.4rem] border border-white/10 bg-white shadow-[0_20px_54px_rgba(0,0,0,0.16)] lg:-mt-24">
-              <iframe
-                src="https://outlook.office.com/book/G855be4c9beb647649a95f2642eabb914@altiragroup.co.za/?ismsaljsauthenabled"
-                title="Schedule online"
-                scrolling="yes"
-                className="size-full border-0"
-              />
+            <div className="aspect-[1184/1536] w-full max-w-[25rem] overflow-hidden rounded-[1.4rem] lg:ml-auto lg:-mt-[9rem]">
+              {isBookingOpen ? (
+                <iframe
+                  src="https://outlook.office.com/book/G855be4c9beb647649a95f2642eabb914@altiragroup.co.za/?ismsaljsauthenabled"
+                  title="Schedule online"
+                  scrolling="yes"
+                  className="size-full border-0"
+                />
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setIsBookingOpen(true)}
+                  aria-label="Click here to book a 30 minute meeting"
+                  className="size-full cursor-pointer"
+                >
+                  <Image
+                    src="/meeting scheduling.png"
+                    alt="Click here to book a 30 minute meeting"
+                    width={1184}
+                    height={1536}
+                    className="size-full object-contain"
+                  />
+                </button>
+              )}
             </div>
           </div>
 

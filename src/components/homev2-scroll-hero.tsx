@@ -27,9 +27,9 @@ export function HomeV2ScrollHero() {
   const headingX = "0%";
   const headingY = "-50%";
 
-  const customerTop = useTransform(smoothScrollYProgress, [0.52, 0.75], ["115%", "50%"]);
+  const customerTop = useTransform(smoothScrollYProgress, [0.52, 0.75], ["115%", "45%"]);
 
-  const descriptionTop = useTransform(smoothScrollYProgress, [0.55, 0.94], ["115%", "61%"]);
+  const descriptionTop = useTransform(smoothScrollYProgress, [0.55, 0.94], ["115%", "58%"]);
   const ctaOpacity = useTransform(smoothScrollYProgress, [0.82, 0.94], [0, 1]);
   const ctaY = useTransform(smoothScrollYProgress, [0.82, 0.94], [16, 0]);
 
@@ -62,7 +62,7 @@ export function HomeV2ScrollHero() {
           </div>
         </div>
 
-        <div className="pointer-events-none absolute z-[8] -translate-y-1/2" style={{ left: headingLeft, top: "39%" }}>
+        <div className="pointer-events-none absolute z-[8] -translate-y-1/2" style={{ left: headingLeft, top: "38%" }}>
           <div className={`${poppins.className} homev2-copy-entrance flex items-baseline gap-3 whitespace-nowrap text-left text-[1.75rem] font-semibold uppercase leading-[2.25rem] tracking-[0.04em] text-[#2E2E38]`}>
             <span>The</span>
             <AnimatedText
@@ -95,16 +95,16 @@ export function HomeV2ScrollHero() {
         </motion.p>
 
         <motion.p
-          className={`${poppins.className} pointer-events-none absolute z-[8] w-[min(82vw,34rem)] -translate-y-1/2 text-left text-xs leading-5 text-[#2E2E38]/72`}
+          className={`${poppins.className} pointer-events-none absolute z-[8] w-[min(82vw,34rem)] -translate-y-1/2 text-left text-[14.5px] leading-[1.45] text-[#2E2E38]`}
           style={{ left: headingLeft, top: descriptionTop }}
         >
-          Altira Group <strong className="font-semibold text-[#2E2E38]/92">redesigns onboarding and sales processes</strong>{" "}
+          Altira Group <strong className="font-semibold text-[#2E2E38]">redesigns onboarding and sales processes</strong>{" "}
           and deploys
           <br />
           <span className="font-medium text-[#2E2E38] underline decoration-[#2E2E38]/80 decoration-1 underline-offset-4">plug-and-play distribution technology</span>{" "}
-          for <em className="font-medium text-[#2E2E38]/90">insurance and lending products</em> —
+          for <em className="font-medium text-[#2E2E38]">insurance and lending products</em> —
           <br />
-          so partners can <strong className="font-semibold text-[#2E2E38]/92">launch and scale faster</strong>, without building from scratch.
+          so partners can <strong className="font-semibold text-[#2E2E38]">launch and scale faster</strong>, without building from scratch.
         </motion.p>
 
         <motion.div

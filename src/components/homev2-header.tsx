@@ -132,7 +132,7 @@ export function HomeV2Header() {
         <div className="flex items-center gap-4">
           <nav aria-label="Primary navigation" className="hidden items-center gap-5 xl:flex">
             {navLinks.map((link) => (
-              <Link key={link.label} href={link.href} className="text-[0.72rem] font-light text-[#2E2E38]/72 transition hover:text-[#2E2E38]">
+              <Link key={link.label} href={link.href} className="text-[13px] font-light text-[#2E2E38] transition hover:text-[#2E2E38]">
                 {link.label}
               </Link>
             ))}
