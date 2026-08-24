@@ -45,7 +45,7 @@ export function LampBeam({
       )}
     >
       <div
-        className="pointer-events-none absolute inset-x-0 top-[20px] flex h-[18rem] scale-y-125 items-center justify-center isolate z-0 [-webkit-mask-image:linear-gradient(to_bottom,#000_0%,#000_45%,transparent_100%)] [mask-image:linear-gradient(to_bottom,#000_0%,#000_45%,transparent_100%)]"
+        className="pointer-events-none absolute inset-x-0 top-[10px] flex h-[18rem] scale-y-125 items-center justify-center isolate z-0 [-webkit-mask-image:linear-gradient(to_bottom,#000_0%,#000_45%,transparent_100%)] [mask-image:linear-gradient(to_bottom,#000_0%,#000_45%,transparent_100%)]"
         aria-hidden="true"
       >
         <motion.div

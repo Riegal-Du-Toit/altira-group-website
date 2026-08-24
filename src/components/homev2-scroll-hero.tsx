@@ -25,13 +25,13 @@ export function HomeV2ScrollHero() {
   const smoothScrollYProgress = useSpring(scrollYProgress, { stiffness: 90, damping: 24, mass: 0.45 });
 
   const headingLeft = "max(7.75rem, calc((100vw - 96rem) / 2 + 7.75rem))";
-  const headingTop = "calc(34% - 20px)";
+  const headingTop = "calc(34% - 52px)";
   const headingX = "0%";
   const headingY = "-50%";
 
-  const customerTop = useTransform(smoothScrollYProgress, [0.52, 0.75], ["115%", "45%"]);
+  const customerTop = useTransform(smoothScrollYProgress, [0.52, 0.75], ["115%", "calc(58% - 22px)"]);
 
-  const descriptionTop = useTransform(smoothScrollYProgress, [0.55, 0.94], ["115%", "58%"]);
+  const descriptionTop = useTransform(smoothScrollYProgress, [0.55, 0.94], ["115%", "calc(74% - 50px)"]);
   const ctaOpacity = useTransform(smoothScrollYProgress, [0.82, 0.94], [0, 1]);
   const ctaY = useTransform(smoothScrollYProgress, [0.82, 0.94], [16, 0]);
 
@@ -40,7 +40,7 @@ export function HomeV2ScrollHero() {
       <div className="sticky top-0 h-[100svh] overflow-hidden rounded-b-[2rem] bg-[#F7F8FA]">
         <div
           aria-hidden="true"
-          className={`homev2-orbit-entrance pointer-events-none absolute inset-x-0 bottom-[1px] z-[1] select-none overflow-hidden bg-[#2E2E38] bg-clip-text text-center text-[clamp(13rem,38vw,48rem)] leading-none tracking-[0.02em] text-transparent origin-center scale-y-[0.942] ${anton.className}`}
+          className={`homev2-orbit-entrance pointer-events-none absolute inset-x-[-12%] bottom-[1px] z-[1] select-none overflow-hidden bg-gradient-to-b from-[#2E2E38] via-[#565662] to-[#B7B8C0] bg-clip-text text-center text-[clamp(13rem,38vw,48rem)] leading-none tracking-[0.02em] text-transparent origin-center scale-x-[1.16] scale-y-[1.7] ${anton.className}`}
         >
           ORBIT
         </div>
@@ -57,12 +57,12 @@ export function HomeV2ScrollHero() {
         </motion.div>
 
         <div
-          className="pointer-events-none absolute left-[80%] top-[calc(62%_+_20px)] z-[3] aspect-square w-[min(55vw,44rem)] -translate-x-1/2 -translate-y-1/2"
+          className="pointer-events-none absolute left-[calc(80%_+_40px)] top-[calc(62%_+_20px)] z-[3] aspect-square w-[min(55vw,44rem)] -translate-x-1/2 -translate-y-1/2"
         >
-          <div className="homev2-planet-entrance size-full scale-[0.66]">
+          <div className="homev2-planet-entrance size-full scale-[0.73]">
             <HomeV2AnimatedPlanet animateOnEntry={false} />
           </div>
-          <span aria-hidden="true" className="absolute left-[calc(43%_-_5px)] top-[58%] z-20 flex -translate-x-1/2 items-center whitespace-nowrap text-[14px] font-light text-[#2E2E38]">
+          <span aria-hidden="true" className="absolute left-[calc(43%_-_5px)] top-[calc(58%_+_25px)] z-20 flex -translate-x-1/2 items-center whitespace-nowrap text-[14px] font-light text-[#2E2E38]">
             <span className="text-[16px] font-bold text-black">ADD INFO HERE&nbsp;</span>
             <TextRotate
               texts={["DEMO*", "TEXT*", "HERE*"]}
@@ -78,41 +78,45 @@ export function HomeV2ScrollHero() {
           </span>
         </div>
 
-        <div className="pointer-events-none absolute z-[8] -translate-y-1/2" style={{ left: headingLeft, top: "38%" }}>
-          <div className={`${poppins.className} homev2-copy-entrance flex items-baseline gap-3 whitespace-nowrap text-left text-[1.75rem] font-semibold uppercase leading-[2.25rem] tracking-[0.04em] text-[#2E2E38]`}>
-            <span>The</span>
-            <AnimatedText
-              text="Technology"
-              className="items-start gap-0"
-              textClassName={`${poppins.className} whitespace-nowrap !text-left !text-[1.75rem] !font-semibold uppercase leading-[2.25rem] tracking-[0.04em] text-[#2E2E38]`}
-              underlineClassName="hidden"
-              underlineWidth="100%"
-              underlineOffset="0"
-              underlinePath="M 0,10 L 300,10"
-              underlineHoverPath="M 0,10 L 300,10"
-            />
-            <span>and</span>
-            <AnimatedText
-              text="Journey"
-              className="items-start gap-0"
-              textClassName={`${poppins.className} whitespace-nowrap !text-left !text-[1.75rem] !font-semibold uppercase leading-[2.25rem] tracking-[0.04em] text-[#2E2E38]`}
-              underlineClassName="hidden"
-              underlineWidth="100%"
-              underlineOffset="0"
-            />
+        <div className="pointer-events-none absolute z-[8] -translate-y-1/2" style={{ left: headingLeft, top: "calc(38% + 72px)" }}>
+          <div className={`${poppins.className} homev2-copy-entrance flex flex-col items-start gap-0 whitespace-nowrap text-left text-[76px] font-extrabold uppercase leading-[4.9rem] tracking-[-0.02em] text-[#2E2E38]`}>
+            <div className="flex items-baseline gap-3">
+              <span>The</span>
+              <AnimatedText
+                text="Technology"
+                className="items-start gap-0"
+                textClassName={`${poppins.className} whitespace-nowrap !text-left !text-[76px] !font-extrabold uppercase leading-[4.9rem] tracking-[-0.02em] text-[#2E2E38]`}
+                underlineClassName="hidden"
+                underlineWidth="100%"
+                underlineOffset="0"
+                underlinePath="M 0,10 L 300,10"
+                underlineHoverPath="M 0,10 L 300,10"
+              />
+            </div>
+            <div className="flex items-baseline gap-3">
+              <span>and</span>
+              <AnimatedText
+                text="Journey"
+                className="items-start gap-0"
+                textClassName={`${poppins.className} whitespace-nowrap !text-left !text-[76px] !font-extrabold uppercase leading-[4.9rem] tracking-[-0.02em] text-[#2E2E38]`}
+                underlineClassName="hidden"
+                underlineWidth="100%"
+                underlineOffset="0"
+              />
+            </div>
           </div>
         </div>
 
         <motion.p
-          className={`${poppins.className} pointer-events-none absolute z-[8] -translate-y-1/2 text-left text-[1.75rem] font-semibold uppercase leading-[2.25rem] tracking-[0.04em] text-[#2E2E38]`}
-          style={{ left: headingLeft, top: customerTop }}
+          className={`${poppins.className} pointer-events-none absolute z-[8] -translate-y-1/2 text-left text-[43px] font-extrabold uppercase leading-[3.1rem] tracking-[-0.02em] text-[#2E2E38]`}
+          style={{ left: headingLeft, top: customerTop, marginTop: "70px" }}
         >
           Your customers actually use.
         </motion.p>
 
         <motion.p
-          className={`${poppins.className} pointer-events-none absolute z-[8] w-[min(82vw,40rem)] -translate-y-1/2 text-left text-[14.5px] leading-[1.45] text-[#2E2E38]`}
-          style={{ left: headingLeft, top: descriptionTop }}
+          className={`${poppins.className} pointer-events-none absolute z-[8] w-[min(82vw,44rem)] -translate-y-1/2 text-left text-[15.5px] leading-[1.45] text-[#2E2E38]`}
+          style={{ left: headingLeft, top: descriptionTop, marginTop: "70px" }}
         >
           Altira Group <strong className="font-semibold text-[#2E2E38]">redesigns onboarding and sales processes</strong>{" "}
           and deploys
@@ -124,7 +128,7 @@ export function HomeV2ScrollHero() {
         </motion.p>
 
         <motion.div
-          className="absolute top-[calc(75%_-_20px)] z-[8] flex gap-3"
+          className="absolute top-[calc(93%_-_35px)] z-[8] flex gap-3"
           style={{ left: headingLeft, opacity: ctaOpacity, y: ctaY }}
         >
           <Link

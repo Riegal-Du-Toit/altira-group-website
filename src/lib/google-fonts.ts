@@ -6,7 +6,7 @@ export const openSansThin = Open_Sans({
 });
 
 export const poppins = Poppins({
-  weight: ["400", "600", "700"],
+  weight: ["400", "600", "700", "800"],
   subsets: ["latin"],
   variable: "--font-poppins",
 });
