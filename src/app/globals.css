@@ -257,8 +257,8 @@ button {
 }
 
 .homev2-light-backgrounds,
-.homev2-light-backgrounds main > section,
-.homev2-light-backgrounds main > section > div:first-child,
+.homev2-light-backgrounds main > section:not(#why),
+.homev2-light-backgrounds main > section:not(#why) > div:first-child,
 .homev2-light-backgrounds footer {
   background-color: #F7F8FA !important;
 }
@@ -429,26 +429,26 @@ button {
 .btn:focus::before { animation: appear calc(var(--anim-speed, 1s) * 1.5) cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
 @keyframes appear { 70% { opacity: 0.75; filter: blur(0); } 100% { transform: translateY(-24px); } }
 
-.homev2-light-backgrounds main > section:not(.homev2-hero) *,
-.homev2-light-backgrounds main > section:not(.homev2-hero) {
+.homev2-light-backgrounds main > section:not(.homev2-hero):not(#why) *,
+.homev2-light-backgrounds main > section:not(.homev2-hero):not(#why) {
   color: #2E2E38 !important;
   font-family: var(--font-poppins), sans-serif !important;
 }
 
-.homev2-light-backgrounds main > section:not(.homev2-hero) h1 {
+.homev2-light-backgrounds main > section:not(.homev2-hero):not(#why) h1 {
   font-weight: 700 !important;
 }
 
-.homev2-light-backgrounds main > section:not(.homev2-hero) :is(h2, h3, h4) {
+.homev2-light-backgrounds main > section:not(.homev2-hero):not(#why) :is(h2, h3, h4) {
   font-weight: 600 !important;
 }
 
-.homev2-light-backgrounds main > section:not(.homev2-hero) :is(p, a, button, li, span) {
+.homev2-light-backgrounds main > section:not(.homev2-hero):not(#why) :is(p, a, button, li, span) {
   font-weight: 400 !important;
 }
 
-.homev2-light-backgrounds main > section:not(.homev2-hero):not(#offices):not(#integrations):not(#app-experience),
-.homev2-light-backgrounds main > section:not(.homev2-hero):not(#offices):not(#integrations):not(#app-experience) > div:first-child {
+.homev2-light-backgrounds main > section:not(.homev2-hero):not(#why):not(#offices):not(#integrations):not(#app-experience),
+.homev2-light-backgrounds main > section:not(.homev2-hero):not(#why):not(#offices):not(#integrations):not(#app-experience) > div:first-child {
   background-color: #E4E5EA !important;
 }
 
