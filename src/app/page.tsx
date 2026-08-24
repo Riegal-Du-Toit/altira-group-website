@@ -193,11 +193,11 @@ export function LandingPage({
           ) : null}
         </section>}
 
+        <ProductDepthScroll />
+
         <section id="why" className="relative z-0 w-full">
           <AboutSection3 />
         </section>
-
-        <ProductDepthScroll />
 
         {/* Previous product scroll layout retained temporarily for reference.
         <section id="products">
