@@ -12,7 +12,7 @@ export function TalkButton() {
       className={`relative inline-flex items-stretch overflow-hidden rounded-[12px] border-[1.5px] border-[#F7F8FA] bg-[#37D8C6] p-0 text-[16px] font-bold text-[#F7F8FA] shadow-[0_8px_18px_rgba(17,22,61,0.18)] transition-all duration-300 ease-out hover:bg-[#2fc7b7] active:scale-[0.97] ${openSansThin.className}`}
     >
       <span className="relative flex items-center gap-1.5 rounded-[10px] bg-white/10 px-[1.05em] py-[0.64em] pr-[0.95em] text-[0.8rem] font-light text-inherit transition-colors duration-300 sm:text-[0.88rem]">
-        <span>Talk to Us</span>
+        <span>TALK TO US</span>
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 53 58" height="58" width="53" className="h-3.5 w-3.5 text-[#F7F8FA]">
           <path
             stroke="currentColor"

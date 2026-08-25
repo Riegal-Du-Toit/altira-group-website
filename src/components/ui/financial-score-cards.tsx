@@ -14,6 +14,36 @@ type ScoreCard = {
   colors: [string, string];
 };
 
+function ScoreValue({ value }: { value: number }) {
+  const [displayValue, setDisplayValue] = useState(1);
+
+  useEffect(() => {
+    const startedAt = performance.now();
+    const duration = 450;
+    let frameId = 0;
+
+    const tick = (now: number) => {
+      const progress = Math.min((now - startedAt) / duration, 1);
+      const eased = 1 - (1 - progress) ** 3;
+      setDisplayValue(Math.max(1, Math.round(1 + (value - 1) * eased)));
+      if (progress < 1) frameId = requestAnimationFrame(tick);
+    };
+
+    frameId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frameId);
+  }, [value]);
+
+  return (
+    <motion.span
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+    >
+      {displayValue}%
+    </motion.span>
+  );
+}
+
 const cards: ScoreCard[] = [
   {
     title: "Speed",
@@ -46,10 +76,11 @@ function ScoreArc({ progress, colors, active }: { progress: number; colors: [str
   const [complete, setComplete] = useState(false);
   const circumference = Math.PI * 90;
   const percentage = Math.round(progress * 100);
-  const scoreText = `${percentage}%`;
 
   useEffect(() => {
-    if (!active) setComplete(false);
+    if (!active) return;
+    const timer = window.setTimeout(() => setComplete(true), 2900);
+    return () => window.clearTimeout(timer);
   }, [active]);
 
   return (
@@ -71,25 +102,11 @@ function ScoreArc({ progress, colors, active }: { progress: number; colors: [str
           strokeDasharray={circumference}
           initial={{ strokeDashoffset: circumference }}
           animate={{ strokeDashoffset: active ? circumference * (1 - progress) : circumference }}
-          transition={{ duration: 1.4, ease: [0.65, 0, 0.35, 1], delay: 0.25 }}
-          onAnimationComplete={() => active && setComplete(true)}
+          transition={{ duration: 2.25, ease: [0.42, 0, 0.58, 1], delay: 0.15 }}
         />
       </svg>
       {complete ? (
         <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-          {Array.from({ length: 14 }, (_, index) => {
-            const angle = (Math.PI * 2 * index) / 14;
-            return (
-              <motion.span
-                key={index}
-                initial={{ x: 0, y: 0, scale: 0, opacity: 1 }}
-                animate={{ x: Math.cos(angle) * 58, y: Math.sin(angle) * 58, scale: [0, 1.15, 0], opacity: [1, 1, 0] }}
-                transition={{ duration: 0.7, ease: "easeOut", delay: index * 0.012 }}
-                style={{ backgroundColor: colors[index % 2] }}
-                className="absolute left-1/2 top-1/2 size-1.5 rounded-full shadow-[0_0_8px_currentColor]"
-              />
-            );
-          })}
           <motion.span
             initial={{ scale: 0, opacity: 0, rotate: -35 }}
             animate={{ scale: 1, opacity: 1, rotate: 0 }}
@@ -104,24 +121,14 @@ function ScoreArc({ progress, colors, active }: { progress: number; colors: [str
         </div>
       ) : null}
       <div className="absolute inset-x-0 bottom-4 text-center">
-        <div className="text-4xl font-medium tracking-tight text-[#2E2E38]" aria-label={complete ? scoreText : undefined}>
-          {complete ? scoreText.split("").map((character, index) => (
-            <motion.span
-              key={`${character}-${index}`}
-              initial={{ opacity: 0, y: 5 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.2, delay: 0.32 + index * 0.13 }}
-              className="inline-block"
-            >
-              {character}
-            </motion.span>
-          )) : null}
+        <div className="text-4xl font-medium tracking-tight text-[#2E2E38]" aria-label={complete ? `${percentage}%` : undefined}>
+          {complete ? <ScoreValue value={percentage} /> : null}
         </div>
         {complete ? (
           <motion.div
             initial={{ opacity: 0, y: 7 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.35, delay: 0.76 }}
+            transition={{ duration: 0.2, delay: 0.02 }}
             className="mt-1 text-xs uppercase tracking-[.14em] text-[#2E2E38]/55"
           >
             Score
@@ -132,27 +139,9 @@ function ScoreArc({ progress, colors, active }: { progress: number; colors: [str
   );
 }
 
-function FinancialScoreCard({ card, index }: { card: ScoreCard; index: number }) {
-  const [active, setActive] = useState(false);
-  const [run, setRun] = useState(0);
-  const cardRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const element = cardRef.current;
-    if (!element) return;
-
-    const observer = new IntersectionObserver(([entry]) => {
-      setActive(entry.isIntersecting);
-      if (entry.isIntersecting) setRun((current) => current + 1);
-    }, { threshold: 0.3 });
-
-    observer.observe(element);
-    return () => observer.disconnect();
-  }, []);
-
+function FinancialScoreCard({ card, index, active, run }: { card: ScoreCard; index: number; active: boolean; run: number }) {
   return (
     <motion.article
-      ref={cardRef}
       initial={{ opacity: 0, y: 28 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: false, amount: 0.3 }}
@@ -165,7 +154,7 @@ function FinancialScoreCard({ card, index }: { card: ScoreCard; index: number })
         </span>
         <h3 className="text-xl font-medium text-[#2E2E38]">{card.title}</h3>
       </header>
-      <ScoreArc key={run} progress={card.progress} colors={card.colors} active={active} />
+      <ScoreArc key={`${run}-${active}`} progress={card.progress} colors={card.colors} active={active} />
       <p className="min-h-[4.5rem] text-center text-sm leading-6 text-black">{card.description}</p>
       <button
         type="button"
@@ -180,5 +169,30 @@ function FinancialScoreCard({ card, index }: { card: ScoreCard; index: number })
 }
 
 export function FinancialScoreCards() {
-  return <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">{cards.map((card, index) => <FinancialScoreCard key={card.title} card={card} index={index} />)}</div>;
+  const gridRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(-1);
+  const [run, setRun] = useState(0);
+
+  useEffect(() => {
+    const element = gridRef.current;
+    if (!element) return;
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) {
+        setActiveIndex(-1);
+        return;
+      }
+      setRun((current) => current + 1);
+      setActiveIndex(cards.length - 1);
+    }, { threshold: 0.3 });
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div ref={gridRef} className="grid grid-cols-1 gap-5 lg:grid-cols-3">
+      {cards.map((card, index) => <FinancialScoreCard key={card.title} card={card} index={index} active={index <= activeIndex} run={run} />)}
+    </div>
+  );
 }

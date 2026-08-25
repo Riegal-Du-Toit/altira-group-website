@@ -29,11 +29,16 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
 
   return (
     <div className="w-full bg-[#1e2021] font-sans text-white md:px-10" ref={containerRef}>
-      <div className="mx-auto max-w-7xl px-4 py-20 md:px-8 lg:px-10">
+      <div className="text-[#2E2E38] [&_h2]:!mt-3 [&_h2]:!mb-0 [&_h2]:!text-[1.25rem] [&_h2]:!font-black [&_h2]:!uppercase [&_h2]:!leading-[.98] [&_h2]:!tracking-[-.02em] [&_h2]:!text-[#2E2E38] md:[&_h2]:!text-[2.375rem]">
+        <div className="mx-auto grid max-w-7xl gap-8 px-4 py-14 md:grid-cols-[minmax(0,1.4fr)_minmax(18rem,0.75fr)] md:items-end md:px-8 lg:px-10">
+          <div>
+            <span className="text-xs uppercase tracking-[.35em] text-[#2E2E38]/60">How We Work</span>
         <h2 className="mb-4 max-w-4xl text-lg text-white md:text-4xl">Orbit — the engine behind our plug-and-play technology.</h2>
-        <p className="max-w-sm text-sm text-white/60 md:text-base">
+          </div>
+        <p className="max-w-sm text-sm leading-6 text-[#2E2E38]/72 md:text-base">
           A configurable foundation for faster onboarding, sales and member engagement.
         </p>
+        </div>
       </div>
 
       <div ref={ref} className="relative mx-auto max-w-7xl pb-20">

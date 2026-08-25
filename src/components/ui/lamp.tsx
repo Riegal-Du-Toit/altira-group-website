@@ -55,9 +55,9 @@ export function LampBeam({
           transition={lampRevealTransition}
           style={{
             backgroundImage:
-              "conic-gradient(from 70deg at center top, rgb(6 182 212), transparent, transparent)",
+              "conic-gradient(from 70deg at center top, rgb(55 216 198 / 0.74), transparent, transparent)",
           }}
-          className="absolute inset-auto right-1/2 h-56 w-[50rem] origin-right overflow-visible will-change-transform [mask-image:linear-gradient(to_right,transparent_0%,black_26%,black_100%)]"
+          className="absolute inset-auto right-1/2 h-56 w-[50rem] origin-right overflow-visible drop-shadow-[0_0_16px_rgba(55,216,198,0.36)] will-change-transform [mask-image:linear-gradient(to_right,transparent_0%,black_26%,black_100%)]"
         >
           <div className="absolute bottom-0 left-0 z-20 h-40 w-full bg-transparent [mask-image:linear-gradient(to_top,white,transparent)]" />
           <div className="absolute bottom-0 left-0 z-20 h-full w-40 bg-transparent [mask-image:linear-gradient(to_right,white,transparent)]" />
@@ -69,29 +69,29 @@ export function LampBeam({
           transition={lampRevealTransition}
           style={{
             backgroundImage:
-              "conic-gradient(from 290deg at center top, transparent, transparent, rgb(6 182 212))",
+              "conic-gradient(from 290deg at center top, transparent, transparent, rgb(55 216 198 / 0.74))",
           }}
-          className="absolute inset-auto left-1/2 h-56 w-[50rem] origin-left will-change-transform [mask-image:linear-gradient(to_left,transparent_0%,black_26%,black_100%)]"
+          className="absolute inset-auto left-1/2 h-56 w-[50rem] origin-left drop-shadow-[0_0_16px_rgba(55,216,198,0.36)] will-change-transform [mask-image:linear-gradient(to_left,transparent_0%,black_26%,black_100%)]"
         >
           <div className="absolute bottom-0 right-0 z-20 h-full w-40 bg-transparent [mask-image:linear-gradient(to_left,white,transparent)]" />
           <div className="absolute bottom-0 right-0 z-20 h-40 w-full bg-transparent [mask-image:linear-gradient(to_top,white,transparent)]" />
         </motion.div>
         <div className="absolute top-1/2 h-48 w-full translate-y-12 scale-x-150 bg-transparent blur-2xl" />
         <div className="absolute top-1/2 z-50 h-48 w-full bg-transparent opacity-10 backdrop-blur-md" />
-        <div className="absolute inset-auto z-50 h-36 w-[62rem] -translate-y-1/2 rounded-full bg-cyan-500 opacity-50 blur-3xl" />
+        <div className="absolute inset-auto z-50 h-36 w-[62rem] -translate-y-1/2 rounded-full bg-[#37D8C6] opacity-25 blur-3xl" />
         <motion.div
           initial={{ scaleX: 0.5 }}
           whileInView={{ scaleX: 1 }}
           viewport={{ once: false, amount: 0.15 }}
           transition={lampRevealTransition}
-          className="absolute inset-auto z-30 h-36 w-[50rem] -translate-y-[6rem] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(34,211,238,0.82)_0%,rgba(34,211,238,0.48)_34%,rgba(34,211,238,0.18)_62%,transparent_82%)] blur-2xl will-change-transform"
+          className="absolute inset-auto z-30 h-36 w-[50rem] -translate-y-[6rem] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(55,216,198,0.52)_0%,rgba(55,216,198,0.26)_34%,rgba(55,216,198,0.1)_62%,transparent_82%)] blur-2xl will-change-transform"
         />
         <motion.div
           initial={{ scaleX: 0.5 }}
           whileInView={{ scaleX: 1 }}
           viewport={{ once: false, amount: 0.15 }}
           transition={lampRevealTransition}
-          className="absolute inset-auto z-50 h-0.5 w-[50rem] -translate-y-[8rem] bg-cyan-400 will-change-transform"
+          className="absolute inset-auto z-50 h-0.5 w-[50rem] -translate-y-[8rem] bg-[#37D8C6] will-change-transform"
         />
         <div className="absolute inset-auto z-40 h-44 w-full -translate-y-[12.5rem] bg-transparent" />
       </div>

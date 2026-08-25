@@ -29,11 +29,10 @@ export function HomeV2ScrollHero() {
   const headingX = "0%";
   const headingY = "-50%";
 
-  const customerTop = useTransform(smoothScrollYProgress, [0.52, 0.75], ["115%", "calc(58% - 22px)"]);
-
-  const descriptionTop = useTransform(smoothScrollYProgress, [0.55, 0.94], ["115%", "calc(74% - 50px)"]);
+  const customerY = useTransform(smoothScrollYProgress, [0.52, 0.75], [280, 0]);
+  const descriptionY = useTransform(smoothScrollYProgress, [0.55, 0.94], [280, 0]);
   const ctaOpacity = useTransform(smoothScrollYProgress, [0.82, 0.94], [0, 1]);
-  const ctaY = useTransform(smoothScrollYProgress, [0.82, 0.94], [16, 0]);
+  const ctaY = useTransform(smoothScrollYProgress, [0.82, 0.94], [140, 0]);
 
   return (
     <section ref={sectionRef} id="home" className="homev2-hero relative z-10 h-[240svh] bg-[#F7F8FA]">
@@ -109,14 +108,14 @@ export function HomeV2ScrollHero() {
 
         <motion.p
           className={`${poppins.className} pointer-events-none absolute z-[8] -translate-y-1/2 text-left text-[43px] font-extrabold uppercase leading-[3.1rem] tracking-[-0.02em] text-[#2E2E38]`}
-          style={{ left: headingLeft, top: customerTop, marginTop: "70px" }}
+          style={{ left: headingLeft, top: "calc(58% - 22px)", y: customerY, marginTop: "70px" }}
         >
           Your customers actually use.
         </motion.p>
 
         <motion.p
           className={`${poppins.className} pointer-events-none absolute z-[8] w-[min(82vw,44rem)] -translate-y-1/2 text-left text-[15.5px] leading-[1.45] text-[#2E2E38]`}
-          style={{ left: headingLeft, top: descriptionTop, marginTop: "70px" }}
+          style={{ left: headingLeft, top: "calc(74% - 50px)", y: descriptionY, marginTop: "70px" }}
         >
           Altira Group <strong className="font-semibold text-[#2E2E38]">redesigns onboarding and sales processes</strong>{" "}
           and deploys

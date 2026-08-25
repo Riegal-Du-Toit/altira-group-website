@@ -2,6 +2,7 @@
 
 import { motion, type MotionValue, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
+import { poppins } from "@/lib/google-fonts";
 
 interface Product {
   number: string;
@@ -18,8 +19,7 @@ const products: readonly Product[] = [
     title: "UX & Process Redesign",
     description:
       "We analyse your existing onboarding or sales process and rebuild it for higher conversion and lower drop-off.",
-    image:
-      "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1800&h=1100&auto=format&fit=crop",
+    image: "/UX%20%26%20Process%20Redesign.png",
     imageAlt: "Code on a screen overlayed with creative particles",
   },
   {
@@ -27,8 +27,7 @@ const products: readonly Product[] = [
     title: "Plug-and-Play Distribution Technology",
     description:
       "Our existing onboarding and sales engine can be configured for any insurance or lending product, cutting build time from months to weeks.",
-    image:
-      "https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=1800&h=1100&auto=format&fit=crop",
+    image: "/Plug-and-Play%20Distribution%20Technology.png",
     imageAlt: "Developer coding on a laptop in a modern workspace",
   },
   {
@@ -36,7 +35,7 @@ const products: readonly Product[] = [
     title: "Customer App Development",
     description:
       "We design and build the member-facing app your customers use to onboard, transact, and stay engaged.",
-    image: "/personal loans.avif",
+    image: "/Customer%20App%20Development.png",
     imageAlt: "Team meeting around a table brainstorming ideas",
   },
 ];
@@ -49,7 +48,7 @@ export default function ProductDepthScroll() {
   });
 
   return (
-    <section ref={sectionRef} id="products" className="relative mb-[30px] h-[420vh] bg-[#1e2021]">
+    <section ref={sectionRef} id="products" className="relative h-[420vh] bg-[#1e2021]">
       <div className="sticky top-0 h-screen overflow-hidden bg-[radial-gradient(circle_at_50%_52%,rgba(63,233,236,0.045),transparent_38%)]">
         <header className="absolute inset-x-0 top-[50px] z-50 mx-auto w-[min(90vw,76rem)] translate-x-[44px] text-white">
           <span className="text-[0.78125rem] uppercase tracking-[.35em] text-white/56">What We Do</span>
@@ -126,25 +125,21 @@ function DepthCard({
         zIndex: products.length - index,
         transformStyle: "preserve-3d",
       }}
-      className="absolute left-[calc(45%+15px)] top-[94px] h-[62vh] min-h-[30rem] w-[min(80vw,64rem)] overflow-hidden rounded-[1.15rem] bg-transparent ring-[2.5px] ring-[#3FE9EC]"
+      className="absolute left-[calc(45%+15px)] top-[94px] h-[62vh] min-h-[30rem] w-[min(80vw,64rem)] overflow-hidden rounded-[1.15rem] bg-transparent ring-[2.5px] ring-[#37D8C6]"
     >
-      <div className="grid h-full grid-rows-[1.15fr_0.85fr] overflow-hidden bg-[#242729] md:grid-cols-[0.72fr_1.28fr] md:grid-rows-1">
-        <div className="relative z-10 flex min-h-0 flex-col justify-between border-b-2 border-[#3FE9EC] bg-white/80 p-7 text-neutral-900 sm:p-9 md:border-r-2 md:border-b-0 lg:p-12">
+      <div className="grid h-full grid-rows-[1.15fr_0.85fr] overflow-hidden bg-[#F7F8FA] md:grid-cols-[0.72fr_1.28fr] md:grid-rows-1">
+        <div className="relative z-10 flex min-h-0 flex-col justify-between border-b-2 border-[#37D8C6] bg-[#F7F8FA] p-7 text-neutral-900 sm:p-9 md:border-r-2 md:border-b-0 lg:p-12">
           <div className="flex items-center justify-between gap-5">
-            <div className="inline-block rounded-[10px] bg-gradient-to-b from-gray-800/50 to-transparent p-[2px]">
-              <div className="rounded-[8px] bg-gradient-to-b from-gray-700 to-gray-600 p-[2px] shadow-[0_2px_4px_rgba(0,0,0,0.65)]">
-                <div className="rounded-[5px] bg-gradient-to-b from-gray-600 to-gray-700 px-3 py-2 font-mono text-[0.68rem] font-semibold tracking-[0.2em] text-[#3FE9EC]">
-                  {product.number}
-                </div>
-              </div>
+            <div className="inline-flex rounded-lg bg-[#37D8C6] px-[6px] py-1 text-[2.5rem] font-bold leading-none tracking-[-0.04em] !text-white">
+              {product.number}
             </div>
-            <span className="text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-neutral-500">
+            <span className={`${poppins.className} text-[0.7125rem] font-semibold uppercase tracking-[0.18em] text-neutral-500`}>
               Altira Group
             </span>
           </div>
 
           <div className="py-5">
-            <div className="mb-5 h-0.5 w-14 bg-[#3FE9EC]" />
+            <div className="mb-5 h-0.5 w-14 bg-[#37D8C6]" />
             <h3 className={`max-w-[12ch] text-3xl font-extrabold leading-[0.98] tracking-[-0.045em] text-neutral-900 sm:text-4xl ${compactTitle ? "lg:text-[2.5rem]" : "lg:text-[3.55rem]"}`}>
               {product.title === "Plug-and-Play Distribution Technology" ? (
                 <>Plug<span className="relative -top-[0.08em] inline-block text-[0.62em] font-medium leading-none">-and-</span>Play Distribution Technology</>
@@ -154,7 +149,7 @@ function DepthCard({
               {product.description}
             </p>
             {product.detail ? (
-              <p className="mt-5 hidden max-w-[35rem] border-l-2 border-[#3FE9EC]/70 pl-4 text-sm leading-7 text-neutral-500 sm:block">
+              <p className="mt-5 hidden max-w-[35rem] border-l-2 border-[#37D8C6]/70 pl-4 text-sm leading-7 text-neutral-500 sm:block">
                 {product.detail}
               </p>
             ) : null}
@@ -170,12 +165,6 @@ function DepthCard({
             className="absolute inset-0 h-full w-full object-cover grayscale-[55%] saturate-[0.55] contrast-[1.08]"
             draggable={false}
           />
-          <div className="absolute inset-0 bg-[#1e2021]/25" />
-          <div className="absolute inset-0 bg-linear-to-r from-[#242729] via-[#242729]/30 to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 h-32 bg-linear-to-t from-[#1e2021]/72 to-transparent" />
-          <div className="absolute right-5 bottom-5 rounded-[7px] border border-white/10 bg-[#25282a]/90 px-3 py-2 text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-white/50 backdrop-blur-md">
-            {product.title}
-          </div>
         </div>
       </div>
     </motion.article>
@@ -191,11 +180,11 @@ function ProgressScroller({ progress }: { progress: MotionValue<number> }) {
       <div className="absolute inset-y-0 right-0 w-px bg-[linear-gradient(to_bottom,transparent,rgba(255,255,255,.28)_10%,rgba(255,255,255,.28)_90%,transparent)]" />
       <motion.div
         style={{ scaleY }}
-        className="absolute inset-y-0 right-0 w-0.5 origin-top rounded-full bg-gradient-to-b from-transparent via-[#3FE9EC] to-[#8b5cf6]"
+        className="absolute inset-y-0 right-0 w-0.5 origin-top rounded-full bg-gradient-to-b from-transparent via-[#37D8C6] to-[#2E2E38]"
       />
       <motion.div
         style={{ top: dotY }}
-        className="absolute right-0 size-2 translate-x-1/2 -translate-y-1/2 rounded-full border border-white/70 bg-[#3FE9EC] shadow-[0_0_12px_rgba(63,233,236,.85)]"
+        className="absolute right-0 size-2 translate-x-1/2 -translate-y-1/2 rounded-full border border-white/70 bg-[#37D8C6] shadow-[0_0_12px_rgba(55,216,198,.85)]"
       />
       {products.map((product, index) => (
         <span
@@ -203,7 +192,9 @@ function ProgressScroller({ progress }: { progress: MotionValue<number> }) {
           style={{ top: `${(index / (products.length - 1)) * 100}%` }}
           className="absolute right-5 -translate-y-1/2 text-right text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-white/58"
         >
-          {product.title}
+          {product.title === "UX & Process Redesign" ? (
+            <>UI / UX Process<br />Redesign</>
+          ) : product.title}
         </span>
       ))}
     </div>
