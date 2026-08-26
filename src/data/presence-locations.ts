@@ -26,8 +26,7 @@ export const presenceLocations: PresenceLocation[] = [
     role: "Head Office",
     roleLabel: "Head Office",
     region: "Africa",
-    description:
-      "Cape Town serves as Altira Group's principal office and central coordination point for the broader business.",
+    description: "Altira Group's principal office and coordination hub.",
     coordinates: [-33.9249, 18.4241],
     labelOffset: {
       x: 14,
@@ -46,8 +45,7 @@ export const presenceLocations: PresenceLocation[] = [
     role: "Operations",
     roleLabel: "Operations",
     region: "Africa",
-    description:
-      "Johannesburg supports operational activity, partner coordination and market delivery within South Africa across Altira Group's growing footprint.",
+    description: "Our operations and partner delivery hub.",
     coordinates: [-26.2041, 28.0473],
     labelOffset: {
       x: 42,
@@ -60,14 +58,13 @@ export const presenceLocations: PresenceLocation[] = [
     labelAlign: "right",
   },
   {
-    id: "cebu-city",
-    name: "Cebu City",
+    id: "philippines",
+    name: "Philippines",
     country: "Philippines",
-    role: "Regional Support Centre",
-    roleLabel: "Regional Support",
+    role: "Technology & Development",
+    roleLabel: "Technology & Development",
     region: "Asia",
-    description:
-      "Cebu City provides regional support services that strengthen operational delivery and collaboration across our international teams.",
+    description: "Our specialist technology and development hub.",
     coordinates: [10.31619, 123.89082],
     labelOffset: {
       x: 42,

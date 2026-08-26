@@ -36,14 +36,18 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
         <h2 className="mb-4 max-w-4xl text-lg text-white md:text-4xl">Orbit — the engine behind our plug-and-play technology.</h2>
           </div>
         <p className="max-w-sm text-sm leading-6 text-[#2E2E38]/72 md:text-base">
-          A configurable foundation for faster onboarding, sales and member engagement.
+          Orbit powers faster onboarding, sales
+          <br />
+          and member engagement — configurable
+          <br />
+          for every partner, without bespoke builds.
         </p>
         </div>
       </div>
 
       <div ref={ref} className="relative mx-auto max-w-7xl pb-20">
         {data.map((item, index) => (
-          <div key={index} className="flex justify-start pt-10 md:gap-10 md:pt-40">
+          <div key={index} className="flex justify-start pt-10 md:gap-10 md:pt-20">
             <div className="sticky top-40 z-40 flex max-w-xs self-start md:w-full md:flex-row md:items-center lg:max-w-sm">
               <div className="absolute left-3 flex size-10 items-center justify-center rounded-full bg-[#1e2021] md:left-3">
                 <div className="size-4 rounded-full border border-white/30 bg-[#121314] p-2" />

@@ -89,6 +89,34 @@ const Card = ({
   );
 };
 
+export function HowItWorksLightCard({
+  number,
+  title,
+  description,
+  colorTheme = "blue",
+}: Pick<CardProps, "number" | "title" | "description" | "colorTheme">) {
+  const colors = {
+    orange: { bg: "bg-orange-50", text: "!text-orange-500", border: "border-orange-100" },
+    blue: { bg: "bg-blue-50", text: "!text-blue-600", border: "border-blue-100" },
+    purple: { bg: "bg-purple-50", text: "!text-purple-600", border: "border-purple-100" },
+  }[colorTheme];
+
+  return (
+    <div className="relative w-full max-w-[280px] transition-transform duration-300 hover:z-30 hover:scale-105">
+      <div className="rounded-[25px] border border-neutral-100 bg-white p-2 shadow-[0_10px_20px_#D3D3D3]">
+        <Pin className={`z-20 mx-auto mb-6 h-8 w-8 ${colors.text}`} />
+        <div className={`${colors.bg} ${colors.border} relative flex min-h-48 flex-col overflow-hidden rounded-[15px] border p-[15px]`}>
+          <span className={`${colors.text} mb-5 text-4xl`} style={{ fontFamily: '"Comic Sans MS", "Chalkboard SE", sans-serif' }}>
+            {number}
+          </span>
+          <h3 className="mb-[10px] text-2xl font-semibold leading-none !text-neutral-800">{title}</h3>
+          <p className="text-sm/5 tracking-tight !text-neutral-500">{description}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export interface Step {
   title: string;
   description: string;

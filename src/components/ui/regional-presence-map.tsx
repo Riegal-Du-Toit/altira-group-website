@@ -2,7 +2,6 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import DottedMap from "dotted-map";
-import { X } from "lucide-react";
 import {
   useEffect,
   useLayoutEffect,
@@ -14,6 +13,7 @@ import {
 
 import { presenceLocations } from "@/data/presence-locations";
 import { cn } from "@/lib/utils";
+import CityLocationPopupCard from "@/components/ui/city-location-popup-card";
 
 const REGION = {
   minLat: -50,
@@ -223,7 +223,7 @@ export function RegionalPresenceMap({ className }: { className?: string }) {
 
     const capeTown = toRenderedPoint("cape-town");
     const johannesburg = toRenderedPoint("johannesburg");
-    const cebuCity = toRenderedPoint("cebu-city");
+    const cebuCity = toRenderedPoint("philippines");
 
     if (!capeTown || !johannesburg || !cebuCity) {
       return [];
@@ -565,7 +565,7 @@ export function RegionalPresenceMap({ className }: { className?: string }) {
                 exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.98, y: 6 }}
                 transition={{ duration: shouldReduceMotion ? 0 : 0.22, ease: "easeOut" }}
                 className={cn(
-                  "absolute z-20 w-[min(370px,calc(100%-28px))] rounded-[10px] bg-[#252729]/92 p-[3px] text-left shadow-[0_16px_44px_rgba(0,0,0,0.24)] backdrop-blur-xl",
+                  "city-popup-card absolute z-20 w-[min(230px,calc(100%-28px))] text-left",
                   !popoverStyle && "invisible",
                 )}
                 style={{
@@ -585,35 +585,11 @@ export function RegionalPresenceMap({ className }: { className?: string }) {
                   />
                 ) : null}
 
-                <div className="relative rounded-[7px] bg-[#2f333b]/96 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] sm:p-6">
-                    <div className="flex items-start justify-between gap-4">
-                      <div>
-                        <div className="text-[0.78rem] font-semibold uppercase tracking-[0.24em] text-[#3FE9EC]">
-                          {selectedLocation.roleLabel}
-                        </div>
-                        <h3 className="mt-3.5 text-[1.6rem] font-semibold leading-tight text-white">
-                          {selectedLocation.name}
-                        </h3>
-                        <p className="mt-1.5 text-base text-white/68">{selectedLocation.country}</p>
-                        <p className="mt-2.5 text-base text-white/86">{selectedLocation.role}</p>
-                      </div>
-                      <div className="rounded-[12px] bg-gradient-to-b from-gray-800/40 to-transparent p-[2px]">
-                        <button
-                          type="button"
-                          onClick={closePopover}
-                          suppressHydrationWarning
-                          className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-[9px] bg-gradient-to-b from-gray-700 to-gray-600 p-[2px] text-white/76 shadow-[0_2px_4px_rgba(0,0,0,0.7)] transition hover:text-[#3FE9EC] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3FE9EC] focus-visible:ring-offset-2 focus-visible:ring-offset-[#565d6a]"
-                          aria-label={`Close ${selectedLocation.name} location details`}
-                        >
-                          <span className="flex h-full w-full items-center justify-center rounded-[6px] bg-gradient-to-b from-gray-600 to-gray-700">
-                            <X className="h-5 w-5" />
-                          </span>
-                        </button>
-                      </div>
-                    </div>
-
-                    <p className="mt-5 text-base leading-7 text-white/74">{selectedLocation.description}</p>
-                </div>
+                <CityLocationPopupCard
+                  title={selectedLocation.name}
+                  description={[selectedLocation.description]}
+                  icon={<img src={`https://flagsapi.com/${selectedLocation.id === "philippines" ? "PH" : "ZA"}/shiny/64.png`} alt={`${selectedLocation.country} flag`} className="h-full w-full scale-[1.55] object-cover" />}
+                />
               </motion.div>
             ) : null}
           </AnimatePresence>

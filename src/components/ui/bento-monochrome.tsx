@@ -36,7 +36,7 @@ export default function BentoMonochrome() {
         <header className="mb-10 flex flex-col gap-6 pb-6 md:flex-row md:items-end md:justify-between">
           <div className="flex flex-col gap-2">
             <span className="text-xs uppercase tracking-[.35em] text-[#2E2E38]/60">Why Altira</span>
-            <h2 className={`${poppins.className} text-3xl font-black uppercase leading-[.98] tracking-[-0.02em] md:text-[2.6875rem]`}>
+            <h2 className={`${poppins.className} text-[27px] font-extrabold uppercase leading-[.98] tracking-[-0.02em] md:text-[2.5rem]`}>
               We&apos;re a technology partner<br />
               not a competitor.
             </h2>

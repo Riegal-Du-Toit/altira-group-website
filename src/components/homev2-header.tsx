@@ -1,33 +1,8 @@
 "use client";
 
-import Link from "next/link";
-import Image from "next/image";
 import { openSansThin } from "@/lib/google-fonts";
-import { useEffect, useRef, useState } from "react";
-
-export function TalkButton() {
-  return (
-    <a
-      href="/contact"
-      className={`relative inline-flex items-stretch overflow-hidden rounded-[12px] border-[1.5px] border-[#F7F8FA] bg-[#37D8C6] p-0 text-[16px] font-bold text-[#F7F8FA] shadow-[0_8px_18px_rgba(17,22,61,0.18)] transition-all duration-300 ease-out hover:bg-[#2fc7b7] active:scale-[0.97] ${openSansThin.className}`}
-    >
-      <span className="relative flex items-center gap-1.5 rounded-[10px] bg-white/10 px-[1.05em] py-[0.64em] pr-[0.95em] text-[0.8rem] font-light text-inherit transition-colors duration-300 sm:text-[0.88rem]">
-        <span>TALK TO US</span>
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 53 58" height="58" width="53" className="h-3.5 w-3.5 text-[#F7F8FA]">
-          <path
-            stroke="currentColor"
-            strokeWidth="6"
-            d="M44.25 36.3612L17.25 51.9497C11.5833 55.2213 4.5 51.1318 4.50001 44.5885L4.50001 13.4115C4.50001 6.86824 11.5833 2.77868 17.25 6.05033L44.25 21.6388C49.9167 24.9104 49.9167 33.0896 44.25 36.3612Z"
-          />
-        </svg>
-      </span>
-      <span
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[repeating-conic-gradient(rgb(48,47,47)_0.0000001%,rgb(51,51,51)_0.000104%)_60%_60%/600%_600%] opacity-10 contrast-105"
-      />
-    </a>
-  );
-}
+import NavbarSectionTwo from "@/components/ui/navbar-section-2";
+export { TalkButton } from "@/components/ui/talk-button";
 
 export function NavigationCta({
   href,
@@ -54,112 +29,10 @@ export function NavigationCta({
   );
 }
 
-const navLinks = [
-  { label: "Home", href: "/" },
-  { label: "What We Do", href: "/what-we-do" },
-  { label: "Orbit Platform", href: "/orbit" },
-  { label: "Why Altira", href: "/why-altira" },
-  { label: "Offices", href: "/offices" },
-  { label: "Contact", href: "/contact" },
-];
-
 export function HomeV2Header() {
-  const [isHidden, setIsHidden] = useState(false);
-  const [hasBackdrop, setHasBackdrop] = useState(false);
-  const [isOnDarkerSection, setIsOnDarkerSection] = useState(false);
-  const [activeNavLabel, setActiveNavLabel] = useState("Home");
-  const previousScrollY = useRef(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentY = window.scrollY;
-      const hero = document.getElementById("home");
-      const inHero = hero
-        ? currentY >= hero.offsetTop && currentY < hero.offsetTop + hero.offsetHeight
-        : currentY < window.innerHeight;
-
-      const scrollingUp = currentY < previousScrollY.current;
-      setIsHidden(!inHero && !scrollingUp);
-      setHasBackdrop(!inHero);
-      previousScrollY.current = currentY;
-    };
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  useEffect(() => {
-    let frameId = 0;
-    let previousSectionColor = false;
-    let previousActiveNavLabel = "Home";
-
-    const updateSectionColor = () => {
-      const isInSectionTwoToFour = ["why", "products", "method"].some((id) => {
-        const section = document.getElementById(id);
-        if (!section) return false;
-        const bounds = section.getBoundingClientRect();
-        return bounds.top < window.innerHeight && bounds.bottom > 69;
-      });
-      const sectionFive = document.getElementById("offices");
-      const sectionFiveIsVisible = sectionFive
-        ? sectionFive.getBoundingClientRect().top < window.innerHeight
-        : false;
-      const useLightHeader = isInSectionTwoToFour && !sectionFiveIsVisible;
-
-      if (useLightHeader !== previousSectionColor) {
-        previousSectionColor = useLightHeader;
-        setIsOnDarkerSection(useLightHeader);
-      }
-
-      const activeSection = [
-        ["home", "Home"],
-        ["why", "What We Do"],
-        ["products", "Orbit Platform"],
-        ["method", "Why Altira"],
-        ["offices", "Offices"],
-      ].find(([id]) => {
-        const section = document.getElementById(id);
-        if (!section) return false;
-        const bounds = section.getBoundingClientRect();
-        return bounds.top <= 100 && bounds.bottom > 100;
-      })?.[1] ?? "Home";
-
-      if (activeSection !== previousActiveNavLabel) {
-        previousActiveNavLabel = activeSection;
-        setActiveNavLabel(activeSection);
-      }
-      frameId = window.requestAnimationFrame(updateSectionColor);
-    };
-
-    updateSectionColor();
-    return () => window.cancelAnimationFrame(frameId);
-  }, []);
-
   return (
-    <header className={`homev2-header-entrance fixed inset-x-0 top-0 z-50 rounded-b-[2rem] border-b border-[#2E2E38]/10 px-4 transition-[transform,background-color,border-color] duration-300 sm:px-6 ${isOnDarkerSection ? "bg-[#F7F8FA]" : "bg-[#E4E5EA]"} ${hasBackdrop ? "backdrop-blur-md" : ""} ${isHidden ? "homev2-header-scroll-hidden" : ""}`}>
-      <div className="pointer-events-auto mx-auto flex h-[69px] max-w-[96rem] items-center justify-between pl-[8.5rem] pr-24">
-        <Link href="/homev2" className="relative flex items-center">
-          <Image
-            src="/logo.png"
-            alt="Altira Group"
-            width={218}
-            height={72}
-            className="h-auto w-[11.5rem]"
-            priority
-          />
-        </Link>
-
-        <div className="flex items-center gap-4">
-          <nav aria-label="Primary navigation" className="hidden items-center gap-5 xl:flex">
-            {navLinks.map((link) => (
-              <Link key={link.label} href={link.href} className={`relative pb-1 text-[13px] font-light text-[#2E2E38] transition hover:text-[#2E2E38] ${activeNavLabel === link.label ? "after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-[#37D8C6]" : ""}`}>
-                {link.label}
-              </Link>
-            ))}
-          </nav>
-          <TalkButton />
-        </div>
-      </div>
+    <header className="homev2-header-entrance fixed inset-x-0 top-0 z-50 px-4 sm:px-6">
+      <NavbarSectionTwo />
     </header>
   );
 }

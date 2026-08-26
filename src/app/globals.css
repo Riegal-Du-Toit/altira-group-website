@@ -439,17 +439,109 @@ button {
   font-weight: 700 !important;
 }
 
-.homev2-light-backgrounds main > section:not(.homev2-hero):not(#why) :is(h2, h3, h4) {
+.homev2-light-backgrounds main > section:not(.homev2-hero):not(#why):not(#method) :is(h2, h3, h4) {
   font-weight: 600 !important;
+}
+
+.homev2-light-backgrounds #method .method-heading-separator {
+  color: #37D8C6 !important;
+}
+
+.homev2-light-backgrounds #method .method-step-counter {
+  position: relative;
+  top: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  background: #37D8C6 !important;
+  padding: 0.25rem 0.375rem;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  font-size: 30px;
+  font-weight: 700 !important;
+  line-height: 1;
+  letter-spacing: -0.04em;
 }
 
 .homev2-light-backgrounds main > section:not(.homev2-hero):not(#why) :is(p, a, button, li, span) {
   font-weight: 400 !important;
 }
 
+.homev2-light-backgrounds .city-popup-card h3 {
+  color: transparent !important;
+  font-weight: 700 !important;
+}
+
+.homev2-light-backgrounds .city-popup-card p {
+  color: #d1d5db !important;
+  font-weight: 400 !important;
+}
+
+.homev2-light-backgrounds .city-popup-card svg {
+  color: #fff !important;
+}
+
+.homev2-light-backgrounds #offices .city-popup-card h3 {
+  color: transparent !important;
+  font-weight: 700 !important;
+}
+
+.homev2-light-backgrounds #offices .city-popup-card p {
+  color: #fff !important;
+}
+
+.homev2-light-backgrounds #offices .city-popup-card svg {
+  color: #fff !important;
+}
+
+.homev2-light-backgrounds #offices .city-popup-card .relative.mb-6 > div {
+  border-color: #fff !important;
+}
+
+.homev2-light-backgrounds main > #offices .city-popup-card h3 {
+  color: transparent !important;
+  background-image: linear-gradient(to right, #fff, #f3f4f6, #fff) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+}
+
+.homev2-light-backgrounds main > #offices .city-popup-card p,
+.homev2-light-backgrounds main > #offices .city-popup-card svg {
+  color: #fff !important;
+}
+
+.homev2-light-backgrounds main > #offices .city-popup-card [class~="border-white/20"] {
+  border-color: #fff !important;
+}
+
+.homev2-light-backgrounds main > #offices .city-popup-card > .group > div {
+  background: #fff !important;
+  color: #2E2E38 !important;
+}
+
+.homev2-light-backgrounds main > #offices .city-popup-card h3 {
+  color: #2E2E38 !important;
+  -webkit-text-fill-color: #2E2E38 !important;
+  background-image: none !important;
+}
+
+.homev2-light-backgrounds main > #offices .city-popup-card p,
+.homev2-light-backgrounds main > #offices .city-popup-card svg {
+  color: #2E2E38 !important;
+}
+
+.homev2-light-backgrounds main > #offices .city-popup-card [class~="border-white/20"] {
+  border-color: #37D8C6 !important;
+}
+
 .homev2-light-backgrounds main > section:not(.homev2-hero):not(#why):not(#offices):not(#integrations):not(#app-experience),
 .homev2-light-backgrounds main > section:not(.homev2-hero):not(#why):not(#offices):not(#integrations):not(#app-experience) > div:first-child {
   background-color: #E4E5EA !important;
+}
+
+.homev2-light-backgrounds main > section#method#method {
+  background-color: #fff !important;
 }
 
 .homev2-light-backgrounds main > :is(#offices, #integrations, #app-experience),
