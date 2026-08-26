@@ -299,7 +299,7 @@ export function LandingPage({
               <div className="max-w-[40rem] lg:pl-12 xl:pl-20">
                 <div className="relative -top-[100px]">
                   <span className="text-xs uppercase tracking-[.35em] text-[#2E2E38]/60">Offices</span>
-                  <h2 className={`${poppins.className} mt-3 max-w-4xl text-[27px] font-black uppercase leading-[.98] tracking-[-.02em] md:text-[2.5rem]`}>Where we <span className="inline-block rounded-[5px] bg-[#37D8C6] px-1.5 py-0.5 !text-white [-webkit-text-fill-color:#fff]">work.</span></h2>
+                  <h2 className={`${poppins.className} mt-3 max-w-4xl text-[27px] font-black uppercase leading-[.98] tracking-[-.02em] md:text-[2.5rem]`}>Where we <span className="inline-block rounded-[5px] bg-[#37D8C6] px-1.5 py-0.5 !font-black !text-white [-webkit-text-fill-color:#fff]">work.</span></h2>
                 </div>
                 <p className="landing-copy section-copy-gap max-w-[35rem] text-[1.05rem] leading-8 xl:text-[1.14rem] xl:leading-9">
                   Altira Group operates across three locations, giving us reach across South Africa&apos;s
