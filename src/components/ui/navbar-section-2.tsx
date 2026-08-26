@@ -15,7 +15,7 @@ const navItems: NavItem[] = [
   { label: "Why Altira", href: "#why" },
   { label: "Method", href: "#method" },
   { label: "Offices", href: "#offices" },
-  { label: "Partners", href: "#integrations" },
+  { label: "Partners", href: "#trusted-customers" },
   { label: "Experience", href: "#app-experience" },
 ];
 
