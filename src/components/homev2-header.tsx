@@ -31,7 +31,7 @@ export function NavigationCta({
 
 export function HomeV2Header() {
   return (
-    <header className="homev2-header-entrance fixed inset-x-0 top-0 z-50 px-4 sm:px-6">
+    <header data-site-header data-anchor-offset="-64" className="homev2-header-entrance fixed inset-x-0 top-0 z-50 px-4 sm:px-6">
       <NavbarSectionTwo />
     </header>
   );

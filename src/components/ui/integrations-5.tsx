@@ -68,7 +68,8 @@ export default function IntegrationsSection() {
               <LabeledOrbitEarth
                 size={260}
                 className="size-52 md:size-64"
-                earthClassName="overflow-hidden rounded-full drop-shadow-[0_12px_28px_rgba(0,0,0,0.55)]"
+                earthClassName="overflow-hidden rounded-full drop-shadow-[0_12px_28px_rgba(46,46,56,0.18)]"
+                earthColors={{ fill: "#F7F8FA", line: "#2E2E38", dot: "#2E2E38" }}
               />
             </div>
           </div>
@@ -124,7 +125,6 @@ function Orbit({
                 >
                   <div style={{ transform: `rotate(${-angle}deg)` }}>
                     <IntegrationCard
-                      label={icon.alt}
                       onPointerEnter={() => setIsPaused(true)}
                       onPointerLeave={() => setIsPaused(false)}
                     >
@@ -155,13 +155,11 @@ function Orbit({
 function IntegrationCard({
   children,
   className,
-  label,
   onPointerEnter,
   onPointerLeave,
 }: {
   children: React.ReactNode;
   className?: string;
-  label: string;
   onPointerEnter: () => void;
   onPointerLeave: () => void;
 }) {
@@ -170,14 +168,10 @@ function IntegrationCard({
       onPointerEnter={onPointerEnter}
       onPointerLeave={onPointerLeave}
       className={cn(
-        "group/tooltip relative z-30 size-14 overflow-visible outline-none md:size-16",
+        "relative z-30 size-14 overflow-visible outline-none md:size-16",
         className,
       )}
     >
-      <span className="pointer-events-none absolute left-1/2 top-0 z-50 -translate-x-1/2 rounded-lg bg-[#333] px-3 py-1.5 text-sm font-medium capitalize text-[#e8e8e8] opacity-0 shadow-[rgba(0,0,0,0.25)_0_8px_15px] transition-all duration-300 ease-out before:absolute before:bottom-[-0.2em] before:left-1/2 before:size-2 before:-translate-x-1/2 before:rotate-45 before:bg-[#333] group-hover/tooltip:-top-10 group-hover/tooltip:opacity-100">
-        {label}
-      </span>
-
       <div className="absolute inset-0 z-10">
         <div className="absolute inset-0 overflow-hidden rounded-full border border-white/10 bg-[#111] shadow-[inset_-8px_-8px_16px_rgba(0,0,0,0.9),inset_6px_6px_14px_rgba(255,255,255,0.15),0_12px_20px_rgba(0,0,0,0.5)]">
           <div className="absolute left-[10%] top-[8%] h-[35%] w-[65%] -rotate-[25deg] rounded-[50%] bg-[linear-gradient(135deg,rgba(255,255,255,0.35)_0%,transparent_100%)] blur-[1px]" />

@@ -1,4 +1,4 @@
-import { NavigationCta } from "@/components/homev2-header";
+import { TalkButton } from "@/components/ui/talk-button";
 import IntegrationsPrompt from "@/components/ui/integrations-5";
 
 export default function IntegrationsSection() {
@@ -19,12 +19,9 @@ export default function IntegrationsSection() {
             operations, automation and customer experience.
           </p>
 
-          <NavigationCta
-            href="https://cdn.21st.dev/meschacirung/integrations-5/default/bundle.1783659514828.html?theme=light#"
-            className="mt-11"
-          >
-            Explore our partners
-          </NavigationCta>
+          <div className="mt-11">
+            <TalkButton href="https://cdn.21st.dev/meschacirung/integrations-5/default/bundle.1783659514828.html?theme=light#">Explore our partners</TalkButton>
+          </div>
         </div>
       </div>
     </section>

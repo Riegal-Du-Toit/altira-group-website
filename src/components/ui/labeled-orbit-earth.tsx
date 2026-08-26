@@ -11,6 +11,11 @@ interface LabeledOrbitEarthProps {
   label?: string;
   labelClassName?: string;
   labelSpeed?: number;
+  earthColors?: {
+    fill?: string;
+    line?: string;
+    dot?: string;
+  };
 }
 
 export function LabeledOrbitEarth({
@@ -20,6 +25,7 @@ export function LabeledOrbitEarth({
   label = "POWERED BY ALTIRA ORBIT - POWERED BY ALTIRA ORBIT - ",
   labelClassName,
   labelSpeed = 18,
+  earthColors,
 }: LabeledOrbitEarthProps) {
   const pathId = `orbit-label-${size}`;
 
@@ -49,7 +55,7 @@ export function LabeledOrbitEarth({
         </svg>
       </motion.div>
 
-      <OrbitEarth size={size} earthClassName={earthClassName} />
+      <OrbitEarth size={size} earthClassName={earthClassName} colors={earthColors} />
     </div>
   );
 }

@@ -5,12 +5,18 @@ const FALLBACK_HEADER_OFFSET = 96;
 const HEADER_GAP = 20;
 
 let lenisInstance: Lenis | null = null;
+const DEBUG_ANCHORS = process.env.NODE_ENV === "development";
 
 export function getHeaderOffset() {
   const header = document.querySelector("[data-site-header]");
 
   if (!(header instanceof HTMLElement)) {
     return FALLBACK_HEADER_OFFSET + HEADER_GAP;
+  }
+
+  const customOffset = Number(header.dataset.anchorOffset);
+  if (Number.isFinite(customOffset)) {
+    return customOffset;
   }
 
   return Math.round(header.getBoundingClientRect().height + HEADER_GAP);
@@ -62,14 +68,55 @@ export function scrollToHash(hash: string, options?: { updateHistory?: boolean }
 
   const updateHistory = options?.updateHistory ?? true;
 
+  const targetTop = getScrollTargetTop(target);
+  if (DEBUG_ANCHORS) {
+    console.info("[anchor] target resolved", { hash, currentY: window.scrollY, targetTop, lenis: lenisInstance });
+  }
+
   if (!lenisInstance) {
-    window.scrollTo({ top: getScrollTargetTop(target), left: 0, behavior: "auto" });
-    updateHistoryForHash(hash, updateHistory);
+    console.error("[anchor] Lenis unavailable; native navigation blocked", { hash });
     return;
   }
 
-  lenisInstance.scrollTo(target, {
-    offset: -getHeaderOffset(),
+  if (DEBUG_ANCHORS) {
+    const startedAt = performance.now();
+    let frameId = 0;
+    const monitor = () => {
+      const elapsed = performance.now() - startedAt;
+      if (elapsed < 160 && Math.abs(window.scrollY - targetTop) < 2) {
+        console.warn("[anchor] immediate target scroll detected", { hash, elapsed, currentY: window.scrollY, targetTop });
+      }
+    };
+    const logFrame = () => {
+      const elapsed = performance.now() - startedAt;
+      if (elapsed <= 500) {
+        console.info("[anchor] animation frame", {
+          hash,
+          elapsed: Math.round(elapsed),
+          windowScrollY: window.scrollY,
+          animatedScroll: lenisInstance?.animatedScroll,
+          targetScroll: lenisInstance?.targetScroll,
+        });
+        frameId = window.requestAnimationFrame(logFrame);
+      }
+    };
+    window.addEventListener("scroll", monitor, { passive: true });
+    window.setTimeout(() => {
+      window.removeEventListener("scroll", monitor);
+      window.cancelAnimationFrame(frameId);
+    }, 1300);
+    console.info("[anchor] lenis.scrollTo", {
+      hash,
+      currentY: window.scrollY,
+      targetTop,
+      animatedScroll: lenisInstance.animatedScroll,
+      targetScroll: lenisInstance.targetScroll,
+      duration: 1.1,
+    });
+    frameId = window.requestAnimationFrame(logFrame);
+  }
+
+  lenisInstance.scrollTo(targetTop, {
     duration: 1.1,
     immediate: false,
     easing: LENIS_EASING,
@@ -88,8 +135,9 @@ export function scrollToTop(options?: { updateHistory?: boolean }) {
   const updateHistory = options?.updateHistory ?? true;
 
   if (!lenisInstance) {
-    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
-    updateHistoryForHash("#home", updateHistory);
+    if (DEBUG_ANCHORS) {
+      console.error("[anchor] Lenis unavailable; native home navigation blocked");
+    }
     return;
   }
 

@@ -8,7 +8,6 @@ import {
   useMemo,
   useRef,
   useState,
-  useSyncExternalStore,
 } from "react";
 
 import { presenceLocations } from "@/data/presence-locations";
@@ -28,18 +27,8 @@ const POPOVER_MARGIN = 12;
 const MOBILE_BREAKPOINT = 640;
 const ROUTE_COLOR = "#3FE9EC";
 
-const subscribeToHydration = () => () => {};
-
 function hasLocationId(data: unknown): data is { id: string } {
   return typeof data === "object" && data !== null && "id" in data && typeof data.id === "string";
-}
-
-function useIsHydrated() {
-  return useSyncExternalStore(
-    subscribeToHydration,
-    () => true,
-    () => false,
-  );
 }
 
 function getAnchorPosition(
@@ -68,26 +57,13 @@ function getPopoverPosition(
   anchor: { x: number; y: number },
   popoverSize: { width: number; height: number },
   containerSize: { width: number; height: number },
+  gap = POPOVER_GAP,
 ): {
   left: number;
   top: number;
-  pointer: { placement: "left" | "right" | "top" | "bottom"; x: number; y: number };
 } {
-  const availableRight = containerSize.width - anchor.x - POPOVER_MARGIN;
-  const availableLeft = anchor.x - POPOVER_MARGIN;
-  const availableTop = anchor.y - POPOVER_MARGIN;
-  const availableBottom = containerSize.height - anchor.y - POPOVER_MARGIN;
-
-  const prefersLeft = availableRight < popoverSize.width + POPOVER_GAP && availableLeft > availableRight;
-  const horizontalDirection = prefersLeft ? -1 : 1;
-
-  let left =
-    horizontalDirection === 1 ? anchor.x + POPOVER_GAP : anchor.x - popoverSize.width - POPOVER_GAP;
-  let top = anchor.y - popoverSize.height - POPOVER_GAP;
-
-  if (availableTop < popoverSize.height + POPOVER_GAP && availableBottom >= popoverSize.height + POPOVER_GAP) {
-    top = anchor.y + POPOVER_GAP;
-  }
+  let left = anchor.x - popoverSize.width / 2;
+  let top = anchor.y - popoverSize.height - gap;
 
   if (containerSize.width <= MOBILE_BREAKPOINT) {
     left = POPOVER_MARGIN;
@@ -97,39 +73,11 @@ function getPopoverPosition(
     Math.max(left, POPOVER_MARGIN),
     Math.max(POPOVER_MARGIN, containerSize.width - popoverSize.width - POPOVER_MARGIN),
   );
-  top = Math.min(
-    Math.max(top, POPOVER_MARGIN),
-    Math.max(POPOVER_MARGIN, containerSize.height - popoverSize.height - POPOVER_MARGIN),
-  );
-
-  const pointerBaseX = Math.min(
-    Math.max(anchor.x - left, 18),
-    Math.max(18, popoverSize.width - 18),
-  );
-  const pointerBaseY = Math.min(
-    Math.max(anchor.y - top, 18),
-    Math.max(18, popoverSize.height - 18),
-  );
-
-  const pointer: { placement: "left" | "right" | "top" | "bottom"; x: number; y: number } =
-    anchor.y >= top && anchor.y <= top + popoverSize.height
-      ? {
-          placement: horizontalDirection === 1 ? "left" : "right",
-          x: horizontalDirection === 1 ? -7 : popoverSize.width - 7,
-          y: pointerBaseY - 7,
-        }
-      : {
-          placement: anchor.y < top ? "top" : "bottom",
-          x: pointerBaseX - 7,
-          y: anchor.y < top ? -7 : popoverSize.height - 7,
-        };
-
-  return { left, top, pointer };
+  return { left, top };
 }
 
 export function RegionalPresenceMap({ className }: { className?: string }) {
   const shouldReduceMotion = false;
-  const isHydrated = useIsHydrated();
   const containerRef = useRef<HTMLDivElement | null>(null);
   const popoverRef = useRef<HTMLDivElement | null>(null);
   const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
@@ -138,7 +86,6 @@ export function RegionalPresenceMap({ className }: { className?: string }) {
   const [popoverStyle, setPopoverStyle] = useState<{
     left: number;
     top: number;
-    pointer: { placement: "left" | "right" | "top" | "bottom"; x: number; y: number };
   } | null>(null);
 
   const map = useMemo(
@@ -157,7 +104,7 @@ export function RegionalPresenceMap({ className }: { className?: string }) {
     () =>
       map.getSVG({
         radius: 0.145,
-        color: "#0b6b82",
+        color: "#2E2E38",
         shape: "circle",
         backgroundColor: "transparent",
       }),
@@ -270,15 +217,25 @@ export function RegionalPresenceMap({ className }: { className?: string }) {
       }
 
       const containerRect = container.getBoundingClientRect();
-      const anchor = getAnchorPosition(
+      const markerAnchor = getAnchorPosition(
         marker,
         containerRect.width,
         containerRect.height,
       );
+      const anchor = {
+        x: markerAnchor.x + (selectedLocation.markerOffset?.x ?? 0),
+        y: markerAnchor.y + (selectedLocation.markerOffset?.y ?? 0),
+      };
+      const popoverGap = selectedLocation.id === "johannesburg"
+        ? POPOVER_GAP + 24
+        : selectedLocation.id === "philippines"
+          ? POPOVER_GAP + 14
+          : POPOVER_GAP;
       const nextPosition = getPopoverPosition(
         anchor,
         { width: popover.offsetWidth, height: popover.offsetHeight },
         { width: containerRect.width, height: containerRect.height },
+        popoverGap,
       );
 
       setPopoverStyle(nextPosition);
@@ -342,10 +299,10 @@ export function RegionalPresenceMap({ className }: { className?: string }) {
 
   return (
     <div className={cn(className)}>
-      <div className="relative overflow-hidden bg-transparent">
+      <div className="relative overflow-visible bg-transparent">
         <div
           ref={containerRef}
-          className="relative mx-auto aspect-[174/100] w-[80%] overflow-hidden"
+          className="relative mx-auto aspect-[174/100] w-full overflow-visible"
           onClick={(event) => {
             if (event.target === event.currentTarget) {
               closePopover();
@@ -450,7 +407,6 @@ export function RegionalPresenceMap({ className }: { className?: string }) {
               const marker = markerPositions.get(location.id);
               const isSelected = location.id === selectedLocation?.id;
               const isHovered = location.id === hoveredId;
-              const allowMotion = isHydrated && !shouldReduceMotion;
 
               if (!marker) {
                 return null;
@@ -480,51 +436,11 @@ export function RegionalPresenceMap({ className }: { className?: string }) {
                   aria-label={`View ${location.name} location details`}
                 >
                   <span className="relative flex h-9 w-9 items-center justify-center rounded-full">
-                    {allowMotion ? (
-                      <>
-                        <motion.span
-                          className={cn(
-                            "absolute rounded-full border",
-                            isSelected ? "border-[#3FE9EC]/45" : "border-[#3FE9EC]/24",
-                          )}
-                          initial={{ scale: 0.7, opacity: 0.45 }}
-                          animate={{ scale: 1.75, opacity: 0 }}
-                          transition={{
-                            duration: isSelected ? 2.15 : 3,
-                            repeat: Number.POSITIVE_INFINITY,
-                            ease: "easeOut",
-                          }}
-                          style={{ width: 13, height: 13 }}
-                        />
-                        <motion.span
-                          className={cn(
-                            "absolute rounded-full",
-                            isSelected ? "bg-[#3FE9EC]/24" : "bg-[#3FE9EC]/10",
-                          )}
-                          animate={{ scale: isSelected ? [1, 1.5, 1] : [1, 1.2, 1] }}
-                          transition={{
-                            duration: isSelected ? 2 : 2.8,
-                            repeat: Number.POSITIVE_INFINITY,
-                            ease: "easeInOut",
-                          }}
-                          style={{ width: 21, height: 21 }}
-                        />
-                      </>
-                    ) : null}
-
-                    <motion.span
+                    <span
                       className={cn(
-                        "relative flex h-3.5 w-3.5 rounded-full border-2 shadow-[0_0_16px_rgba(63,233,236,0.54)]",
-                        isSelected || isHovered
-                          ? "border-[#d4ffff] bg-[#3FE9EC]"
-                          : "border-[#bffcff] bg-[#3FE9EC]",
+                        "relative flex h-3.5 w-3.5 rounded-full shadow-[0_0_16px_rgba(63,233,236,0.54)]",
+                        "bg-[radial-gradient(circle,rgba(55,216,198,1)_0%,rgba(55,216,198,0.74)_40%,rgba(55,216,198,0.18)_72%,transparent_100%)]",
                       )}
-                      animate={allowMotion ? { scale: isSelected ? [1, 1.1, 1] : [1, 1.03, 1] } : undefined}
-                      transition={{
-                        duration: isSelected ? 1.8 : 2.4,
-                        repeat: allowMotion ? Number.POSITIVE_INFINITY : 0,
-                        ease: "easeInOut",
-                      }}
                     />
 
                     <span
@@ -565,7 +481,7 @@ export function RegionalPresenceMap({ className }: { className?: string }) {
                 exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.98, y: 6 }}
                 transition={{ duration: shouldReduceMotion ? 0 : 0.22, ease: "easeOut" }}
                 className={cn(
-                  "city-popup-card absolute z-20 w-[min(230px,calc(100%-28px))] text-left",
+                  "city-popup-card pointer-events-none absolute z-20 w-[min(220px,calc(100%-28px))] text-left",
                   !popoverStyle && "invisible",
                 )}
                 style={{
@@ -574,17 +490,6 @@ export function RegionalPresenceMap({ className }: { className?: string }) {
                 }}
                 onClick={(event) => event.stopPropagation()}
               >
-                {popoverStyle ? (
-                  <span
-                    className="absolute h-3.5 w-3.5 rotate-45 border border-white/10 bg-[#252729]/92"
-                    aria-hidden="true"
-                    style={{
-                      left: popoverStyle.pointer.x,
-                      top: popoverStyle.pointer.y,
-                    }}
-                  />
-                ) : null}
-
                 <CityLocationPopupCard
                   title={selectedLocation.name}
                   description={[selectedLocation.description]}

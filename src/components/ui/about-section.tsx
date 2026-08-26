@@ -10,7 +10,7 @@ export default function AboutSection3() {
         className="-mt-[10px] bg-[radial-gradient(ellipse_at_50%_0%,rgba(55,216,198,0.34)_0%,rgba(228,229,234,0.88)_38%,#E4E5EA_74%)]"
         contentClassName="mx-auto max-w-6xl px-6 pb-16 sm:px-8 lg:px-12"
       >
-        <div className="-mt-48">
+        <div className="-mt-40">
           <BentoMonochrome />
         </div>
       </LampBeam>

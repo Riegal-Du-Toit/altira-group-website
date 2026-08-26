@@ -292,26 +292,13 @@ export function LandingPage({
 
         <section
           id="offices"
-          className="section-spacing flex min-h-screen w-full items-center !bg-[#F7F8FA] px-4 text-white sm:px-6 lg:px-8"
+          className="section-spacing flex min-h-screen w-full !pb-[calc(var(--section-space)-100px)] items-center !bg-[#F7F8FA] px-4 text-white sm:px-6 lg:px-8"
         >
           <div className="mx-auto w-full max-w-[1720px]">
-            <div className="mx-auto grid max-w-7xl gap-8 px-8 pb-4 pt-6 text-[#2E2E38] md:grid-cols-[minmax(0,1.4fr)_minmax(18rem,0.75fr)] md:items-end md:px-24">
-              <div>
+            <div className="grid items-center gap-10 lg:grid-cols-[minmax(360px,0.58fr)_minmax(0,1fr)] lg:gap-6 xl:grid-cols-[minmax(520px,0.74fr)_minmax(0,1fr)] xl:gap-8">
+              <div className="max-w-[40rem] lg:pl-12 xl:pl-20">
                 <span className="text-xs uppercase tracking-[.35em] text-[#2E2E38]/60">Offices</span>
                 <h2 className={`${poppins.className} mt-3 max-w-4xl text-[27px] font-black uppercase leading-[.98] tracking-[-.02em] md:text-[2.5rem]`}>Where we work.</h2>
-              </div>
-              <p className="max-w-sm text-sm leading-6 text-[#2E2E38]/72 md:text-base">
-                Altira Group operates across three locations, giving us reach across South Africa&apos;s major commercial centres and a specialist technology team in the Philippines.
-              </p>
-            </div>
-            <div className="mt-12 grid items-center gap-10 lg:grid-cols-[minmax(360px,0.58fr)_minmax(0,1fr)] lg:gap-6 xl:grid-cols-[minmax(520px,0.74fr)_minmax(0,1fr)] xl:gap-8">
-              <div className="max-w-[40rem] lg:pl-28 xl:pl-40">
-                <h2 className="bright-section-heading landing-title max-w-[18ch] text-[2.35rem] sm:max-w-[20ch] sm:text-[2.85rem] lg:max-w-none lg:text-[3.15rem] xl:text-[3.45rem]">
-                  <span className="block">Where we work.</span>
-                </h2>
-
-                <div className="section-title-gap h-0.5 w-24 bg-[#3FE9EC]" />
-
                 <p className="landing-copy section-copy-gap max-w-[35rem] text-[1.05rem] leading-8 xl:text-[1.14rem] xl:leading-9">
                   Altira Group operates across three locations, giving us reach across South Africa&apos;s
                   major commercial centres and a specialist technology team in the Philippines.

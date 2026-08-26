@@ -256,6 +256,10 @@ button {
   padding-block: var(--section-space);
 }
 
+main > section[id] {
+  scroll-margin-top: 0;
+}
+
 .homev2-light-backgrounds,
 .homev2-light-backgrounds main > section:not(#why),
 .homev2-light-backgrounds main > section:not(#why) > div:first-child,
@@ -439,7 +443,7 @@ button {
   font-weight: 700 !important;
 }
 
-.homev2-light-backgrounds main > section:not(.homev2-hero):not(#why):not(#method) :is(h2, h3, h4) {
+.homev2-light-backgrounds main > section:not(.homev2-hero):not(#why):not(#method):not(#offices) :is(h2, h3, h4) {
   font-weight: 600 !important;
 }
 

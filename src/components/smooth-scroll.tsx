@@ -10,7 +10,6 @@ import {
   updateAnchorOffsetVar,
 } from "@/lib/scroll";
 
-const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
 const LENIS_EASING = (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t));
 const HASH_SETTLE_DELAY_MS = 180;
 
@@ -56,7 +55,6 @@ export function SmoothScroll() {
       return;
     }
 
-    const reducedMotionQuery = window.matchMedia(REDUCED_MOTION_QUERY);
     const header = document.querySelector("[data-site-header]");
     const resizeObserver = new ResizeObserver(() => {
       updateAnchorOffsetVar();
@@ -106,25 +104,24 @@ export function SmoothScroll() {
         return;
       }
 
+      if (process.env.NODE_ENV === "development") {
+        console.info("[anchor] click", { hash, defaultPrevented: event.defaultPrevented, currentY: window.scrollY });
+      }
       event.preventDefault();
+      if (process.env.NODE_ENV === "development") {
+        console.info("[anchor] preventDefault complete", { hash, defaultPrevented: event.defaultPrevented });
+      }
       handleHashNavigation(hash);
     };
 
     document.addEventListener("click", handleAnchorClick, true);
-
-    if (reducedMotionQuery.matches) {
-      return () => {
-        document.removeEventListener("click", handleAnchorClick, true);
-        resizeObserver.disconnect();
-        window.removeEventListener("resize", updateAnchorOffsetVar);
-      };
-    }
 
     lenis = new Lenis({
       smoothWheel: true,
       duration: 1.15,
       wheelMultiplier: 0.9,
       easing: LENIS_EASING,
+      respectReducedMotion: false,
     });
 
     setLenisInstance(lenis);
