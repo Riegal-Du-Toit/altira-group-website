@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { type CSSProperties, useState } from "react";
+import { useEffect, useRef } from "react";
 
 import { LabeledOrbitEarth } from "@/components/ui/labeled-orbit-earth";
 import { cn } from "@/lib/utils";
@@ -14,26 +14,20 @@ interface PartnerIcon {
 }
 
 const outerPartners: readonly PartnerIcon[] = [
-  { src: "/icons/user-shield.svg", alt: "Member protection" },
   { src: "/icons/shield-security-risk.svg", alt: "Risk protection" },
-  { src: "/icons/payment-gateway.svg", alt: "Payment gateway" },
-  { src: "/icons/payment-pos.svg", alt: "Payments" },
   { src: "/icons/business-deal.svg", alt: "Business solutions" },
   { src: "/icons/car-crash.svg", alt: "Motor protection" },
   { src: "/icons/family-dress.svg", alt: "Family protection" },
   { src: "/icons/anatomical-heart.svg", alt: "Health protection" },
-  { src: "/icons/wildfire.svg", alt: "Property protection" },
 ];
 
 const innerPartners: readonly PartnerIcon[] = [
   { src: "/icons/payment-pos.svg", alt: "Payments" },
   { src: "/icons/payment-gateway.svg", alt: "Payment gateway" },
   { src: "/icons/user-shield.svg", alt: "Member protection" },
-  { src: "/icons/shield-security-risk.svg", alt: "Risk protection" },
-  { src: "/icons/business-deal.svg", alt: "Business solutions" },
-  { src: "/icons/anatomical-heart.svg", alt: "Health protection" },
-  { src: "/icons/family-dress.svg", alt: "Family protection" },
   { src: "/icons/wildfire.svg", alt: "Property protection" },
+  { src: "/icons/plane-globe.png", alt: "Global reach" },
+  { src: "/icons/cat-dog.png", alt: "Pet protection" },
 ];
 
 export default function IntegrationsSection() {
@@ -61,13 +55,17 @@ export default function IntegrationsSection() {
 
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute left-[-8%] right-[calc(-8%+9px)] -bottom-8 z-20 h-48 bg-gradient-to-b from-transparent via-[#F7F8FA]/82 to-[#F7F8FA] md:left-[-10%] md:right-[calc(-10%+9px)] md:-bottom-10 md:h-60"
+              className="pointer-events-none absolute left-[-8%] right-[calc(-8%+9px)] -bottom-8 z-20 h-36 bg-gradient-to-b from-transparent via-[#F7F8FA]/82 to-[#F7F8FA] md:left-[-10%] md:right-[calc(-10%+9px)] md:-bottom-10 md:h-44"
             />
 
-            <div className="absolute inset-x-0 bottom-0 z-30 mx-auto flex w-fit justify-center">
+            <div className="absolute inset-x-0 bottom-6 z-30 mx-auto flex w-fit justify-center">
               <LabeledOrbitEarth
                 size={260}
                 className="size-52 md:size-64"
+                label="Powered by Altira Orbit"
+                labelPosition="below"
+                labelClassName="!bg-[#37D8C6] rounded-[5px] -translate-y-2 px-2 py-1 !text-[11px] !text-white [-webkit-text-fill-color:#fff]"
+                autoRotateSpeed={0.45}
                 earthClassName="overflow-hidden rounded-full drop-shadow-[0_12px_28px_rgba(46,46,56,0.18)]"
                 earthColors={{ fill: "#F7F8FA", line: "#2E2E38", dot: "#2E2E38" }}
               />
@@ -90,64 +88,70 @@ function Orbit({
   duration: number;
   icons: readonly PartnerIcon[];
 }) {
-  const [isPaused, setIsPaused] = useState(false);
-  const orbitStyle = {
-    "--partner-orbit-duration": `${duration}s`,
-    animationPlayState: isPaused ? "paused" : "running",
-  } as CSSProperties;
+  const orbitRef = useRef<HTMLDivElement>(null);
+  const iconRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const pausedRef = useRef(false);
+  const rotationRef = useRef(0);
+  const lastFrameRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    let frameId = 0;
+    const directionMultiplier = direction === "clockwise" ? 1 : -1;
+
+    const tick = (time: number) => {
+      if (lastFrameRef.current === null) lastFrameRef.current = time;
+      const elapsed = time - lastFrameRef.current;
+      lastFrameRef.current = time;
+
+      if (!pausedRef.current) {
+        rotationRef.current += (elapsed / (duration * 1000)) * Math.PI * 2 * directionMultiplier;
+      }
+
+      const bounds = orbitRef.current?.getBoundingClientRect();
+      if (bounds) {
+        const radius = Math.min(bounds.width, bounds.height) / 2;
+        icons.forEach((_, index) => {
+          const angle = (index * Math.PI * 2) / icons.length + rotationRef.current;
+          const x = bounds.width / 2 + Math.sin(angle) * radius;
+          const y = bounds.height / 2 - Math.cos(angle) * radius;
+          iconRefs.current[index]?.style.setProperty("transform", `translate(${x}px, ${y}px) translate(-50%, -50%)`);
+        });
+      }
+
+      frameId = window.requestAnimationFrame(tick);
+    };
+
+    frameId = window.requestAnimationFrame(tick);
+    return () => {
+      window.cancelAnimationFrame(frameId);
+      lastFrameRef.current = null;
+    };
+  }, [direction, duration, icons]);
 
   return (
     <div
+      ref={orbitRef}
       className={cn(
         "absolute aspect-square rounded-full border-t border-white/25 bg-linear-to-b from-white/8 to-transparent to-25%",
         className,
       )}
     >
-      <div
-        className={cn(
-          "partner-orbit-spin absolute inset-0",
-          direction === "clockwise" ? "partner-orbit-cw" : "partner-orbit-ccw",
-        )}
-        style={orbitStyle}
-      >
-        {icons.map((icon, index) => {
-          const angle = (index * 360) / icons.length;
-
-          return (
-            <div key={icon.src} className="absolute inset-0" style={{ transform: `rotate(${angle}deg)` }}>
-              <div className="absolute left-1/2 top-0 z-20 -translate-x-1/2 -translate-y-1/2">
-                <div
-                  className={cn(
-                    "partner-orbit-spin",
-                    direction === "clockwise" ? "partner-orbit-ccw" : "partner-orbit-cw",
-                  )}
-                  style={orbitStyle}
-                >
-                  <div style={{ transform: `rotate(${-angle}deg)` }}>
-                    <IntegrationCard
-                      onPointerEnter={() => setIsPaused(true)}
-                      onPointerLeave={() => setIsPaused(false)}
-                    >
-                      <Image
-                        src={icon.src}
-                        alt={icon.alt}
-                        width={icon.wide ? 48 : 36}
-                        height={36}
-                        className={cn(
-                          "h-7 w-7 object-contain md:h-8 md:w-8",
-                          icon.wide && "w-10 md:w-11",
-                          "brightness-0 invert",
-                        )}
-                        unoptimized
-                      />
-                    </IntegrationCard>
-                  </div>
-                </div>
-              </div>
-            </div>
-          );
-        })}
-      </div>
+      {icons.map((icon, index) => {
+        return (
+          <div key={icon.src} ref={(element) => { iconRefs.current[index] = element; }} className="absolute left-0 top-0 z-20" style={{ transform: "translate(-50%, -50%)" }}>
+            <IntegrationCard onPointerEnter={() => { pausedRef.current = true; }} onPointerLeave={() => { pausedRef.current = false; }}>
+              <Image
+                src={icon.src}
+                alt={icon.alt}
+                width={icon.wide ? 48 : 36}
+                height={36}
+                className={cn("h-7 w-7 object-contain md:h-8 md:w-8", icon.wide && "w-10 md:w-11", "brightness-0 invert")}
+                unoptimized
+              />
+            </IntegrationCard>
+          </div>
+        );
+      })}
     </div>
   );
 }

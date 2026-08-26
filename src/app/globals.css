@@ -568,6 +568,12 @@ main > section[id] {
   color: #F7F8FA !important;
 }
 
+.homev2-light-backgrounds #integrations .partners-cta a,
+.homev2-light-backgrounds #integrations .partners-cta a * {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+
 
 .homev2-orbit-entrance {
   opacity: 0;

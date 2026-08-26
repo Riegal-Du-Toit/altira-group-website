@@ -29,7 +29,7 @@ export function HomeV2Footer() {
   };
 
   return (
-    <footer className="bg-[#F7F8FA] px-0 pt-0 text-[#2E2E38]">
+    <footer id="homev2-footer" className="bg-[#F7F8FA] px-0 pt-0 text-[#2E2E38]">
       <div className="rounded-t-[2rem] bg-[#E4E5EA] px-7 pb-[7px] pt-4 sm:px-12 lg:px-[11%] lg:pt-6">
         <div className="mx-auto w-full max-w-[1100px]">
           <div className="border-b border-white/8 pb-12">
@@ -61,7 +61,6 @@ export function HomeV2Footer() {
                     <span className="leading-none"><span className="block text-[0.48rem]">GET IT ON</span><span className="mt-0.5 block text-sm font-semibold">Google Play</span></span>
                   </a>
                   <div className="btn-wrapper">
-                    {emailCopied && <span className="email-copy-confirmation">Email copied!</span>}
                     <button type="button" className="btn" onClick={copyEmail} aria-label="Copy info@altiragroup.co.za">
                       <span className="frame" aria-hidden="true">
                         <i className="point top left" />

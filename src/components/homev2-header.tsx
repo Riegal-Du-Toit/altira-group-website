@@ -2,6 +2,7 @@
 
 import { openSansThin } from "@/lib/google-fonts";
 import NavbarSectionTwo from "@/components/ui/navbar-section-2";
+import { useEffect, useState } from "react";
 export { TalkButton } from "@/components/ui/talk-button";
 
 export function NavigationCta({
@@ -30,9 +31,20 @@ export function NavigationCta({
 }
 
 export function HomeV2Header() {
+  const [isFooterVisible, setIsFooterVisible] = useState(false);
+
+  useEffect(() => {
+    const footer = document.getElementById("homev2-footer");
+    if (!footer) return;
+
+    const observer = new IntersectionObserver(([entry]) => setIsFooterVisible(entry.isIntersecting), { threshold: 0.05 });
+    observer.observe(footer);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <header data-site-header data-anchor-offset="-64" className="homev2-header-entrance fixed inset-x-0 top-0 z-50 px-4 sm:px-6">
-      <NavbarSectionTwo />
+      <NavbarSectionTwo hideLogo={isFooterVisible} />
     </header>
   );
 }

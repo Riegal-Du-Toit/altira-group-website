@@ -13,13 +13,13 @@ export default function IntegrationsSection() {
           <h2 className="bright-section-heading landing-title text-balance text-[2.75rem] md:text-[3.65rem] xl:text-[4rem]">
             Powered by <span className="heading-accent">top-tier partners</span>
           </h2>
-          <p className="landing-copy section-copy-gap max-w-[42rem] text-[1.22rem] leading-8 md:text-[1.36rem] md:leading-9">
+          <p className="landing-copy section-copy-gap max-w-[42rem] text-[1.22rem] !leading-6 md:text-[1.36rem] md:!leading-[25px]">
             Altira Group works with leading software brands and specialist platform partners to
             bring premium, reliable solutions into one operating model for distribution,
             operations, automation and customer experience.
           </p>
 
-          <div className="mt-11">
+          <div className="partners-cta mt-11">
             <TalkButton href="https://cdn.21st.dev/meschacirung/integrations-5/default/bundle.1783659514828.html?theme=light#">Explore our partners</TalkButton>
           </div>
         </div>

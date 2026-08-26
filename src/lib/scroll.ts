@@ -39,7 +39,9 @@ export function isHashHref(href: string | null | undefined): href is string {
 }
 
 function getScrollTargetTop(target: HTMLElement) {
-  const top = window.scrollY + target.getBoundingClientRect().top - getHeaderOffset();
+  const sectionOffset = Number(target.dataset.anchorScrollOffset);
+  const offset = Number.isFinite(sectionOffset) ? sectionOffset : getHeaderOffset();
+  const top = window.scrollY + target.getBoundingClientRect().top - offset;
   return Math.max(0, Math.round(top));
 }
 

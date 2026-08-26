@@ -78,13 +78,13 @@ export function HomeV2ScrollHero() {
         </div>
 
         <div className="pointer-events-none absolute z-[8] -translate-y-1/2" style={{ left: headingLeft, top: "calc(38% + 72px)" }}>
-          <div className={`${poppins.className} homev2-copy-entrance flex flex-col items-start gap-0 whitespace-nowrap text-left text-[76px] font-extrabold uppercase leading-[4.9rem] tracking-[-0.02em] text-[#2E2E38]`}>
+          <div className={`${poppins.className} homev2-copy-entrance flex flex-col items-start gap-0 whitespace-nowrap text-left text-[76px] font-extrabold uppercase leading-[73px] tracking-[-0.02em] text-[#2E2E38]`}>
             <div className="flex items-baseline gap-3">
               <span>The</span>
               <AnimatedText
                 text="Technology"
                 className="items-start gap-0"
-                textClassName={`${poppins.className} whitespace-nowrap !text-left !text-[76px] !font-extrabold uppercase leading-[4.9rem] tracking-[-0.02em] text-[#2E2E38]`}
+                textClassName={`${poppins.className} whitespace-nowrap !text-left !text-[76px] !font-extrabold uppercase leading-[73px] tracking-[-0.02em] text-[#2E2E38]`}
                 underlineClassName="hidden"
                 underlineWidth="100%"
                 underlineOffset="0"
@@ -97,7 +97,7 @@ export function HomeV2ScrollHero() {
               <AnimatedText
                 text="Journey"
                 className="items-start gap-0"
-                textClassName={`${poppins.className} whitespace-nowrap !text-left !text-[76px] !font-extrabold uppercase leading-[4.9rem] tracking-[-0.02em] text-[#2E2E38]`}
+                textClassName={`${poppins.className} whitespace-nowrap !text-left !text-[76px] !font-extrabold uppercase leading-[73px] tracking-[-0.02em] text-[#2E2E38]`}
                 underlineClassName="hidden"
                 underlineWidth="100%"
                 underlineOffset="0"

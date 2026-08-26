@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { poppins } from "@/lib/google-fonts";
-import { useRef, useState, useLayoutEffect } from "react";
+import { useEffect, useRef, useState, useLayoutEffect } from "react";
 import gsap from "gsap";
 
 interface MenuItem {
@@ -25,6 +25,7 @@ const clipShapeCounts: Record<string, number> = { "clip-original": 5, "clip-conf
 
 export const Component = ({ items = defaultItems, className }: { items?: MenuItem[]; className?: string }) => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isTextHovered, setIsTextHovered] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const masterTl = useRef<gsap.core.Timeline | null>(null);
   const imagePreloadsRef = useRef<HTMLImageElement[]>([]);
@@ -79,12 +80,26 @@ export const Component = ({ items = defaultItems, className }: { items?: MenuIte
     createLoop(index);
   };
 
+  useEffect(() => {
+    if (isTextHovered || items.length < 2) return;
+
+    const intervalId = window.setInterval(() => {
+      setActiveIndex((current) => {
+        const next = (current + 1) % items.length;
+        createLoop(next);
+        return next;
+      });
+    }, 4000);
+
+    return () => window.clearInterval(intervalId);
+  }, [isTextHovered, items.length]);
+
   return (
     <div ref={containerRef} className={cn("flex w-full flex-col items-center justify-between overflow-hidden px-8 pb-8 pt-8 transition-colors duration-500 md:flex-row md:px-24 md:pb-10 md:pt-24", "bg-white dark:bg-[#050505]", className)}>
       <div className="z-20 w-full md:w-1/2">
-        <nav><ul className="flex flex-col gap-14">
+        <nav onMouseLeave={() => setIsTextHovered(false)}><ul className="flex flex-col gap-14">
           {items.map((item, index) => (
-            <li key={item.num} onMouseEnter={() => handleItemHover(index)} className="group cursor-pointer">
+            <li key={item.num} onMouseEnter={() => { setIsTextHovered(true); handleItemHover(index); }} className="group cursor-pointer">
               <div className="flex items-start gap-6">
                 <div className={cn("method-step-counter transition-transform duration-500", activeIndex === index ? "scale-110" : "")}>{item.num}</div>
                 <div>

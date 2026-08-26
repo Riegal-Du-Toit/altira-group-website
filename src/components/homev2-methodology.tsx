@@ -11,8 +11,8 @@ const orbitItems = [
 
 export function HomeV2Methodology() {
   return (
-    <section id="method" className="w-full overflow-hidden rounded-b-[2rem] bg-white">
-      <div className="mx-auto mt-0 grid max-w-7xl gap-8 px-8 pb-4 pt-24 text-[#2E2E38] md:grid-cols-[minmax(0,1.4fr)_minmax(18rem,0.75fr)] md:items-end md:px-24 md:pt-28">
+    <section id="method" data-anchor-scroll-offset="48" className="w-full overflow-hidden rounded-b-[2rem] bg-white">
+      <div className="mx-auto mt-0 grid max-w-7xl gap-8 px-8 pb-4 pt-0 text-[#2E2E38] md:grid-cols-[minmax(0,1.4fr)_minmax(18rem,0.75fr)] md:items-end md:px-24 md:pt-1.5">
         <div>
           <span className="text-xs uppercase tracking-[.35em] text-[#2E2E38]/60">Altira Orbit</span>
           <h2 className={`${poppins.className} mt-3 max-w-4xl text-[27px] font-black uppercase leading-[.98] tracking-[-.02em] md:text-[2.5rem]`}>
@@ -27,7 +27,7 @@ export function HomeV2Methodology() {
           for every partner, without bespoke builds.
         </p>
       </div>
-      <Component className="!bg-[#E4E5EA] !pt-8 md:!pt-10" />
+      <Component className="!bg-[#E4E5EA] !pt-2 md:!pt-2" />
     </section>
   );
 }
