@@ -64,6 +64,13 @@ export function RulerCarousel({ originalItems }: { originalItems: readonly Carou
     return () => window.removeEventListener("keydown", onKeyDown);
   }, []);
 
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setActiveIndex((current) => current + 1);
+    }, 4000);
+    return () => window.clearInterval(timer);
+  }, []);
+
   if (itemsPerSet === 0) return null;
 
   const activeItem = activeIndex % itemsPerSet;
