@@ -1,7 +1,7 @@
 "use client";
 
-import { motion, type MotionValue, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { motion, type MotionValue, useMotionValueEvent, useScroll, useTransform } from "framer-motion";
+import { useRef, useState } from "react";
 import { poppins } from "@/lib/google-fonts";
 
 interface Product {
@@ -40,11 +40,31 @@ const products: readonly Product[] = [
   },
 ];
 
+const certifications = [
+  { standard: "ISO 9001:2015", status: "Certified" },
+  { standard: "ISO/IEC 27001", status: "Aligned" },
+  { standard: "ISO 15489", status: "Aligned" },
+] as const;
+
+const certificationHighlights = [
+  ["Smart DMS", "live on the Microsoft commercial marketplace"],
+  ["ISO 9001:2015", "certified · externally audited"],
+  ["ISO/IEC 27001", "information security management, in live operation"],
+  ["Eight provinces", "one delivery standard"],
+] as const;
+
 export default function ProductDepthScroll() {
   const sectionRef = useRef<HTMLElement>(null);
+  const [showCertificationBanner, setShowCertificationBanner] = useState(false);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end end"],
+  });
+  useMotionValueEvent(scrollYProgress, "change", (value) => {
+    setShowCertificationBanner((current) => {
+      const next = value >= 0.995;
+      return current === next ? current : next;
+    });
   });
 
   return (
@@ -64,12 +84,14 @@ export default function ProductDepthScroll() {
               index={index}
               progress={scrollYProgress}
               product={product}
+              showCertificationCards={!showCertificationBanner}
             />
           ))}
         </div>
 
         <ProgressScroller progress={scrollYProgress} />
       </div>
+      <CertificationBanner visible={showCertificationBanner} />
     </section>
   );
 }
@@ -78,10 +100,12 @@ function DepthCard({
   index,
   progress,
   product,
+  showCertificationCards,
 }: {
   index: number;
   progress: MotionValue<number>;
   product: (typeof products)[number];
+  showCertificationCards: boolean;
 }) {
   const isFirst = index === 0;
   const isLast = index === products.length - 1;
@@ -125,9 +149,9 @@ function DepthCard({
         zIndex: products.length - index,
         transformStyle: "preserve-3d",
       }}
-      className="absolute left-[calc(45%+15px)] top-[94px] h-[62vh] min-h-[30rem] w-[min(80vw,64rem)] overflow-hidden rounded-[1.15rem] bg-transparent ring-[2.5px] ring-[#37D8C6]"
+      className="absolute left-[calc(45%+15px)] top-[94px] h-[62vh] min-h-[30rem] w-[min(80vw,64rem)]"
     >
-      <div className="grid h-full grid-rows-[1.15fr_0.85fr] overflow-hidden bg-[#F7F8FA] md:grid-cols-[0.72fr_1.28fr] md:grid-rows-1">
+      <div className="grid h-full grid-rows-[1.15fr_0.85fr] overflow-hidden rounded-[1.15rem] bg-[#F7F8FA] ring-[2.5px] ring-[#37D8C6] md:grid-cols-[0.72fr_1.28fr] md:grid-rows-1">
         <div className="relative z-10 flex min-h-0 flex-col justify-between border-b-2 border-[#37D8C6] bg-[#F7F8FA] p-7 text-neutral-900 sm:p-9 md:border-r-2 md:border-b-0 lg:p-12">
           <div className="flex items-center justify-between gap-5">
             <div className="inline-flex rounded-lg bg-[#37D8C6] px-[6px] py-1 text-[2.5rem] font-bold leading-none tracking-[-0.04em] !text-white">
@@ -167,7 +191,42 @@ function DepthCard({
           />
         </div>
       </div>
+
+      {showCertificationCards ? (
+        <div className="mt-4 grid grid-cols-3 gap-3">
+          {certifications.map((certification) => (
+            <div
+              key={certification.standard}
+              className="flex min-h-[4.75rem] flex-col justify-center rounded-xl border border-[#37D8C6] bg-[#F7F8FA] px-4 text-center shadow-[0_10px_24px_rgba(25,28,37,0.08)]"
+            >
+              <span className="text-xs font-extrabold leading-tight tracking-[-0.02em] text-neutral-900 sm:text-sm">
+                {certification.standard}
+              </span>
+              <span className="mt-1 text-[0.625rem] font-semibold uppercase tracking-[0.18em] text-[#159D90]">
+                {certification.status}
+              </span>
+            </div>
+          ))}
+        </div>
+      ) : null}
+
     </motion.article>
+  );
+}
+
+function CertificationBanner({ visible }: { visible: boolean }) {
+  return (
+    <div className={`absolute inset-x-0 bottom-0 z-[70] min-h-9 overflow-hidden border-y border-[#37D8C6] bg-[#F7F8FA] text-neutral-900 transition-opacity duration-150 ${visible ? "opacity-100" : "pointer-events-none opacity-0"}`}>
+      <div className="flex min-h-9 w-max whitespace-nowrap [animation:certification-ticker_24s_linear_infinite] hover:[animation-play-state:paused]">
+        {[...certificationHighlights, ...certificationHighlights].map(([title, detail], index) => (
+          <div key={`${title}-${index}`} className="flex min-h-9 shrink-0 items-center gap-2 border-r border-neutral-200 px-6 text-[0.625rem] leading-none sm:text-xs">
+            <span aria-hidden="true" className="size-1.5 shrink-0 rounded-full border border-[#37D8C6]" />
+            <span className="font-extrabold">{title}</span>
+            <span className="font-semibold text-neutral-500">{detail}</span>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
 

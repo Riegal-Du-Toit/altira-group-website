@@ -539,8 +539,8 @@ main > section[id] {
   border-color: #37D8C6 !important;
 }
 
-.homev2-light-backgrounds main > section:not(.homev2-hero):not(#why):not(#offices):not(#integrations):not(#app-experience),
-.homev2-light-backgrounds main > section:not(.homev2-hero):not(#why):not(#offices):not(#integrations):not(#app-experience) > div:first-child {
+.homev2-light-backgrounds main > section:not(.homev2-hero):not(#why):not(#offices):not(#integrations):not(#trusted-customers):not(#app-experience),
+.homev2-light-backgrounds main > section:not(.homev2-hero):not(#why):not(#offices):not(#integrations):not(#trusted-customers):not(#app-experience) > div:first-child {
   background-color: #E4E5EA !important;
 }
 
@@ -548,8 +548,8 @@ main > section[id] {
   background-color: #fff !important;
 }
 
-.homev2-light-backgrounds main > :is(#offices, #integrations, #app-experience),
-.homev2-light-backgrounds main > :is(#offices, #integrations, #app-experience) > div:first-child {
+.homev2-light-backgrounds main > :is(#offices, #integrations, #trusted-customers, #app-experience),
+.homev2-light-backgrounds main > :is(#offices, #integrations, #trusted-customers, #app-experience) > div {
   background-color: #F7F8FA !important;
 }
 
@@ -1023,6 +1023,16 @@ main > section[id] {
 
 .h-265 {
   height: 66.25rem;
+}
+
+@keyframes certification-ticker {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 @media (min-width: 48rem) {
