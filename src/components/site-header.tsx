@@ -94,7 +94,7 @@ export const productLinks: NavItemType[] = [
   },
   {
     title: "Orbit Engine",
-    href: "#integrations",
+    href: "#trusted-customers",
     icon: CodeIcon,
     description: "See the partner and platform layer behind Altira's premium solutions.",
   },
@@ -127,7 +127,7 @@ export const companyLinks: NavItemType[] = [
   },
   {
     title: "Orbit Engine",
-    href: "#integrations",
+    href: "#trusted-customers",
     description: "Altira's technology layer for orchestrating top-tier partners.",
     icon: RotateCcw,
   },
@@ -296,7 +296,7 @@ function DesktopMenu() {
         </NavigationMenuItem>
         <NavigationMenuItem>
           <NavigationMenuLink asChild className="cursor-pointer">
-            <a href="#integrations">Orbit Engine</a>
+            <a href="#trusted-customers">Orbit Engine</a>
           </NavigationMenuLink>
         </NavigationMenuItem>
       </NavigationMenuList>

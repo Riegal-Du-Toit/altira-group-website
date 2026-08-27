@@ -216,10 +216,10 @@ function DepthCard({
 
 function CertificationBanner({ visible }: { visible: boolean }) {
   return (
-    <div className={`absolute inset-x-0 bottom-0 z-[70] min-h-9 overflow-hidden border-y border-[#37D8C6] bg-[#F7F8FA] text-neutral-900 transition-opacity duration-150 ${visible ? "opacity-100" : "pointer-events-none opacity-0"}`}>
-      <div className="flex min-h-9 w-max whitespace-nowrap [animation:certification-ticker_24s_linear_infinite] hover:[animation-play-state:paused]">
+    <div className={`absolute inset-x-0 bottom-0 z-[70] min-h-14 overflow-hidden border-y border-[#37D8C6] bg-[#F7F8FA] text-neutral-900 transition-opacity duration-150 ${visible ? "opacity-100" : "pointer-events-none opacity-0"}`}>
+      <div className="flex min-h-14 w-max whitespace-nowrap [animation:certification-ticker_24s_linear_infinite] hover:[animation-play-state:paused]">
         {[...certificationHighlights, ...certificationHighlights].map(([title, detail], index) => (
-          <div key={`${title}-${index}`} className="flex min-h-9 shrink-0 items-center gap-2 border-r border-neutral-200 px-6 text-[0.625rem] leading-none sm:text-xs">
+          <div key={`${title}-${index}`} className="flex min-h-14 shrink-0 items-center gap-2 border-r border-neutral-200 px-6 text-xs leading-none sm:text-sm">
             <span aria-hidden="true" className="size-1.5 shrink-0 rounded-full border border-[#37D8C6]" />
             <span className="font-extrabold">{title}</span>
             <span className="font-semibold text-neutral-500">{detail}</span>

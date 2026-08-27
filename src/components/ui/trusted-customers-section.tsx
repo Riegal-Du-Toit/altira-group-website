@@ -16,7 +16,7 @@ const partners = [
   { title: "VS Code", icon: "/partner-icons/vscode.svg" },
   { title: "Vercel", icon: "/partner-icons/vercel.svg", iconClassName: "brightness-0" },
   { title: "Supabase", icon: "/partner-icons/supabase.svg" },
-  { title: "Stripe", icon: "/partner-icons/stripe.svg", hideTitle: true, iconClassName: "!size-11" },
+  { title: "Stripe", icon: "/partner-icons/stripe.svg", hideTitle: true, iconClassName: "!size-24" },
   { title: "PostgreSQL", icon: "/partner-icons/postgresql.svg" },
   { title: "GPT", icon: "/partner-icons/openai.svg", iconClassName: "brightness-0" },
   { title: "Gmail", icon: "/partner-icons/mistral.svg" },

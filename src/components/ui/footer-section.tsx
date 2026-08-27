@@ -20,7 +20,7 @@ const footerColumns: FooterColumn[] = [
 		links: [
 			{ title: 'Home', href: '#home' },
 			{ title: 'Why Altira Group', href: '#why' },
-			{ title: 'Orbit Engine', href: '#integrations' },
+			{ title: 'Orbit Engine', href: '#trusted-customers' },
 		],
 	},
 	{
