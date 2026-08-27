@@ -41,14 +41,18 @@ const products: readonly Product[] = [
 ];
 
 const certifications = [
-  { standard: "ISO 9001:2015", status: "Certified" },
-  { standard: "ISO/IEC 27001", status: "Aligned" },
-  { standard: "ISO 15489", status: "Aligned" },
+  { standard: "ISO/IEC 27001:2022", status: "Supabase" },
+  { standard: "ISO 27001:2022", status: "Netcash" },
+  { standard: "ISO 27001", status: "Q LINK" },
 ] as const;
 
 const certificationHighlights = [
   ["Built on certified infrastructure", "Supabase ISO/IEC 27001:2022 and SOC 2 Type 2"],
   ["Active payment path", "Netcash ISO 27001:2022 and PCI DSS"],
+  ["Premium collections", "QSURE FSP 50552"],
+  ["Payments, payroll & collections", "Q LINK ISO 27001 accredited"],
+  ["Insurance and lending", "configurable onboarding and sales technology"],
+  ["Customer apps", "onboarding, transactions, and engagement"],
 ] as const;
 
 export default function ProductDepthScroll() {
