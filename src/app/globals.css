@@ -1035,6 +1035,14 @@ main > section[id] {
   }
 }
 
+.certification-ticker-track {
+  animation: certification-ticker 18s linear infinite;
+}
+
+.certification-ticker-track:hover {
+  animation-play-state: paused;
+}
+
 @media (min-width: 48rem) {
   .md\:w-145 {
     width: 36.25rem;
