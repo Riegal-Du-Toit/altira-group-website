@@ -2,14 +2,16 @@ import { RulerCarousel, type CarouselItem } from "@/components/ui/ruler-carousel
 import { poppins } from "@/lib/google-fonts";
 
 const customers = [
-  "Dept. of Mineral & Petroleum Resources",
-  "Eastern Cape Dept. of Health",
-  "Buffalo City Metro",
-  "Northern Cape Dept. of Health",
-  "Amatola Water",
-  "PetroSA",
-  "Eskom Holdings SOC",
-  "SAHPRA",
+  "Client 1",
+  "Client 2",
+  "Client 3",
+  "Client 4",
+  "Client 5",
+  "Client 6",
+  "Client 7",
+  "Client 8",
+  "Client 9",
+  "Client 10",
 ] as const;
 
 const partners = [

@@ -53,6 +53,7 @@ const certificationHighlights = [
   ["Payments, payroll & collections", "Q LINK ISO 27001 accredited"],
   ["Insurance and lending", "configurable onboarding and sales technology"],
   ["Customer apps", "onboarding, transactions, and engagement"],
+  ["B-BBEE", "Level [1–8] Contributor"],
 ] as const;
 
 export default function ProductDepthScroll() {
