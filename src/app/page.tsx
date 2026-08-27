@@ -1,5 +1,6 @@
 import dynamic from "next/dynamic";
 import type { ReactNode } from "react";
+import HomeV2 from "./homev2/page";
 
 import { SiteHeader } from "@/components/site-header";
 import { ExperienceHeroText } from "@/components/ui/experience-hero";
@@ -323,5 +324,5 @@ export function LandingPage({
 }
 
 export default function Home() {
-  return <LandingPage />;
+  return <HomeV2 />;
 }
