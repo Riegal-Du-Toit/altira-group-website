@@ -46,8 +46,9 @@ export default function TrustedCustomersSection() {
       <RulerCarousel originalItems={customerCarouselItems} />
 
       <div className="mt-14 px-4 py-14 sm:px-6" style={{ backgroundColor: "#F7F8FA" }}>
-        <p className="mx-auto max-w-4xl text-center text-lg leading-8 text-[#2E2E38] sm:text-xl sm:leading-9">
-          Altira Group works with leading software brands and specialist platform partners to bring premium, reliable solutions into one operating model for distribution, operations, automation and customer experience.
+        <p className="mx-auto max-w-[75rem] text-center text-base leading-8 text-[#2E2E38] sm:text-[1.05rem] sm:leading-8">
+          Altira Group works with leading software brands and specialist platform partners to bring premium,<br />
+          reliable solutions into one operating model for distribution, operations, automation and customer experience.
         </p>
       </div>
 

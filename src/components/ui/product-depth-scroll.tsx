@@ -47,10 +47,8 @@ const certifications = [
 ] as const;
 
 const certificationHighlights = [
-  ["Smart DMS", "live on the Microsoft commercial marketplace"],
-  ["ISO 9001:2015", "certified · externally audited"],
-  ["ISO/IEC 27001", "information security management, in live operation"],
-  ["Eight provinces", "one delivery standard"],
+  ["Built on certified infrastructure", "Supabase ISO/IEC 27001:2022 and SOC 2 Type 2"],
+  ["Active payment path", "Netcash ISO 27001:2022 and PCI DSS"],
 ] as const;
 
 export default function ProductDepthScroll() {
