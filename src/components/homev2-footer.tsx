@@ -81,9 +81,10 @@ export function HomeV2Footer() {
                     </div>
                     <div className="flex flex-wrap gap-6">
                       {contactActions.map(({ label, href, icon: Icon }) => (
-                        <a key={label} href={href} className="grid justify-items-center gap-2 text-black transition hover:text-[#37D8C6]">
-                          <span className="grid size-11 place-items-center rounded-full border border-black/10 bg-white/50 shadow-sm">
-                            <Icon className="size-6" />
+                        <a key={label} href={href} className="grid justify-items-center gap-2 text-black transition">
+                          <span className="relative grid size-11 place-items-center overflow-hidden rounded-[12px] border-[1.5px] border-[#F7F8FA] bg-[#37D8C6] text-white shadow-[0_8px_18px_rgba(17,22,61,0.18)] transition-all duration-300 ease-out hover:-translate-y-0.5 hover:bg-[#2fc7b7] active:scale-[0.97]">
+                            <Icon className="relative z-10 size-6 !text-white" />
+                            <span aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[repeating-conic-gradient(rgb(48,47,47)_0.0000001%,rgb(51,51,51)_0.000104%)_60%_60%/600%_600%] opacity-10 contrast-105" />
                           </span>
                           <span className="text-[0.78rem] font-normal">{label}</span>
                         </a>
@@ -99,9 +100,10 @@ export function HomeV2Footer() {
                           key={label}
                           href={href}
                           aria-label={label}
-                          className="grid size-8 place-items-center rounded-full border border-black/10 bg-white/55 text-black transition hover:-translate-y-0.5 hover:bg-white hover:text-[#37D8C6]"
+                          className="relative grid size-9 place-items-center overflow-hidden rounded-[12px] border-[1.5px] border-[#F7F8FA] bg-[#37D8C6] text-white shadow-[0_8px_18px_rgba(17,22,61,0.18)] transition-all duration-300 ease-out hover:-translate-y-0.5 hover:bg-[#2fc7b7] active:scale-[0.97]"
                         >
-                          <Icon className="size-4" />
+                          <Icon className="relative z-10 size-4 !text-white" />
+                          <span aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[repeating-conic-gradient(rgb(48,47,47)_0.0000001%,rgb(51,51,51)_0.000104%)_60%_60%/600%_600%] opacity-10 contrast-105" />
                         </a>
                       ))}
                       </div>
