@@ -35,12 +35,12 @@ export default function NavbarSectionTwo({ hideLogo = false }: { hideLogo?: bool
             </nav>
           </div>
         </div>
-        <TalkButton />
+        <TalkButton>TALK TO US</TalkButton>
       </div>
 
       <div className="flex h-14 items-center justify-between lg:hidden">
         <Link href="/homev2" className={`transition-all duration-300 ${hideLogo ? "pointer-events-none -translate-y-4 opacity-0" : "translate-y-0 opacity-100"}`}><Image src="/logo.png" alt="Altira Group" width={218} height={72} className="h-auto w-36" priority /></Link>
-        <div className="flex items-center gap-2"><TalkButton /><button type="button" onClick={() => setMobileOpen((open) => !open)} className="grid size-9 place-items-center rounded-lg border border-[#2E2E38]/20 text-[#2E2E38]">{mobileOpen ? <XIcon className="size-4" /> : <MenuIcon className="size-4" />}</button></div>
+        <div className="flex items-center gap-2"><TalkButton>TALK TO US</TalkButton><button type="button" onClick={() => setMobileOpen((open) => !open)} className="grid size-9 place-items-center rounded-lg border border-[#2E2E38]/20 text-[#2E2E38]">{mobileOpen ? <XIcon className="size-4" /> : <MenuIcon className="size-4" />}</button></div>
       </div>
       <AnimatePresence>{mobileOpen && <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="overflow-hidden rounded-xl bg-[#F7F8FA] text-[#2E2E38] shadow-xl lg:hidden"><div className="grid gap-1 p-4">
         {navItems.map((item) => <a key={item.label} href={item.href} onClick={() => setMobileOpen(false)} className="rounded-lg px-3 py-2 text-sm text-[#2E2E38]/72 hover:bg-white/70 hover:text-[#2E2E38]">{item.label}</a>)}

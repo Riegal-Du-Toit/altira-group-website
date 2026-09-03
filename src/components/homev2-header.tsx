@@ -34,7 +34,7 @@ export function HomeV2Header() {
   const [isFooterVisible, setIsFooterVisible] = useState(false);
 
   useEffect(() => {
-    const footer = document.getElementById("homev2-footer");
+    const footer = document.querySelector("[data-site-footer]");
     if (!footer) return;
 
     const observer = new IntersectionObserver(([entry]) => setIsFooterVisible(entry.isIntersecting), { threshold: 0.05 });

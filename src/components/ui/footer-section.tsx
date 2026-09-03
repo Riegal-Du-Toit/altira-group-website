@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowLeftIcon, ArrowRightIcon, CircleCheckIcon, GlobeIcon, InstagramIcon, Link, LinkedinIcon, X } from 'lucide-react';
+import { ArrowLeftIcon, ArrowRightIcon, CircleCheckIcon, GlobeIcon } from 'lucide-react';
 import Image from 'next/image';
 import { ReactNode, useMemo, useState } from 'react';
 
@@ -47,13 +47,6 @@ const footerColumns: FooterColumn[] = [
 			{ title: 'Cebu Support Centre', href: '#offices' },
 		],
 	},
-];
-
-const socialLinks = [
-	{ icon: LinkedinIcon, href: 'https://www.linkedin.com/', label: 'LinkedIn' },
-	{ icon: InstagramIcon, href: 'https://www.instagram.com/', label: 'Instagram' },
-	{ icon: X, href: 'https://x.com/', label: 'X' },
-	{ icon: Link, href: 'https://altiragroup.co.za/', label: 'Website' },
 ];
 
 const calendarDays = Array.from({ length: 30 }, (_, index) => index + 1);
@@ -285,7 +278,9 @@ export function AppointmentBookingCalendar() {
 export function Footer({ leftSlot, interactiveCalendar = false }: { leftSlot?: ReactNode; interactiveCalendar?: boolean }) {
 	return (
 		<footer
+			id="talk-to-us"
 			data-site-footer
+			data-talk-target
 			className="bg-[#1E2021] px-4 pb-8 pt-16 text-white sm:px-6 lg:px-8"
 		>
 			<div className="mx-auto w-full max-w-[1354px]">
@@ -312,21 +307,6 @@ export function Footer({ leftSlot, interactiveCalendar = false }: { leftSlot?: R
 							<p className="max-w-[16rem] text-sm font-medium leading-7 text-white/58">
 								Premium member experience, powered by the Altira Orbit Engine.
 							</p>
-
-							<div className="flex items-center gap-2.5">
-								{socialLinks.map(({ icon: Icon, href, label }) => (
-									<a
-										key={label}
-										href={href}
-										target="_blank"
-										rel="noopener noreferrer"
-										aria-label={label}
-										className="group inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/[0.035] text-white/58 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#3FE9EC]/70 hover:bg-[#3FE9EC]/12 hover:text-[#3FE9EC]"
-									>
-										<Icon className="h-4.5 w-4.5 transition-transform duration-200 group-hover:scale-110" />
-									</a>
-								))}
-							</div>
 
 							{leftSlot ? <div className="pt-4">{leftSlot}</div> : null}
 						</div>

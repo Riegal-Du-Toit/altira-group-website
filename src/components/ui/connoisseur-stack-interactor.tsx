@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { poppins } from "@/lib/google-fonts";
 import { useEffect, useRef, useState, useLayoutEffect } from "react";
 import gsap from "gsap";
+import { TalkButton } from "@/components/ui/talk-button";
 
 interface MenuItem {
   num: string;
@@ -104,7 +105,16 @@ export const Component = ({ items = defaultItems, className }: { items?: MenuIte
                 <div className={cn("method-step-counter transition-transform duration-500", activeIndex === index ? "scale-110" : "")}>{item.num}</div>
                 <div>
                   <h2 className={cn(poppins.className, "text-5xl font-extrabold uppercase leading-[0.98] tracking-[-0.045em] transition-all duration-700 md:text-6xl", activeIndex === index ? "text-zinc-950 dark:text-white opacity-100 translate-x-4" : "opacity-40 translate-x-0 text-zinc-500 dark:text-transparent dark:[text-stroke:1.5px_#52525b] dark:[-webkit-text-stroke:1.5px_#52525b]")}>{item.name}</h2>
-                  {activeIndex === index && item.description ? <p className="mt-3 max-w-sm text-sm leading-6 text-zinc-600">{item.description}</p> : null}
+                  {activeIndex === index && item.description ? (
+                    <>
+                      <p className="mt-3 max-w-sm text-sm leading-6 text-zinc-600">{item.description}</p>
+                      {item.name === "Launch" ? (
+                        <div className="mt-5">
+                          <TalkButton>BOOK A DEMO</TalkButton>
+                        </div>
+                      ) : null}
+                    </>
+                  ) : null}
                 </div>
               </div>
             </li>
