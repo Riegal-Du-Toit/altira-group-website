@@ -29,7 +29,7 @@ export const presenceLocations: PresenceLocation[] = [
     description: "Altira Group's principal office and coordination hub.",
     coordinates: [-33.9249, 18.4241],
     labelOffset: {
-      x: 14,
+      x: 9,
       y: 0,
     },
     markerOffset: {
@@ -59,7 +59,7 @@ export const presenceLocations: PresenceLocation[] = [
   },
   {
     id: "philippines",
-    name: "Philippines",
+    name: "CarCar",
     country: "Philippines",
     role: "Technology & Development",
     roleLabel: "Technology & Development",

@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { InstagramIcon, LinkedinIcon, Mail, PhoneIcon, X, YoutubeIcon } from "lucide-react";
+import { Mail, PhoneIcon, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import { FooterSocials } from "@/components/FooterSocials";
 
 const columns = [
   { title: "Explore", links: [["Home", "/homev2"], ["What We Do", "/what-we-do"], ["Orbit Platform", "/orbit"], ["Why Altira", "/why-altira"]] },
@@ -29,12 +30,6 @@ const AppleStoreIcon = ({ className = "" }: { className?: string }) => (
     <path d="M20.3 17.12c-.48 1.09-.7 1.58-1.31 2.54-.85 1.31-2.04 2.94-3.52 2.96-1.31.01-1.65-.86-3.44-.85-1.79.01-2.17.87-3.49.85-1.48-.02-2.61-1.49-3.46-2.8-2.37-3.66-2.62-7.95-1.16-10.23 1.04-1.62 2.68-2.57 4.22-2.57 1.57 0 2.55.86 3.85.86 1.26 0 2.03-.86 3.85-.86 1.37 0 2.83.75 3.86 2.04-3.39 1.86-2.84 6.7.6 8.06Z" />
   </svg>
 );
-
-const socialActions = [
-  { label: "LinkedIn", href: "#", icon: LinkedinIcon },
-  { label: "Instagram", href: "#", icon: InstagramIcon },
-  { label: "YouTube", href: "#", icon: YoutubeIcon },
-] as const;
 
 export function HomeV2Footer() {
   const [isBookingOpen, setIsBookingOpen] = useState(false);
@@ -92,21 +87,8 @@ export function HomeV2Footer() {
                     </div>
                   </div>
                   <div className="grid gap-2 sm:ml-4">
-                    <h3 className="text-[0.78rem] font-bold text-black">Socials</h3>
+                    <FooterSocials />
                     <div className="grid gap-2">
-                      <div className="flex items-center gap-2">
-                      {socialActions.map(({ label, href, icon: Icon }) => (
-                        <a
-                          key={label}
-                          href={href}
-                          aria-label={label}
-                          className="relative grid size-9 place-items-center overflow-hidden rounded-[12px] border-[1.5px] border-[#F7F8FA] bg-[#37D8C6] text-white shadow-[0_8px_18px_rgba(17,22,61,0.18)] transition-all duration-300 ease-out hover:-translate-y-0.5 hover:bg-[#2fc7b7] active:scale-[0.97]"
-                        >
-                          <Icon className="relative z-10 size-4 !text-white" />
-                          <span aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[repeating-conic-gradient(rgb(48,47,47)_0.0000001%,rgb(51,51,51)_0.000104%)_60%_60%/600%_600%] opacity-10 contrast-105" />
-                        </a>
-                      ))}
-                      </div>
                       <div className="flex items-center gap-2">
                       <a className="playstore-button" href="#" aria-label="Google Play Store">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="icon" viewBox="0 0 512 512">
@@ -134,7 +116,7 @@ export function HomeV2Footer() {
               </div>
             </div>
 
-            <div className="relative aspect-[1184/1536] w-full max-w-[25rem] overflow-hidden rounded-[1.4rem] lg:ml-auto lg:-mt-[9rem]">
+            <div className="relative aspect-[1184/1536] w-full max-w-[30rem] overflow-hidden rounded-[1.4rem] lg:ml-auto lg:-mt-[9rem]">
               {isBookingOpen ? (
                 <iframe
                   src="https://outlook.office.com/book/G855be4c9beb647649a95f2642eabb914@altiragroup.co.za/?ismsaljsauthenabled"

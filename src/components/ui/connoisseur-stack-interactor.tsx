@@ -3,10 +3,11 @@
 import { cn } from "@/lib/utils";
 import { poppins } from "@/lib/google-fonts";
 import Link from "next/link";
-import { useEffect, useRef, useState, useLayoutEffect } from "react";
+import { useCallback, useEffect, useRef, useState, useLayoutEffect } from "react";
 import gsap from "gsap";
 import { TalkButton } from "@/components/ui/talk-button";
 import { ArrowRight } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
 
 interface MenuItem {
   num: string;
@@ -28,13 +29,14 @@ const clipShapeCounts: Record<string, number> = { "clip-original": 5, "clip-conf
 
 export const Component = ({ items = defaultItems, className }: { items?: MenuItem[]; className?: string }) => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isTextHovered, setIsTextHovered] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const activeIndexRef = useRef(0);
   const masterTl = useRef<gsap.core.Timeline | null>(null);
   const imagePreloadsRef = useRef<HTMLImageElement[]>([]);
 
-  const createLoop = (index: number) => {
+  const createLoop = useCallback((index: number) => {
     const item = items[index];
+    if (!item) return;
     if (masterTl.current) masterTl.current.kill();
     const allLayers = Array.from(containerRef.current?.querySelectorAll<SVGGElement>(".shape-layer") ?? []);
     const activeLayers = allLayers.filter((layer) => layer.dataset.clipId === item.clipId);
@@ -45,7 +47,7 @@ export const Component = ({ items = defaultItems, className }: { items?: MenuIte
     const tl = gsap.timeline();
     tl.to(activeLayers, { autoAlpha: 1, scale: 1, duration: 0.55, stagger: { each: 0.06, from: "center" }, ease: "power3.out", force3D: true });
     masterTl.current = tl;
-  };
+  }, [items]);
 
   useLayoutEffect(() => {
     let cancelled = false;
@@ -75,40 +77,67 @@ export const Component = ({ items = defaultItems, className }: { items?: MenuIte
       cancelled = true;
       masterTl.current?.kill();
     };
-  }, []);
+  }, [createLoop, items]);
 
-  const handleItemHover = (index: number) => {
-    if (index === activeIndex) return;
+  const setActiveStep = useCallback((index: number) => {
+    if (index === activeIndexRef.current) return;
+    activeIndexRef.current = index;
     setActiveIndex(index);
     createLoop(index);
-  };
+  }, [createLoop]);
 
   useEffect(() => {
-    if (isTextHovered || items.length < 2) return;
+    if (items.length < 2) return;
 
-    const intervalId = window.setInterval(() => {
-      setActiveIndex((current) => {
-        const next = (current + 1) % items.length;
-        createLoop(next);
-        return next;
-      });
-    }, 4000);
+    let frameId = 0;
+    const updateFromScroll = () => {
+      frameId = 0;
 
-    return () => window.clearInterval(intervalId);
-  }, [isTextHovered, items.length]);
+      const section = containerRef.current?.closest("section") ?? containerRef.current;
+      if (!section) return;
+
+      const rect = section.getBoundingClientRect();
+      const scrollableDistance = Math.max(rect.height - window.innerHeight, 1);
+      const progress = Math.min(0.999, Math.max(0, -rect.top / scrollableDistance));
+      const nextIndex = Math.min(items.length - 1, Math.floor(progress * items.length));
+      setActiveStep(nextIndex);
+    };
+
+    const handleScroll = () => {
+      if (frameId) return;
+      frameId = window.requestAnimationFrame(updateFromScroll);
+    };
+
+    updateFromScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll);
+
+    return () => {
+      if (frameId) window.cancelAnimationFrame(frameId);
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+    };
+  }, [items.length, setActiveStep]);
 
   return (
     <div ref={containerRef} className={cn("flex w-full flex-col items-center justify-between overflow-hidden px-8 pb-8 pt-8 transition-colors duration-500 md:flex-row md:px-24 md:pb-10 md:pt-24", "bg-white dark:bg-[#050505]", className)}>
       <div className="z-20 w-full md:w-1/2">
-        <nav onMouseLeave={() => setIsTextHovered(false)}><ul className="flex flex-col gap-14">
+        <nav><ul className="flex flex-col gap-14">
           {items.map((item, index) => (
-            <li key={item.num} onMouseEnter={() => { setIsTextHovered(true); handleItemHover(index); }} className="group cursor-pointer">
+            <li key={item.num} className="group">
               <div className="flex items-start gap-6">
-                <div className={cn("method-step-counter transition-transform duration-500", activeIndex === index ? "scale-110" : "")}>{item.num}</div>
+                <div className={cn("method-step-counter transform-gpu transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)]", activeIndex === index ? "scale-110 opacity-100" : "scale-100 opacity-80")}>{item.num}</div>
                 <div>
-                  <h2 className={cn(poppins.className, "text-5xl font-extrabold uppercase leading-[0.98] tracking-[-0.045em] transition-all duration-700 md:text-6xl", activeIndex === index ? "text-zinc-950 dark:text-white opacity-100 translate-x-4" : "opacity-40 translate-x-0 text-zinc-500 dark:text-transparent dark:[text-stroke:1.5px_#52525b] dark:[-webkit-text-stroke:1.5px_#52525b]")}>{item.name}</h2>
-                  {activeIndex === index && item.description ? (
-                    <>
+                  <h2 className={cn(poppins.className, "transform-gpu text-5xl font-extrabold uppercase leading-[0.98] tracking-[-0.045em] transition-[color,opacity,transform] duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform md:text-6xl", activeIndex === index ? "scale-100 text-zinc-950 opacity-100 dark:text-white" : "scale-[0.94] text-zinc-500 opacity-40 dark:text-transparent dark:[text-stroke:1.5px_#52525b] dark:[-webkit-text-stroke:1.5px_#52525b]")}>{item.name}</h2>
+                  <AnimatePresence mode="wait">
+                    {activeIndex === index && item.description ? (
+                      <motion.div
+                        key={item.num}
+                        initial={{ opacity: 0, y: 14 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -8 }}
+                        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                      >
                       <p className="mt-3 max-w-sm text-sm leading-6 text-zinc-600">{item.description}</p>
                       {item.name === "Launch" ? (
                         <div className="mt-5 flex flex-wrap gap-3">
@@ -123,8 +152,9 @@ export const Component = ({ items = defaultItems, className }: { items?: MenuIte
                           <TalkButton>BOOK A DEMO</TalkButton>
                         </div>
                       ) : null}
-                    </>
-                  ) : null}
+                      </motion.div>
+                    ) : null}
+                  </AnimatePresence>
                 </div>
               </div>
             </li>

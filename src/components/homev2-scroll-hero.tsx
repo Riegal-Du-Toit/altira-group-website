@@ -8,7 +8,6 @@ import { ArrowRight } from "lucide-react";
 import { HomeV2AnimatedPlanet } from "@/components/homev2-animated-planet";
 import { TalkButton } from "@/components/homev2-header";
 import { AnimatedText } from "@/components/ui/animated-underline-text-one";
-import { TextRotate } from "@/components/ui/text-rotate";
 import { anton } from "@/lib/fonts";
 import { openSansThin, poppins } from "@/lib/google-fonts";
 
@@ -61,19 +60,8 @@ export function HomeV2ScrollHero() {
           <div className="homev2-planet-entrance size-full scale-[0.73]">
             <HomeV2AnimatedPlanet animateOnEntry={false} />
           </div>
-          <span aria-hidden="true" className="absolute left-[calc(43%_-_5px)] top-[calc(58%_+_25px)] z-20 flex -translate-x-1/2 items-center whitespace-nowrap text-[14px] font-light text-[#2E2E38]">
-            <span className="text-[16px] font-bold text-black">ADD INFO HERE&nbsp;</span>
-            <TextRotate
-              texts={["DEMO*", "TEXT*", "HERE*"]}
-              mainClassName="w-fit overflow-hidden rounded-md bg-[#37D8C6] px-2 py-1 text-[#5B5CEB]"
-              staggerFrom="last"
-              initial={{ y: "100%" }}
-              animate={{ y: 0 }}
-              exit={{ y: "-120%" }}
-              staggerDuration={0.025}
-              splitLevelClassName="overflow-hidden"
-              rotationInterval={2000}
-            />
+          <span aria-hidden="true" className="absolute left-[calc(43%_-_5px)] top-[calc(58%_+_25px)] z-20 -translate-x-1/2 whitespace-nowrap text-[16px] font-bold text-black">
+            With you at every turn
           </span>
         </div>
 

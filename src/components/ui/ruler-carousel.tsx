@@ -19,14 +19,14 @@ const createInfiniteItems = (items: readonly CarouselItem[]) =>
 
 function RulerLines({ top }: { top: boolean }) {
   return (
-    <div className={`relative h-5 w-full ${top ? "" : "rotate-180"}`} aria-hidden="true">
+    <div className={`relative h-4 w-full ${top ? "" : "rotate-180"}`} aria-hidden="true">
       {Array.from({ length: 41 }, (_, index) => {
         const major = index % 5 === 0;
         const centre = index === 20;
         return (
           <span
             key={index}
-            className={`absolute top-0 w-px ${centre ? "h-5 bg-[#37D8C6]" : major ? "h-3 bg-[#52769d]" : "h-2 bg-[#b6c8da]"}`}
+            className={`absolute top-0 w-px ${centre ? "h-4 bg-[#37D8C6]" : major ? "h-2.5 bg-[#52769d]" : "h-1.5 bg-[#b6c8da]"}`}
             style={{ left: `${index * 2.5}%` }}
           />
         );
@@ -35,7 +35,13 @@ function RulerLines({ top }: { top: boolean }) {
   );
 }
 
-export function RulerCarousel({ originalItems }: { originalItems: readonly CarouselItem[] }) {
+export function RulerCarousel({
+  originalItems,
+  subheading,
+}: {
+  originalItems: readonly CarouselItem[];
+  subheading?: string;
+}) {
   const itemsPerSet = originalItems.length;
   const items = createInfiniteItems(originalItems);
   const initialIndex = itemsPerSet + Math.floor(itemsPerSet / 2);
@@ -74,14 +80,14 @@ export function RulerCarousel({ originalItems }: { originalItems: readonly Carou
   if (itemsPerSet === 0) return null;
 
   const activeItem = activeIndex % itemsPerSet;
-  const targetX = -activeIndex * 500 - 200;
+  const targetX = -activeIndex * 400 - 160;
 
   return (
-    <div className="mx-auto mt-5 w-full max-w-[1100px]">
+    <div className="mx-auto mt-4 w-full max-w-[880px]">
       <RulerLines top />
-      <div className="relative h-24 overflow-hidden">
+      <div className="relative h-[4.8rem] overflow-hidden">
         <motion.div
-          className="absolute left-1/2 flex h-full items-center gap-[100px]"
+          className="absolute left-1/2 flex h-full items-center gap-[80px]"
           animate={{ x: targetX }}
           transition={isResetting ? { duration: 0 } : { type: "spring", stiffness: 260, damping: 24, mass: 0.8 }}
         >
@@ -92,14 +98,14 @@ export function RulerCarousel({ originalItems }: { originalItems: readonly Carou
                 key={item.id}
                 type="button"
                 onClick={() => setActiveIndex(index)}
-                className={`w-[400px] shrink-0 text-center text-lg font-extrabold tracking-[-0.04em] transition-colors sm:text-2xl ${active ? "text-[#102d50]" : "text-[#8ba2ba] hover:text-[#52769d]"}`}
+                className={`w-[320px] shrink-0 text-center text-base font-extrabold tracking-[-0.04em] transition-colors sm:text-xl ${active ? "text-[#102d50]" : "text-[#8ba2ba] hover:text-[#52769d]"}`}
                 animate={{ scale: active ? 1 : 0.75, opacity: active ? 1 : 0.38 }}
                 transition={isResetting ? { duration: 0 } : { type: "spring", stiffness: 400, damping: 25 }}
               >
                 <span className="inline-flex items-center justify-center gap-3">
                   {item.icon ? (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={item.icon} alt="" className={`size-7 object-contain ${item.iconClassName ?? ""}`} />
+                    <img src={item.icon} alt="" className={`size-[1.4rem] object-contain ${item.iconClassName ?? ""}`} />
                   ) : null}
                   {item.hideTitle ? null : <span>{item.title}</span>}
                 </span>
@@ -109,7 +115,12 @@ export function RulerCarousel({ originalItems }: { originalItems: readonly Carou
         </motion.div>
       </div>
       <RulerLines top={false} />
-      <div className="mt-4 flex items-center justify-center gap-4 text-[#52769d]">
+      <div className="mt-3 flex items-center justify-center gap-3 text-[#52769d]">
+        {subheading ? (
+          <span className="mr-2 text-[0.58rem] font-bold uppercase tracking-[0.24em] text-[#52769d]">
+            {subheading}
+          </span>
+        ) : null}
         <button type="button" onClick={() => setActiveIndex((current) => current - 1)} aria-label="Previous item"><ArrowLeftIcon className="size-4" /></button>
         <span className="text-xs font-bold">{activeItem + 1} / {itemsPerSet}</span>
         <button type="button" onClick={() => setActiveIndex((current) => current + 1)} aria-label="Next item"><ArrowRight className="size-4" /></button>

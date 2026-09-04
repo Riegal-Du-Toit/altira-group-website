@@ -1,14 +1,18 @@
 "use client";
 
+import { Center, useGLTF } from "@react-three/drei";
+import { Canvas, useFrame } from "@react-three/fiber";
 import { AnimatePresence, motion } from "framer-motion";
 import DottedMap from "dotted-map";
 import {
+  Suspense,
   useEffect,
   useLayoutEffect,
   useMemo,
   useRef,
   useState,
 } from "react";
+import type { Group } from "three";
 
 import { presenceLocations } from "@/data/presence-locations";
 import { cn } from "@/lib/utils";
@@ -26,6 +30,26 @@ const POPOVER_GAP = 18;
 const POPOVER_MARGIN = 12;
 const MOBILE_BREAKPOINT = 640;
 const ROUTE_COLOR = "#3FE9EC";
+
+function MapFaviconModel({ rotationOffset, speed }: { rotationOffset: number; speed: number }) {
+  const { scene } = useGLTF("/base_basic_shaded.glb");
+  const model = useMemo(() => scene.clone(true), [scene]);
+  const groupRef = useRef<Group>(null);
+
+  useFrame((_, delta) => {
+    if (groupRef.current) groupRef.current.rotation.y -= delta * speed;
+  });
+
+  return (
+    <Center>
+      <group ref={groupRef} rotation={[0.05, rotationOffset, 0]}>
+        <primitive object={model} scale={1.8} />
+      </group>
+    </Center>
+  );
+}
+
+useGLTF.preload("/base_basic_shaded.glb");
 
 function hasLocationId(data: unknown): data is { id: string } {
   return typeof data === "object" && data !== null && "id" in data && typeof data.id === "string";
@@ -63,7 +87,7 @@ function getPopoverPosition(
   top: number;
 } {
   let left = anchor.x - popoverSize.width / 2;
-  let top = anchor.y - popoverSize.height - gap;
+  const top = anchor.y - popoverSize.height - gap;
 
   if (containerSize.width <= MOBILE_BREAKPOINT) {
     left = POPOVER_MARGIN;
@@ -407,6 +431,10 @@ export function RegionalPresenceMap({ className }: { className?: string }) {
               const marker = markerPositions.get(location.id);
               const isSelected = location.id === selectedLocation?.id;
               const isHovered = location.id === hoveredId;
+              const modelRotation =
+                location.id === "cape-town" ? -0.9 : location.id === "johannesburg" ? 0.35 : 1.15;
+              const modelSpeed =
+                location.id === "cape-town" ? 0.66 : location.id === "johannesburg" ? 0.82 : 0.98;
 
               if (!marker) {
                 return null;
@@ -435,17 +463,25 @@ export function RegionalPresenceMap({ className }: { className?: string }) {
                   aria-pressed={isSelected}
                   aria-label={`View ${location.name} location details`}
                 >
-                  <span className="relative flex h-9 w-9 items-center justify-center rounded-full">
-                    <span
-                      className={cn(
-                        "relative flex h-3.5 w-3.5 rounded-full shadow-[0_0_16px_rgba(63,233,236,0.54)]",
-                        "bg-[radial-gradient(circle,rgba(55,216,198,1)_0%,rgba(55,216,198,0.74)_40%,rgba(55,216,198,0.18)_72%,transparent_100%)]",
-                      )}
-                    />
+                  <span className="relative flex h-9 w-9 items-center justify-center overflow-visible rounded-full">
+                    <span className="relative -translate-y-0.5 flex h-[1.4625rem] w-[1.4625rem] drop-shadow-[0_0_12px_rgba(63,233,236,0.54)]">
+                      <Canvas
+                        camera={{ position: [0, 0, 5], fov: 38 }}
+                        dpr={[1, 2]}
+                        gl={{ alpha: true, antialias: true }}
+                        className="pointer-events-none"
+                      >
+                        <ambientLight intensity={1.45} />
+                        <directionalLight position={[3, 4, 5]} intensity={2.2} />
+                        <Suspense fallback={null}>
+                          <MapFaviconModel rotationOffset={modelRotation} speed={modelSpeed} />
+                        </Suspense>
+                      </Canvas>
+                    </span>
 
                     <span
                       className={cn(
-                        "pointer-events-none absolute left-0 hidden min-w-[112px] -translate-y-1/2 text-left transition-opacity sm:block",
+                        "pointer-events-auto absolute left-0 hidden min-w-[112px] -translate-y-1/2 cursor-pointer text-left transition-opacity sm:block",
                         selectedLocation?.id === location.id ? "opacity-45" : "opacity-100",
                         location.labelAlign === "left" && "-translate-x-full text-right",
                       )}

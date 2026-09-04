@@ -11,7 +11,8 @@ const orbitItems = [
 
 export function HomeV2Methodology() {
   return (
-    <section id="method" data-anchor-scroll-offset="48" className="w-full overflow-hidden rounded-b-[2rem] bg-white">
+    <section id="method" data-anchor-scroll-offset="48" className="relative h-[300vh] w-full rounded-b-[2rem] bg-white">
+      <div className="sticky top-0 flex min-h-screen flex-col overflow-hidden rounded-b-[2rem] bg-white">
       <div className="mx-auto mt-0 grid max-w-7xl gap-8 px-8 pb-4 pt-0 text-[#2E2E38] md:grid-cols-[minmax(0,1.4fr)_minmax(18rem,0.75fr)] md:items-end md:px-24 md:pt-1.5">
         <div>
           <span className="text-xs uppercase tracking-[.35em] text-[#2E2E38]/60">Altira Orbit</span>
@@ -28,6 +29,7 @@ export function HomeV2Methodology() {
         </p>
       </div>
       <Component className="!bg-[#E4E5EA] !pt-2 md:!pt-2" />
+      </div>
     </section>
   );
 }

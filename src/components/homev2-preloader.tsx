@@ -1,22 +1,53 @@
 "use client";
 
-import { createContext, useContext, useEffect, useLayoutEffect, useMemo, useState, type ReactNode } from "react";
+import { Center, useGLTF } from "@react-three/drei";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { Suspense, createContext, useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import type { Group } from "three";
 
 import { anton } from "@/lib/fonts";
 
 const HomeV2PreloaderContext = createContext<{ markModelReady: () => void } | null>(null);
 
+function PreloaderModel({ onReady }: { onReady: () => void }) {
+  const { scene } = useGLTF("/base_basic_shaded.glb");
+  const model = useMemo(() => scene.clone(true), [scene]);
+  const groupRef = useRef<Group>(null);
+
+  useFrame((_, delta) => {
+    if (groupRef.current) groupRef.current.rotation.y += delta * 0.85;
+  });
+
+  useEffect(() => {
+    onReady();
+  }, [onReady]);
+
+  return (
+    <Center>
+      <group ref={groupRef} rotation={[0.05, -0.25, 0]}>
+        <primitive object={model} scale={1.32} />
+      </group>
+    </Center>
+  );
+}
+
+useGLTF.preload("/base_basic_shaded.glb");
+
 export function HomeV2Preloader({ children }: { children: ReactNode }) {
   const [isReady, setIsReady] = useState(false);
+  const [isModelReady, setIsModelReady] = useState(false);
   const [canExit, setCanExit] = useState(false);
   const [startHero, setStartHero] = useState(false);
   const value = useMemo(() => ({ markModelReady: () => setIsReady(true) }), []);
-  const isDone = isReady && canExit;
+  const handleModelReady = useCallback(() => setIsModelReady(true), []);
+  const isDone = isReady && isModelReady && canExit;
 
   useEffect(() => {
+    if (!isModelReady) return;
+
     const timeoutId = window.setTimeout(() => setCanExit(true), 4000);
     return () => window.clearTimeout(timeoutId);
-  }, []);
+  }, [isModelReady]);
 
   useEffect(() => {
     if (!isDone) return;
@@ -43,7 +74,26 @@ export function HomeV2Preloader({ children }: { children: ReactNode }) {
         {children}
         <div className={`homev2-preloader ${isDone ? "homev2-preloader--done" : ""}`} aria-live="polite">
           <div className="homev2-preloader__content">
-            <p className={`homev2-preloader__loading-word ${anton.className}`}>LOADING</p>
+            <div className="homev2-preloader__model" aria-hidden="true">
+              <Canvas
+                camera={{ position: [0, 0, 6], fov: 42 }}
+                dpr={[1, 2]}
+                gl={{ alpha: true, antialias: true }}
+              >
+                <ambientLight intensity={1.45} />
+                <directionalLight position={[3, 4, 5]} intensity={2.2} />
+                <Suspense fallback={null}>
+                  <PreloaderModel onReady={handleModelReady} />
+                </Suspense>
+              </Canvas>
+            </div>
+            <p className={`homev2-preloader__loading-word ${anton.className}`} aria-label="Loading">
+              {"LOADING".split("").map((letter, index) => (
+                <span key={`${letter}-${index}`} style={{ "--letter-index": index } as CSSProperties}>
+                  {letter}
+                </span>
+              ))}
+            </p>
           </div>
         </div>
       </div>
