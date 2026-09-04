@@ -52,9 +52,9 @@ const products: readonly Product[] = [
 ];
 
 const certifications = [
-  { standard: "ISO/IEC 27001:2022", status: "Supabase" },
-  { standard: "ISO 27001:2022", status: "Netcash" },
-  { standard: "ISO 27001", status: "Q LINK" },
+  { standard: "ISO/IEC 27001:2022", status: "Supabase", icon: "/partner-icons/supabase.svg" },
+  { standard: "ISO 27001:2022", status: "Netcash", icon: "/partner-icons/netcash.png" },
+  { standard: "ISO 27001", status: "Q LINK", icon: "/partner-icons/q%20link.png" },
 ] as const;
 
 const certificationHighlights = [
@@ -247,14 +247,15 @@ function DepthCard({
               className="group relative flex min-h-[clamp(3.45rem,8vh,4.75rem)] overflow-hidden rounded-[12px] border border-[#37D8C6]/65 bg-white/92 px-[clamp(0.8rem,1.4vw,1.25rem)] py-[clamp(0.6rem,1.3vh,1rem)] text-left shadow-[0_12px_28px_rgba(25,28,37,0.08)] backdrop-blur transition-all duration-300 hover:-translate-y-0.5 hover:border-[#37D8C6] hover:shadow-[0_16px_34px_rgba(55,216,198,0.18)]"
             >
               <span aria-hidden="true" className="absolute inset-y-3 left-0 w-1 rounded-r-full bg-[#37D8C6]" />
-              <span aria-hidden="true" className="mr-3 grid size-9 shrink-0 place-items-center rounded-[10px] bg-[#37D8C6] text-white shadow-[0_8px_18px_rgba(55,216,198,0.28)]">
-                <span className="size-2.5 rounded-full bg-white" />
+              <span aria-hidden="true" className="mr-4 grid size-[41px] shrink-0 place-items-center">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={certification.icon} alt="" className="max-h-[25px] max-w-[33px] object-contain" />
               </span>
-              <span className="flex min-w-0 flex-col justify-center">
-                <span className="text-xs font-extrabold leading-tight tracking-[-0.02em] text-neutral-950 sm:text-sm">
+              <span className="flex min-w-0 flex-1 items-center justify-between gap-4">
+                <span className="text-sm font-extrabold leading-tight tracking-[-0.02em] text-neutral-950">
                   {certification.standard}
                 </span>
-                <span className="mt-1 text-[0.625rem] font-bold uppercase tracking-[0.2em] text-[#159D90]">
+                <span className="shrink-0 text-[18px] font-extrabold leading-tight tracking-[-0.02em] text-[#159D90]">
                   {certification.status}
                 </span>
               </span>
