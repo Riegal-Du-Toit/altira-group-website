@@ -158,23 +158,15 @@ function DepthCard({
   const exitEnd = Math.min(1, (index + 1) * segment + segment * 0.28);
   const inputRange = isFirst
     ? [0, activeEnd, exitEnd]
-    : isLast
-      ? [enterStart, activeStart, 1]
-      : [enterStart, activeStart, activeEnd, exitEnd];
-  const zRange = isFirst ? [0, 0, 520] : isLast ? [-1100, 0, 0] : [-1100, 0, 0, 520];
-  const scaleRange = isFirst
-    ? [1, 1, 1.16]
-    : isLast
-      ? [0.42, 1, 1]
-      : [0.42, 1, 1, 1.16];
-  const yRange = isFirst ? [0, 0, -820] : isLast ? [230, 0, 0] : [230, 0, 0, -820];
+    : [enterStart, activeStart, activeEnd, exitEnd];
+  const zRange = isFirst ? [0, 0, 520] : [-1100, 0, 0, isLast ? 0 : 520];
+  const scaleRange = isFirst ? [1, 1, 1.16] : [0.42, 1, 1, isLast ? 1 : 1.16];
+  const yRange = isFirst ? [0, 0, -820] : [230, 0, 0, isLast ? 0 : -820];
   const opacityInputRange = isFirst
     ? inputRange
-    : isLast
-      ? [enterStart, activeStart, 1]
-      : [enterStart, activeStart, activeEnd, exitEnd];
-  const opacityRange = isFirst ? [1, 1, 1] : isLast ? [0, 1, 1] : [0, 1, 1, 1];
-  const rotateRange = isFirst ? [0, 0, -8] : isLast ? [12, 0, 0] : [12, 0, 0, -8];
+    : [enterStart, activeStart, activeEnd, exitEnd];
+  const opacityRange = isFirst ? [1, 1, 1] : [0, 1, 1, 1];
+  const rotateRange = isFirst ? [0, 0, -8] : [12, 0, 0, isLast ? 0 : -8];
 
   const z = useTransform(progress, inputRange, zRange);
   const scale = useTransform(progress, inputRange, scaleRange);

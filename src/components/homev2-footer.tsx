@@ -121,13 +121,19 @@ export function HomeV2Footer() {
                           <span className="text-2">App Store</span>
                         </span>
                       </a>
-                      <a className="playstore-button" href="#" aria-label="Microsoft Store">
-                        <MicrosoftStoreIcon className="icon" />
-                        <span className="texts">
-                          <span className="text-1">Get it from</span>
-                          <span className="text-2">Microsoft</span>
+                      <div className="-mt-5 flex flex-col items-start gap-1">
+                        <span className="flex items-center gap-1.5 text-[0.58rem] font-bold uppercase tracking-[0.12em] text-black">
+                          Download
+                          <Image src="/partner-icons/smart%20dms.png" alt="Smart DMS" width={52} height={18} className="h-4 w-auto object-contain" />
                         </span>
-                      </a>
+                        <a className="playstore-button" href="#" aria-label="Microsoft Store">
+                          <MicrosoftStoreIcon className="icon" />
+                          <span className="texts">
+                            <span className="text-1">Get it from</span>
+                            <span className="text-2">Microsoft</span>
+                          </span>
+                        </a>
+                      </div>
                       </div>
                     </div>
                   </div>
