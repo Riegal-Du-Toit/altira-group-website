@@ -12,15 +12,15 @@ import { AnimatePresence, motion } from "framer-motion";
 interface MenuItem {
   num: string;
   name: string;
-  description?: string;
+  description?: React.ReactNode;
   clipId: string;
   image: string;
 }
 
 const defaultItems: MenuItem[] = [
-  { num: "01", name: "Configure", description: "We map Orbit to your product, pricing and compliance requirements.", clipId: "clip-configure", image: "/configure.jfif" },
-  { num: "02", name: "Integrate", description: "We connect Orbit to your underwriting, payments and admin systems.", clipId: "clip-hexagons", image: "/intergrate.jfif" },
-  { num: "03", name: "Launch", description: "Your customers get a fast, modern onboarding and sales journey — live in weeks, not months.", clipId: "clip-pixels", image: "/launch.jfif" },
+  { num: "01", name: "Configure", description: <>We map <strong className="font-semibold text-zinc-900">Orbit</strong> to your <strong className="font-semibold text-zinc-900">product, pricing and compliance requirements</strong>.</>, clipId: "clip-configure", image: "/configure.jfif" },
+  { num: "02", name: "Integrate", description: <>We connect <strong className="font-semibold text-zinc-900">Orbit</strong> to your <strong className="font-semibold text-zinc-900">underwriting, payments and admin systems</strong>.</>, clipId: "clip-hexagons", image: "/intergrate.jfif" },
+  { num: "03", name: "Launch", description: <>Your customers get a fast, modern <strong className="font-semibold text-zinc-900">onboarding and sales journey</strong> — live in <strong className="font-semibold text-zinc-900">weeks, not months</strong>.</>, clipId: "clip-pixels", image: "/launch.jfif" },
 ];
 
 const configureShapes = [[15, 15, 210, 150], [235, 15, 250, 150], [15, 175, 130, 150], [155, 175, 170, 150], [335, 175, 150, 150], [15, 335, 310, 150], [335, 335, 150, 150]] as const;
@@ -138,7 +138,7 @@ export const Component = ({ items = defaultItems, className }: { items?: MenuIte
                         exit={{ opacity: 0, y: -8 }}
                         transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
                       >
-                      <p className="mt-3 max-w-sm text-sm leading-6 text-zinc-600">{item.description}</p>
+                      <p className="mt-3 max-w-sm text-[15.5px] leading-6 text-zinc-600">{item.description}</p>
                       {item.name === "Launch" ? (
                         <div className="mt-5 flex flex-wrap gap-3">
                           <Link
