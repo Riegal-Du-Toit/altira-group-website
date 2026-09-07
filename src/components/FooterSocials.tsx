@@ -2,7 +2,6 @@ import React from "react";
 
 interface SocialLink {
   platform: "instagram" | "linkedin" | "youtube" | "x";
-  href: string;
   label: string;
   icon: React.ReactNode;
 }
@@ -10,7 +9,6 @@ interface SocialLink {
 const socials: SocialLink[] = [
   {
     platform: "instagram",
-    href: "https://instagram.com/yourhandle",
     label: "Follow on Instagram",
     icon: (
       <svg viewBox="0 0 448 512">
@@ -20,7 +18,6 @@ const socials: SocialLink[] = [
   },
   {
     platform: "linkedin",
-    href: "https://linkedin.com/in/yourhandle",
     label: "Connect on LinkedIn",
     icon: (
       <svg viewBox="0 0 24 24">
@@ -30,7 +27,6 @@ const socials: SocialLink[] = [
   },
   {
     platform: "youtube",
-    href: "https://youtube.com/@yourhandle",
     label: "Subscribe on YouTube",
     icon: (
       <svg viewBox="0 0 24 24">
@@ -43,20 +39,17 @@ const socials: SocialLink[] = [
 export const FooterSocialIconRow: React.FC = () => (
   <div className="flex items-center gap-2 overflow-visible py-2">
     {socials.map((item) => (
-      <a
+      <span
         key={item.platform}
-        href={item.href}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label={item.label}
+        aria-label={`${item.label} — profile link pending`}
         data-platform={item.platform}
-        className="SocialTiltBtn"
+        className="SocialTiltBtn cursor-default"
       >
         <span className="svgContainer">
           {item.icon}
         </span>
         <span className="BG" aria-hidden="true" />
-      </a>
+      </span>
     ))}
   </div>
 );

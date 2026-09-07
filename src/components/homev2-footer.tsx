@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { PhoneIcon, X } from "lucide-react";
+import { X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { FooterSocials } from "@/components/FooterSocials";
 
@@ -11,12 +11,6 @@ const columns = [
   { title: "Company", links: [["Offices", "#offices"], ["Contact", "#talk-to-us"], ["Partner with us", "#talk-to-us"]] },
   { title: "Resources", links: [["Orbit Engine", "#method"], ["Our approach", "#method"], ["Member experience", "#app-experience"]] },
 ] as const;
-
-const WhatsAppIcon = ({ className = "" }: { className?: string }) => (
-  <svg viewBox="0 0 16 16" fill="white" className={className} aria-hidden="true">
-    <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z" />
-  </svg>
-);
 
 const EmailIcon = ({ className = "" }: { className?: string }) => (
   <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
@@ -29,8 +23,6 @@ const EmailIcon = ({ className = "" }: { className?: string }) => (
 );
 
 const contactActions = [
-  { label: "Text Us", href: "https://wa.me/", icon: WhatsAppIcon, platform: "whatsapp" },
-  { label: "Call Us", href: "tel:+27000000000", icon: PhoneIcon, platform: "call" },
   { label: "Email Us", href: "mailto:info@altiragroup.co.za", icon: EmailIcon, platform: "email" },
 ] as const;
 
@@ -108,7 +100,7 @@ export function HomeV2Footer() {
                     <FooterSocials />
                     <div className="grid gap-2">
                       <div className="flex min-w-0 items-center gap-2 whitespace-nowrap">
-                      <a className="playstore-button" href="#" aria-label="Google Play Store">
+                      <span className="playstore-button cursor-default" aria-label="Google Play Store availability pending">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="icon" viewBox="0 0 512 512">
                           <path d="M99.617 8.057a50.191 50.191 0 00-38.815-6.713l230.932 230.933 74.846-74.846L99.617 8.057zM32.139 20.116c-6.441 8.563-10.148 19.077-10.148 30.199v411.358c0 11.123 3.708 21.636 10.148 30.199l235.877-235.877L32.139 20.116zM464.261 212.087l-67.266-37.637-81.544 81.544 81.548 81.548 67.273-37.64c16.117-9.03 25.738-25.442 25.738-43.908s-9.621-34.877-25.749-43.907zM291.733 279.711L60.815 510.629c3.786.891 7.639 1.371 11.492 1.371a50.275 50.275 0 0027.31-8.07l266.965-149.372-74.849-74.847z" />
                         </svg>
@@ -116,25 +108,25 @@ export function HomeV2Footer() {
                           <span className="text-1">GET IT ON</span>
                           <span className="text-2">Google Play</span>
                         </span>
-                      </a>
-                      <a className="playstore-button" href="#" aria-label="Apple Store">
+                      </span>
+                      <span className="playstore-button cursor-default" aria-label="Apple App Store availability pending">
                         <AppleStoreIcon className="icon" />
                         <span className="texts">
                           <span className="text-1">Download on the</span>
                           <span className="text-2">App Store</span>
                         </span>
-                      </a>
+                      </span>
                       <div className="-mt-5 flex flex-col items-start gap-1">
                         <span className="flex items-center">
                           <Image src="/partner-icons/smart%20dms.png" alt="Smart DMS" width={64} height={22} className="h-[19.404px] w-auto object-contain" />
                         </span>
-                        <a className="playstore-button" href="#" aria-label="Microsoft Store">
+                        <span className="playstore-button cursor-default" aria-label="Microsoft Store availability pending">
                           <MicrosoftStoreIcon className="icon" />
                           <span className="texts">
                             <span className="text-1">Available on</span>
                             <span className="text-2">Microsoft</span>
                           </span>
-                        </a>
+                        </span>
                       </div>
                       </div>
                     </div>
@@ -188,7 +180,7 @@ export function HomeV2Footer() {
 
           <div className="hidden flex-col gap-3 border-t border-white/8 pt-0 text-[0.65rem] text-white/34 sm:flex-row sm:items-center sm:justify-between">
             <span>© 2026 Altira Group. All rights reserved.</span>
-            <Link href="/contact" className="transition hover:text-white">Start a conversation ↗</Link>
+            <Link href="#talk-to-us" className="transition hover:text-white">Start a conversation ↗</Link>
           </div>
         </div>
       </div>

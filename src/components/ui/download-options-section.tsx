@@ -150,7 +150,7 @@ export function DownloadShowcase() {
               </div>
 
               <NavigationCta
-                href="#offices"
+                href="#talk-to-us"
                 className="absolute bottom-8 left-8 uppercase tracking-[0.06em] md:left-16"
               >
                 Join Altira Now
