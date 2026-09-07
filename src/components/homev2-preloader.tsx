@@ -1,102 +1,149 @@
 "use client";
 
-import { Center, useGLTF } from "@react-three/drei";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { Suspense, createContext, useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from "react";
-import type { Group } from "three";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type CSSProperties,
+  type ReactNode,
+} from "react";
 
 import { anton } from "@/lib/fonts";
 
 const HomeV2PreloaderContext = createContext<{ markModelReady: () => void } | null>(null);
 
-function PreloaderModel({ onReady }: { onReady: () => void }) {
-  const { scene } = useGLTF("/base_basic_shaded.glb");
-  const model = useMemo(() => scene.clone(true), [scene]);
-  const groupRef = useRef<Group>(null);
+const PRELOADER_DURATION = { reveal: 5400, remove: 5900 };
+const DROPLETS = [145, 338, 535, 748, 956, 1110];
+const PERCENTAGES = Array.from({ length: 101 }, (_, index) => index);
 
-  useFrame((_, delta) => {
-    if (groupRef.current) groupRef.current.rotation.y += delta * 0.85;
+function createLoopingWavePath(period: number, amplitude: number, phase: number) {
+  const start = -period * 3;
+  const end = 1200 + period * 3;
+  const step = period / 8;
+  const points = Array.from({ length: Math.ceil((end - start) / step) + 1 }, (_, index) => {
+    const x = start + index * step;
+    return { x, y: Math.sin((Math.PI * 2 * x) / period + phase) * amplitude };
   });
 
-  useEffect(() => {
-    onReady();
-  }, [onReady]);
-
-  return (
-    <Center>
-      <group ref={groupRef} rotation={[0.05, -0.25, 0]}>
-        <primitive object={model} scale={1.32} />
-      </group>
-    </Center>
-  );
+  let path = `M ${points[0].x} ${points[0].y.toFixed(2)}`;
+  for (let index = 1; index < points.length - 1; index += 1) {
+    const point = points[index];
+    const next = points[index + 1];
+    path += ` Q ${point.x} ${point.y.toFixed(2)} ${(point.x + next.x) / 2} ${((point.y + next.y) / 2).toFixed(2)}`;
+  }
+  const last = points[points.length - 1];
+  return `${path} L ${last.x} ${last.y.toFixed(2)} L ${end} 360 L ${start} 360 Z`;
 }
 
-useGLTF.preload("/base_basic_shaded.glb");
+const WAVE_LAYERS = [
+  { key: "primary", shift: -360, y: 0, duration: "2.9s", d: createLoopingWavePath(360, 21, 0) },
+  { key: "secondary", shift: 510, y: 5, duration: "4.7s", d: createLoopingWavePath(510, 14, 1.7) },
+  { key: "detail", shift: -235, y: 9, duration: "3.6s", d: createLoopingWavePath(235, 8, 3.2) },
+];
 
 export function HomeV2Preloader({ children }: { children: ReactNode }) {
-  const [isReady, setIsReady] = useState(false);
-  const [isModelReady, setIsModelReady] = useState(false);
-  const [canExit, setCanExit] = useState(false);
-  const [startHero, setStartHero] = useState(false);
-  const value = useMemo(() => ({ markModelReady: () => setIsReady(true) }), []);
-  const handleModelReady = useCallback(() => setIsModelReady(true), []);
-  const isDone = isReady && isModelReady && canExit;
+  const [isRemoved, setIsRemoved] = useState(false);
+  const pageRef = useRef<HTMLDivElement>(null);
+  const markModelReady = useCallback(() => undefined, []);
+  const value = useMemo(() => ({ markModelReady }), [markModelReady]);
 
   useEffect(() => {
-    if (!isModelReady) return;
-
-    const timeoutId = window.setTimeout(() => setCanExit(true), 4000);
-    return () => window.clearTimeout(timeoutId);
-  }, [isModelReady]);
-
-  useEffect(() => {
-    if (!isDone) return;
-
-    const timeoutId = window.setTimeout(() => setStartHero(true), 900);
-    return () => window.clearTimeout(timeoutId);
-  }, [isDone]);
-
-  useLayoutEffect(() => {
+    const previousHtmlOverflow = document.documentElement.style.overflow;
+    const previousBodyOverflow = document.body.style.overflow;
     const previousScrollRestoration = window.history.scrollRestoration;
     window.history.scrollRestoration = "manual";
     window.scrollTo(0, 0);
-    const frameId = window.requestAnimationFrame(() => window.scrollTo(0, 0));
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
+
+    const revealTimer = window.setTimeout(() => {
+      if (pageRef.current) pageRef.current.dataset.homev2Ready = "true";
+    }, PRELOADER_DURATION.reveal);
+    const removeTimer = window.setTimeout(() => {
+      setIsRemoved(true);
+      document.documentElement.style.overflow = previousHtmlOverflow;
+      document.body.style.overflow = previousBodyOverflow;
+      window.history.scrollRestoration = previousScrollRestoration;
+    }, PRELOADER_DURATION.remove);
 
     return () => {
-      window.cancelAnimationFrame(frameId);
+      window.clearTimeout(revealTimer);
+      window.clearTimeout(removeTimer);
+      document.documentElement.style.overflow = previousHtmlOverflow;
+      document.body.style.overflow = previousBodyOverflow;
       window.history.scrollRestoration = previousScrollRestoration;
     };
   }, []);
 
   return (
     <HomeV2PreloaderContext.Provider value={value}>
-      <div data-homev2-ready={startHero ? "true" : "false"}>
+      <div ref={pageRef} className="homev2-page-shell" data-homev2-ready="false">
         {children}
-        <div className={`homev2-preloader ${isDone ? "homev2-preloader--done" : ""}`} aria-live="polite">
-          <div className="homev2-preloader__content">
-            <div className="homev2-preloader__model" aria-hidden="true">
-              <Canvas
-                camera={{ position: [0, 0, 6], fov: 42 }}
-                dpr={[1, 2]}
-                gl={{ alpha: true, antialias: true }}
-              >
-                <ambientLight intensity={1.45} />
-                <directionalLight position={[3, 4, 5]} intensity={2.2} />
-                <Suspense fallback={null}>
-                  <PreloaderModel onReady={handleModelReady} />
-                </Suspense>
-              </Canvas>
-            </div>
-            <p className={`homev2-preloader__loading-word ${anton.className}`} aria-label="Loading">
-              {"LOADING".split("").map((letter, index) => (
-                <span key={`${letter}-${index}`} style={{ "--letter-index": index } as CSSProperties}>
-                  {letter}
-                </span>
-              ))}
-            </p>
-          </div>
-        </div>
       </div>
+
+      {!isRemoved ? (
+        <div className="homev2-preloader" role="status" aria-label="Loading page">
+          <svg
+            className={`homev2-preloader__wordmark ${anton.className}`}
+            viewBox="0 0 1200 320"
+            role="img"
+            aria-label="ALTIRA"
+          >
+            <defs>
+              <clipPath id="homev2-altira-clip">
+                <text className="homev2-preloader__svg-text" x="600" y="260" textAnchor="middle">
+                  ALTIRA
+                </text>
+              </clipPath>
+            </defs>
+
+            <text className="homev2-preloader__svg-text homev2-preloader__outline" x="600" y="260" textAnchor="middle">
+              ALTIRA
+            </text>
+
+            <g clipPath="url(#homev2-altira-clip)">
+              <g className="homev2-preloader__liquid">
+                <g className="homev2-preloader__liquid-surface">
+                  <g className="homev2-preloader__waves">
+                    {WAVE_LAYERS.map((wave) => (
+                      <path
+                        key={wave.key}
+                        className={`homev2-preloader__wave-flow homev2-preloader__wave-flow--${wave.key}`}
+                        d={wave.d}
+                        style={
+                          {
+                            "--homev2-wave-shift": `${wave.shift}px`,
+                            "--homev2-wave-y": `${wave.y}px`,
+                            "--homev2-wave-duration": wave.duration,
+                          } as CSSProperties
+                        }
+                      />
+                    ))}
+                  </g>
+                  <g className="homev2-preloader__droplets">
+                    {DROPLETS.map((cx) => (
+                      <circle key={cx} cx={cx} cy="-6" r="2.4" />
+                    ))}
+                  </g>
+                  <rect y="16" width="1200" height="344" />
+                </g>
+              </g>
+            </g>
+          </svg>
+
+          <span className="homev2-preloader__percentage" aria-hidden="true">
+            <span className="homev2-preloader__percentage-track">
+              {PERCENTAGES.map((percentage) => (
+                <span key={percentage}>{percentage}%</span>
+              ))}
+            </span>
+          </span>
+        </div>
+      ) : null}
     </HomeV2PreloaderContext.Provider>
   );
 }

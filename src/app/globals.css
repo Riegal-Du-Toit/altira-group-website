@@ -619,39 +619,31 @@ main > section[id] {
 [data-homev2-ready="true"] .homev2-header-entrance { animation: homev2-header-drop 0.65s cubic-bezier(0.16, 1, 0.3, 1) 2.7s both; }
 [data-homev2-ready="true"] .homev2-action-entrance { animation: homev2-action-fade 0.5s ease-out 2.7s both; }
 
-.homev2-preloader { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; background: #fff; color: #2E2E38; opacity: 1; transition: opacity 900ms ease; }
-.homev2-preloader--done { pointer-events: none; opacity: 0; }
-.homev2-preloader__content { display: grid; width: min(16rem, 62vw); gap: 0.8rem; justify-items: center; text-align: center; }
-.homev2-preloader__content p { margin: 0; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.28em; color: #2E2E38; }
-.homev2-preloader__model { position: fixed; left: 50%; top: 39%; z-index: 3; width: min(32rem, 82vw); aspect-ratio: 1.35; transform: translate(-50%, -50%); pointer-events: none; }
-.homev2-preloader__model canvas { display: block; width: 100% !important; height: 100% !important; }
-.homev2-preloader__content .homev2-preloader__loading-word { position: fixed; inset-x: 0; bottom: -0.08em; display: flex; align-items: flex-end; justify-content: center; overflow: visible; opacity: 0.3; font-size: clamp(7rem, 23vw, 30rem); font-weight: 400; line-height: 1; letter-spacing: 0; color: transparent; -webkit-text-fill-color: transparent; transform-origin: bottom center; -webkit-mask-image: none; mask-image: none; }
-.homev2-preloader__content .homev2-preloader__loading-word span { display: block; position: relative; flex: 0 0 auto; font: inherit; font-size: inherit; line-height: inherit; letter-spacing: 0; text-transform: inherit; color: transparent; -webkit-text-fill-color: transparent; background: linear-gradient(to bottom, #2E2E38, #565662, #B7B8C0); background-clip: text; -webkit-background-clip: text; transform: translateY(0); animation-name: homev2-loading-letter-bounce !important; animation-duration: 1.45s !important; animation-timing-function: ease-in-out !important; animation-iteration-count: infinite !important; animation-fill-mode: both !important; animation-delay: calc(var(--letter-index) * 0.16s) !important; will-change: transform; }
-.homev2-preloader__content span { font-size: 0.67rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgb(255 255 255 / 42%); }
-.homev2-preloader__content i { position: relative; display: block; height: 1px; overflow: hidden; background: rgb(255 255 255 / 14%); }
-.homev2-preloader__content i::after { content: ""; position: absolute; inset: 0; width: 46%; background: #3fe9ec; animation: homev2-loader 1.1s ease-in-out infinite alternate; }
-.homev2-preloader__device-frame { position: fixed; left: 50%; top: 34%; z-index: 2; width: 210px; height: 252px; transform: translate(-50%, -50%); }
-.homev2-preloader__device { position: absolute; left: 50%; top: 0; width: 450px; height: 540px; margin-left: -225px; transform-origin: 50% 34%; animation: homev2-macbook-zoom 7s cubic-bezier(0.7, 0, 0.2, 1) both; }
-.homev2-preloader .macbook { width: 150px; height: 96px; position: absolute; left: 0; top: 15px; margin: 0; perspective: 500px; transform: scale(3) translateZ(0); transform-origin: 0 0; }
-.homev2-preloader .shadow { position: absolute; width: 60px; height: 0; left: 40px; top: 160px; transform: rotateX(80deg) rotateY(0deg) rotateZ(0deg); box-shadow: 0 0 60px 40px rgba(0,0,0,0.3); animation: homev2-macbook-shadow 5s ease forwards; }
-.homev2-preloader .inner { z-index: 20; position: absolute; width: 150px; height: 96px; left: 0; top: 0; transform-style: preserve-3d; transform: rotateX(-20deg) rotateY(0deg) rotateZ(0deg); animation: homev2-macbook-rotate 5s ease forwards; }
-.homev2-preloader .screen { width: 150px; height: 96px; position: absolute; left: 0; bottom: 0; border-radius: 7px; background: #ddd; transform-style: preserve-3d; transform-origin: 50% 93px; transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); background-image: linear-gradient(45deg, rgba(0,0,0,0.34) 0%,rgba(0,0,0,0) 100%); background-position: right top; background-size: 300px 300px; box-shadow: inset 0 3px 7px rgba(255,255,255,0.5); }
-.homev2-preloader .screen .face-one { width: 150px; height: 96px; position: absolute; left: 0; bottom: 0; border-radius: 7px; background: #d3d3d3; transform: translateZ(2px); background-image: linear-gradient(45deg,rgba(0,0,0,0.24) 0%,rgba(0,0,0,0) 100%); }
-.homev2-preloader .screen .face-one .camera { width: 3px; height: 3px; border-radius: 100%; background: #000; position: absolute; left: 50%; top: 4px; margin-left: -1.5px; }
-.homev2-preloader .screen .face-one .display { width: 130px; height: 74px; margin: 10px; background: #000 !important; background-image: none !important; background-size: 100% 100%; border-radius: 1px; position: relative; box-shadow: inset 0 0 2px rgba(0,0,0,1); }
-.homev2-preloader .screen-logo { position: absolute; left: 50%; top: 50%; width: 42px; height: 42px; object-fit: contain; transform: translate(-50%, -50%); animation: homev2-screen-logo-fade 7s ease both; }
-.homev2-preloader .macbody { width: 150px; height: 96px; position: absolute; left: 0; bottom: 0; border-radius: 7px; background: #cbcbcb; transform-style: preserve-3d; transform-origin: 50% bottom; transform: rotateX(-90deg); animation: homev2-macbook-lid-body 7s ease infinite; background-image: linear-gradient(45deg, rgba(0,0,0,0.24) 0%,rgba(0,0,0,0) 100%); }
-.homev2-preloader .macbody .face-one { width: 150px; height: 96px; position: absolute; left: 0; bottom: 0; border-radius: 7px; transform-style: preserve-3d; background: #dfdfdf; animation: homev2-macbook-keyboard-area 5s ease forwards; transform: translateZ(-2px); background-image: linear-gradient(30deg, rgba(0,0,0,0.24) 0%,rgba(0,0,0,0) 100%); }
-.homev2-preloader .macbody .touchpad { width: 40px; height: 31px; position: absolute; left: 50%; top: 50%; border-radius: 4px; margin: -44px 0 0 -18px; background: #cdcdcd; background-image: linear-gradient(30deg, rgba(0,0,0,0.24) 0%,rgba(0,0,0,0) 100%); box-shadow: inset 0 0 3px #888; }
-.homev2-preloader .macbody .keyboard { width: 130px; height: 45px; position: absolute; left: 7px; top: 41px; border-radius: 4px; transform-style: preserve-3d; background: #cdcdcd; background-image: linear-gradient(30deg, rgba(0,0,0,0.24) 0%,rgba(0,0,0,0) 100%); box-shadow: inset 0 0 3px #777; padding: 0 0 0 2px; }
-.homev2-preloader .keyboard .key { width: 6px; height: 6px; background: #444; float: left; margin: 1px; transform: translateZ(-2px); border-radius: 2px; box-shadow: 0 -2px 0 #222; animation: homev2-macbook-keys 5s ease forwards; }
-.homev2-preloader .key.space { width: 45px; }
-.homev2-preloader .key.f { height: 3px; }
-.homev2-preloader .macbody .pad { width: 5px; height: 5px; background: #333; border-radius: 100%; position: absolute; }
-.homev2-preloader .pad.one { left: 20px; top: 20px; }
-.homev2-preloader .pad.two { right: 20px; top: 20px; }
-.homev2-preloader .pad.three { right: 20px; bottom: 20px; }
-.homev2-preloader .pad.four { left: 20px; bottom: 20px; }
+.homev2-page-shell {
+  opacity: 0;
+  animation: homev2-page-reveal 600ms ease 5400ms forwards;
+}
+
+.homev2-preloader { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; overflow: hidden; background: #fff; opacity: 1; animation: homev2-loader-fade 500ms cubic-bezier(0.4, 0, 0.2, 1) 5300ms forwards; }
+.homev2-preloader__wordmark { position: absolute; left: 50%; bottom: clamp(-186.84px, -9.73125vw, -51.9px); display: block; width: clamp(600px, 112.5vw, 2160px); height: clamp(160px, 30vw, 576px); overflow: visible; transform: translateX(-50%) scaleX(1.3) scaleY(1.73); transform-origin: bottom center; }
+.homev2-preloader__svg-text { font-family: inherit; font-size: 336px; font-weight: 400; letter-spacing: -6px; }
+.homev2-preloader__outline { fill: #f3f3f3; stroke: #e5e5e5; stroke-width: 1.5px; }
+.homev2-preloader__liquid { transform: translateY(310px); animation: homev2-liquid-rise 4800ms linear forwards; will-change: transform; }
+.homev2-preloader__liquid-surface { will-change: transform; }
+.homev2-preloader__waves { transform-box: view-box; transform-origin: 0 0; animation: homev2-wave-settle 4800ms ease-out forwards; }
+.homev2-preloader__wave-flow { transform: translate(0, var(--homev2-wave-y)); animation: homev2-wave-flow var(--homev2-wave-duration) linear infinite; will-change: transform; }
+.homev2-preloader__waves path,
+.homev2-preloader__droplets circle,
+.homev2-preloader__liquid-surface > rect { fill: #050505; }
+.homev2-preloader__droplets circle { transform-box: fill-box; transform-origin: center; animation: homev2-liquid-droplet 3.1s ease-in-out infinite; }
+.homev2-preloader__droplets circle:nth-child(2) { animation-delay: -1.35s; }
+.homev2-preloader__droplets circle:nth-child(3) { animation-delay: -2.15s; }
+.homev2-preloader__droplets circle:nth-child(4) { animation-delay: -0.7s; }
+.homev2-preloader__droplets circle:nth-child(5) { animation-delay: -1.8s; }
+.homev2-preloader__droplets circle:nth-child(6) { animation-delay: -2.55s; }
+.homev2-preloader__percentage { position: fixed; right: clamp(2rem, 3vw, 3rem); bottom: clamp(2rem, 3vw, 3rem); z-index: 2; width: 4ch; height: 1em; overflow: hidden; color: #fff; font-size: clamp(2rem, 3.2vw, 3.25rem); font-weight: 500; line-height: 1; letter-spacing: -0.055em; text-align: right; font-variant-numeric: tabular-nums; mix-blend-mode: difference; }
+.homev2-preloader__percentage-track { display: flex; flex-direction: column; align-items: flex-end; animation: homev2-counter-reel 4800ms steps(100, end) forwards; will-change: transform; }
+.homev2-preloader__percentage-track > span { display: block; flex: 0 0 1em; height: 1em; line-height: 1; }
 
 @keyframes homev2-orbit-type {
   to { opacity: 0.12; clip-path: inset(0 0 0 0); }
@@ -680,75 +672,42 @@ main > section[id] {
   to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes homev2-loader { from { transform: translateX(-120%); } to { transform: translateX(250%); } }
-
-@keyframes homev2-loading-letter-bounce {
-  0%, 42%, 100% { transform: translateY(0); }
-  14% { transform: translateY(-0.18em); }
-  28% { transform: translateY(0.06em); }
+@keyframes homev2-loader-fade {
+  from { opacity: 1; pointer-events: auto; }
+  to { opacity: 0; pointer-events: none; }
 }
 
-@keyframes homev2-macbook-rotate {
-  0% { transform: rotateX(-20deg) rotateY(0deg) rotateZ(0deg); }
-  68% { transform: rotateX(-20deg) rotateY(360deg) rotateZ(0deg); }
-  78%, 100% { transform: rotateX(-20deg) rotateY(360deg) rotateZ(0deg); }
+@keyframes homev2-liquid-rise {
+  from { transform: translateY(310px); }
+  to { transform: translateY(-8px); }
 }
 
-@keyframes homev2-macbook-lid-screen {
-  0% { transform: rotateX(0deg); background-position: left bottom; }
-  10% { transform: rotateX(22deg); background-position: left bottom; }
-  22% { transform: rotateX(58deg); background-position: -60px top; }
-  34% { transform: rotateX(84deg); background-position: -130px top; }
-  42% { transform: rotateX(66deg); background-position: -90px top; }
-  54% { transform: rotateX(28deg); background-position: left bottom; }
-  66% { transform: rotateX(-8deg); background-position: right top; }
-  76% { transform: rotateX(4deg); background-position: right top; }
-  84%, 100% { transform: rotateX(0deg); background-position: right center; }
+@keyframes homev2-wave-flow {
+  from { transform: translate(0, var(--homev2-wave-y)); }
+  to { transform: translate(var(--homev2-wave-shift), var(--homev2-wave-y)); }
 }
 
-@keyframes homev2-macbook-lid-body {
-  0%, 50%, 100% { transform: rotateX(-90deg); }
+@keyframes homev2-wave-settle {
+  0% { transform: scaleY(0.35); }
+  15% { transform: scaleY(1); }
+  78% { transform: scaleY(0.9); }
+  100% { transform: scaleY(0.18); }
 }
 
-@keyframes homev2-macbook-keyboard-area {
-  0%, 100% { background-color: #dfdfdf; }
-  50% { background-color: #bbb; }
+@keyframes homev2-liquid-droplet {
+  0%, 72%, 100% { transform: translateY(5px) scale(0); }
+  82% { transform: translateY(1px) scale(0.65); }
+  91% { transform: translateY(-9px) scale(1); }
 }
 
-@keyframes homev2-macbook-screen-shade {
-  0%, 100% { background-position: -20px 0; }
-  5% { background-position: -40px 0; }
-  20% { background-position: 200px 0; }
-  50% { background-position: -200px 0; }
-  80% { background-position: 0 0; }
-  85% { background-position: -30px 0; }
-  90% { background-position: -20px 0; }
+@keyframes homev2-counter-reel {
+  from { transform: translateY(0); }
+  to { transform: translateY(-100em); }
 }
 
-@keyframes homev2-macbook-keys {
-  0%, 80%, 85%, 87%, 100% { box-shadow: 0 -2px 0 #222; }
-  5% { box-shadow: 1px -1px 0 #222; }
-  20%, 25%, 60% { box-shadow: -1px 1px 0 #222; }
-}
-
-@keyframes homev2-macbook-shadow {
-  0% { transform: rotateX(80deg) rotateY(0deg) rotateZ(0deg); box-shadow: 0 0 60px 40px rgba(0,0,0,0.3); }
-  5% { transform: rotateX(80deg) rotateY(10deg) rotateZ(0deg); box-shadow: 0 0 60px 40px rgba(0,0,0,0.3); }
-  20% { transform: rotateX(30deg) rotateY(-20deg) rotateZ(-20deg); box-shadow: 0 0 50px 30px rgba(0,0,0,0.3); }
-  25% { transform: rotateX(80deg) rotateY(-20deg) rotateZ(50deg); box-shadow: 0 0 35px 15px rgba(0,0,0,0.1); }
-  60% { transform: rotateX(80deg) rotateY(0deg) rotateZ(-50deg) translateX(30px); box-shadow: 0 0 60px 40px rgba(0,0,0,0.3); }
-  100% { box-shadow: 0 0 60px 40px rgba(0,0,0,0.3); }
-}
-
-@keyframes homev2-macbook-zoom {
-  0%, 76% { transform: scale(0.467); }
-  86% { transform: scale(1.09) translateY(2px); }
-  100% { transform: scale(8.4) translateY(26px); }
-}
-
-@keyframes homev2-screen-logo-fade {
-  0%, 76% { opacity: 1; }
-  100% { opacity: 0; }
+@keyframes homev2-page-reveal {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -757,14 +716,15 @@ main > section[id] {
   [data-homev2-ready="true"] .homev2-copy-entrance { animation-duration: 0.65s !important; }
   [data-homev2-ready="true"] .homev2-header-entrance { animation-duration: 0.65s !important; }
   [data-homev2-ready="true"] .homev2-action-entrance { animation-duration: 0.5s !important; }
-  .homev2-preloader .inner { animation: homev2-macbook-rotate 5s ease forwards !important; }
-  .homev2-preloader .shadow { animation: homev2-macbook-shadow 5s ease forwards !important; }
-  .homev2-preloader .macbody .face-one { animation: homev2-macbook-keyboard-area 5s ease forwards !important; }
-  .homev2-preloader .keyboard .key { animation: homev2-macbook-keys 5s ease forwards !important; }
-  .homev2-preloader__device { animation: homev2-macbook-zoom 7s cubic-bezier(0.7, 0, 0.2, 1) both !important; }
-  .homev2-preloader .screen-logo { animation: homev2-screen-logo-fade 7s ease both !important; }
-  .homev2-preloader__content .homev2-preloader__loading-word span { animation-duration: 1.45s !important; animation-iteration-count: infinite !important; animation-delay: calc(var(--letter-index) * 0.16s) !important; }
-  .homev2-preloader { transition: opacity 900ms ease !important; }
+  .homev2-preloader__liquid,
+  .homev2-preloader__percentage-track,
+  .homev2-preloader__waves { animation-duration: 4800ms !important; }
+  .homev2-preloader__wave-flow--primary { animation-duration: 5.8s !important; }
+  .homev2-preloader__wave-flow--secondary { animation-duration: 9.4s !important; }
+  .homev2-preloader__wave-flow--detail { animation-duration: 7.2s !important; }
+  .homev2-preloader__droplets circle { animation: none !important; }
+  .homev2-preloader { animation-duration: 500ms !important; animation-delay: 5300ms !important; }
+  .homev2-page-shell { animation-duration: 600ms !important; animation-delay: 5400ms !important; }
 }
 
 
