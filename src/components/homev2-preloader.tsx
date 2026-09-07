@@ -99,6 +99,12 @@ export function HomeV2Preloader({ children }: { children: ReactNode }) {
                   ALTIRA
                 </text>
               </clipPath>
+              <linearGradient id="homev2-liquid-gradient" x1="0" y1="360" x2="0" y2="0" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stopColor="#000000" />
+                <stop offset="15%" stopColor="#000000" />
+                <stop offset="48%" stopColor="#171717" />
+                <stop offset="100%" stopColor="#4A4A4A" />
+              </linearGradient>
             </defs>
 
             <text className="homev2-preloader__svg-text homev2-preloader__outline" x="600" y="260" textAnchor="middle">
@@ -129,7 +135,6 @@ export function HomeV2Preloader({ children }: { children: ReactNode }) {
                       <circle key={cx} cx={cx} cy="-6" r="2.4" />
                     ))}
                   </g>
-                  <rect y="16" width="1200" height="344" />
                 </g>
               </g>
             </g>

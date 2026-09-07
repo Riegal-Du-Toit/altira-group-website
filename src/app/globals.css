@@ -627,14 +627,13 @@ main > section[id] {
 .homev2-preloader { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; overflow: hidden; background: #fff; opacity: 1; animation: homev2-loader-fade 500ms cubic-bezier(0.4, 0, 0.2, 1) 5300ms forwards; }
 .homev2-preloader__wordmark { position: absolute; left: 50%; bottom: clamp(-186.84px, -9.73125vw, -51.9px); display: block; width: clamp(600px, 112.5vw, 2160px); height: clamp(160px, 30vw, 576px); overflow: visible; transform: translateX(-50%) scaleX(1.3) scaleY(1.73); transform-origin: bottom center; }
 .homev2-preloader__svg-text { font-family: inherit; font-size: 336px; font-weight: 400; letter-spacing: -6px; }
-.homev2-preloader__outline { fill: #f3f3f3; stroke: #e5e5e5; stroke-width: 1.5px; }
+.homev2-preloader__outline { fill: #f3f3f3; stroke: none; }
 .homev2-preloader__liquid { transform: translateY(310px); animation: homev2-liquid-rise 4800ms linear forwards; will-change: transform; }
 .homev2-preloader__liquid-surface { will-change: transform; }
-.homev2-preloader__waves { transform-box: view-box; transform-origin: 0 0; animation: homev2-wave-settle 4800ms ease-out forwards; }
+.homev2-preloader__waves { transform-box: view-box; transform-origin: 0 0; }
 .homev2-preloader__wave-flow { transform: translate(0, var(--homev2-wave-y)); animation: homev2-wave-flow var(--homev2-wave-duration) linear infinite; will-change: transform; }
 .homev2-preloader__waves path,
-.homev2-preloader__droplets circle,
-.homev2-preloader__liquid-surface > rect { fill: #050505; }
+.homev2-preloader__droplets circle { fill: url("#homev2-liquid-gradient"); }
 .homev2-preloader__droplets circle { transform-box: fill-box; transform-origin: center; animation: homev2-liquid-droplet 3.1s ease-in-out infinite; }
 .homev2-preloader__droplets circle:nth-child(2) { animation-delay: -1.35s; }
 .homev2-preloader__droplets circle:nth-child(3) { animation-delay: -2.15s; }
@@ -685,13 +684,6 @@ main > section[id] {
 @keyframes homev2-wave-flow {
   from { transform: translate(0, var(--homev2-wave-y)); }
   to { transform: translate(var(--homev2-wave-shift), var(--homev2-wave-y)); }
-}
-
-@keyframes homev2-wave-settle {
-  0% { transform: scaleY(0.35); }
-  15% { transform: scaleY(1); }
-  78% { transform: scaleY(0.9); }
-  100% { transform: scaleY(0.18); }
 }
 
 @keyframes homev2-liquid-droplet {

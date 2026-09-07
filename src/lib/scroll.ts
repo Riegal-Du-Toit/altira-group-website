@@ -76,7 +76,8 @@ export function scrollToHash(hash: string, options?: { updateHistory?: boolean }
   }
 
   if (!lenisInstance) {
-    console.error("[anchor] Lenis unavailable; native navigation blocked", { hash });
+    window.scrollTo({ top: targetTop, behavior: "smooth" });
+    updateHistoryForHash(hash, updateHistory);
     return;
   }
 
@@ -137,9 +138,8 @@ export function scrollToTop(options?: { updateHistory?: boolean }) {
   const updateHistory = options?.updateHistory ?? true;
 
   if (!lenisInstance) {
-    if (DEBUG_ANCHORS) {
-      console.error("[anchor] Lenis unavailable; native home navigation blocked");
-    }
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    updateHistoryForHash("#home", updateHistory);
     return;
   }
 

@@ -7,9 +7,9 @@ import { useEffect, useState } from "react";
 import { FooterSocials } from "@/components/FooterSocials";
 
 const columns = [
-  { title: "Explore", links: [["Home", "/homev2"], ["What We Do", "/what-we-do"], ["Orbit Platform", "/orbit"], ["Why Altira", "/why-altira"]] },
-  { title: "Company", links: [["Offices", "/offices"], ["Contact", "/contact"], ["Partner with us", "/contact"], ["Privacy", "/privacy"]] },
-  { title: "Resources", links: [["Orbit Engine", "/orbit"], ["Our approach", "/what-we-do"], ["Member experience", "/why-altira"], ["Insights", "/insights"]] },
+  { title: "Explore", links: [["Home", "#home"], ["What We Do", "#products"], ["Orbit Platform", "#method"], ["Why Altira", "#why"]] },
+  { title: "Company", links: [["Offices", "#offices"], ["Contact", "#talk-to-us"], ["Partner with us", "#talk-to-us"]] },
+  { title: "Resources", links: [["Orbit Engine", "#method"], ["Our approach", "#method"], ["Member experience", "#app-experience"]] },
 ] as const;
 
 const WhatsAppIcon = ({ className = "" }: { className?: string }) => (

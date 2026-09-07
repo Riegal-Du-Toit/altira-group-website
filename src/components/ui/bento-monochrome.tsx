@@ -29,10 +29,10 @@ export default function BentoMonochrome() {
         @keyframes bento2-tilt { 50% { transform: rotate(2deg); } }
         @keyframes bento2-drift { 50% { transform: translate3d(6%, -6%, 0); } }
         @keyframes bento2-glow { 50% { opacity: 1; filter: drop-shadow(0 0 6px rgba(0,0,0,.2)); } }
-        @keyframes bento2-intro { to { opacity: 1; transform: translate3d(0,0,0); } }
+        @keyframes bento2-intro { to { opacity: 1; } }
         @keyframes bento2-card { to { opacity: 1; transform: translate3d(0,0,0) scale(1); } }
       `}</style>
-      <div className={`relative mx-auto w-full max-w-none px-6 py-20 motion-safe:translate-y-40 md:px-10 lg:px-[max(7.75rem,calc((100vw-96rem)/2+7.75rem))] ${visible ? "motion-safe:animate-[bento2-intro_.9s_ease-out_forwards]" : ""}`}>
+      <div className={`relative mx-auto w-full max-w-none px-6 py-20 md:px-10 lg:px-[max(7.75rem,calc((100vw-96rem)/2+7.75rem))] ${visible ? "motion-safe:animate-[bento2-intro_.9s_ease-out_forwards]" : ""}`}>
         <header className="mb-10 flex flex-col gap-6 pb-6 md:flex-row md:items-end md:justify-between">
           <div className="flex flex-col gap-2">
             <span className="text-xs uppercase tracking-[.35em] text-[#2E2E38]/60">Why Altira</span>

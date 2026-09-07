@@ -241,7 +241,7 @@ function DepthCard({
               <span aria-hidden="true" className="absolute inset-y-3 left-0 w-1 rounded-r-full bg-[#37D8C6]" />
               <span aria-hidden="true" className="mr-4 grid size-[41px] shrink-0 place-items-center">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={certification.icon} alt="" className="max-h-[25px] max-w-[33px] object-contain" />
+                <img src={certification.icon} alt="" className="max-h-[26.25px] max-w-[34.65px] object-contain" />
               </span>
               <span className="flex min-w-0 flex-1 items-center justify-between gap-4">
                 <span className="text-sm font-extrabold leading-tight tracking-[-0.02em] text-neutral-950">
