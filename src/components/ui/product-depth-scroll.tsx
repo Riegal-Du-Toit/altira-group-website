@@ -46,8 +46,8 @@ const products: readonly Product[] = [
     title: "Smart DMS",
     description:
       "A live Microsoft Marketplace platform for governed approvals, configured inside your own Microsoft tenant. It unifies submissions, memos, leave, records, invoices, recruitment, attendance, bids and quotes on one traceable case record, with audit trails and delegation controls built in.",
-    image: "/configure.png",
-    imageAlt: "Enterprise workflow platform interface",
+    image: "/smart%20dms%20solutions.png",
+    imageAlt: "Smart DMS solutions platform",
   },
 ];
 

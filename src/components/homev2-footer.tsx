@@ -122,9 +122,8 @@ export function HomeV2Footer() {
                         </span>
                       </a>
                       <div className="-mt-5 flex flex-col items-start gap-1">
-                        <span className="flex items-center gap-1.5 text-[0.58rem] font-bold uppercase tracking-[0.12em] text-black">
-                          Download
-                          <Image src="/partner-icons/smart%20dms.png" alt="Smart DMS" width={52} height={18} className="h-4 w-auto object-contain" />
+                        <span className="flex items-center">
+                          <Image src="/partner-icons/smart%20dms.png" alt="Smart DMS" width={58} height={20} className="h-[17.64px] w-auto object-contain" />
                         </span>
                         <a className="playstore-button" href="#" aria-label="Microsoft Store">
                           <MicrosoftStoreIcon className="icon" />
