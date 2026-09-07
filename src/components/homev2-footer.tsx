@@ -20,8 +20,11 @@ const WhatsAppIcon = ({ className = "" }: { className?: string }) => (
 
 const EmailIcon = ({ className = "" }: { className?: string }) => (
   <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
-    <path d="M4.75 6.75h14.5v10.5H4.75V6.75Z" />
-    <path d="m5.25 7.25 6.75 5.4 6.75-5.4" />
+    <path d="M4.5 18V7.2" stroke="#EA4335" strokeWidth="3.2" strokeLinecap="round" />
+    <path d="m4.8 7.3 7.2 5.5" stroke="#EA4335" strokeWidth="3.2" strokeLinecap="round" />
+    <path d="m12 12.8 7.2-5.5" stroke="#FBBC04" strokeWidth="3.2" strokeLinecap="round" />
+    <path d="M19.5 7.2V18" stroke="#34A853" strokeWidth="3.2" strokeLinecap="round" />
+    <path d="M4.5 15.2V18" stroke="#4285F4" strokeWidth="3.2" strokeLinecap="round" />
   </svg>
 );
 
@@ -123,12 +126,12 @@ export function HomeV2Footer() {
                       </a>
                       <div className="-mt-5 flex flex-col items-start gap-1">
                         <span className="flex items-center">
-                          <Image src="/partner-icons/smart%20dms.png" alt="Smart DMS" width={58} height={20} className="h-[17.64px] w-auto object-contain" />
+                          <Image src="/partner-icons/smart%20dms.png" alt="Smart DMS" width={64} height={22} className="h-[19.404px] w-auto object-contain" />
                         </span>
                         <a className="playstore-button" href="#" aria-label="Microsoft Store">
                           <MicrosoftStoreIcon className="icon" />
                           <span className="texts">
-                            <span className="text-1">Get it from</span>
+                            <span className="text-1">Available on</span>
                             <span className="text-2">Microsoft</span>
                           </span>
                         </a>
@@ -172,9 +175,12 @@ export function HomeV2Footer() {
                   type="button"
                   onClick={() => setIsBookingOpen(false)}
                   aria-label="Close calendar"
-                  className="absolute left-3 top-3 z-10 grid size-10 place-items-center rounded-full border border-white/50 !bg-[linear-gradient(135deg,#5B5CEB,#37D8C6)] !text-[#F7F8FA] shadow-[0_8px_20px_rgba(17,22,61,0.3)] transition hover:scale-105"
+                  className="talk-button calendar-close-button absolute left-3 top-3 z-10 inline-flex size-10 items-stretch overflow-hidden rounded-[12px] border-[1.5px] border-[#F7F8FA] bg-[#37D8C6] p-0 text-[16px] font-bold text-white shadow-[0_8px_18px_rgba(17,22,61,0.18)] transition-all duration-300 ease-out hover:bg-[#2fc7b7] active:scale-[0.97]"
                 >
-                  <X className="size-4 !text-[#F7F8FA]" />
+                  <span className="relative z-10 grid size-full place-items-center rounded-[10px] bg-white/10">
+                    <X className="size-4 !text-white" />
+                  </span>
+                  <span aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[repeating-conic-gradient(rgb(48,47,47)_0.0000001%,rgb(51,51,51)_0.000104%)_60%_60%/600%_600%] opacity-10 contrast-105" />
                 </button>
               )}
             </div>

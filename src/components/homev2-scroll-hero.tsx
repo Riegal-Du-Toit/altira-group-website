@@ -60,8 +60,10 @@ export function HomeV2ScrollHero() {
           <div className="homev2-planet-entrance size-full scale-[0.73]">
             <HomeV2AnimatedPlanet animateOnEntry={false} />
           </div>
-          <span aria-hidden="true" className="absolute left-[calc(43%_-_5px)] top-[calc(58%_+_25px)] z-20 -translate-x-1/2 whitespace-nowrap text-[16px] font-bold text-black">
-            With you at every turn
+          <span aria-hidden="true" className="absolute left-[calc(43%_-_5px)] top-[calc(58%_+_25px)] z-20 -translate-x-1/2 whitespace-nowrap">
+            <span className={`${poppins.className} homev2-caption-entrance inline-block text-[15px] font-semibold leading-none tracking-[0.015em] text-[#2E2E38] antialiased drop-shadow-[0_2px_10px_rgba(247,248,250,0.9)]`}>
+              With you, at every turn.
+            </span>
           </span>
         </div>
 

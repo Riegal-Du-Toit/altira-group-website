@@ -284,6 +284,11 @@ main > section[id] {
   color: #F7F8FA !important;
 }
 
+.homev2-light-backgrounds footer .calendar-close-button svg {
+  color: #F7F8FA !important;
+  stroke: #F7F8FA !important;
+}
+
 .btn-wrapper {
   --color: #b5faff31;
   --txt-color: #283a3b;
@@ -612,12 +617,19 @@ main > section[id] {
   opacity: 0;
 }
 
+.homev2-caption-entrance {
+  opacity: 0;
+  translate: 0 10px;
+  will-change: opacity, translate;
+}
+
 [data-homev2-ready="true"] .homev2-orbit-entrance { animation: homev2-orbit-type 1.6s cubic-bezier(0.22, 1, 0.36, 1) both; }
 [data-homev2-ready="true"] .homev2-planet-entrance { animation: homev2-planet-rise 1.15s cubic-bezier(0.16, 1, 0.3, 1) 2.45s both; }
 [data-homev2-ready="true"] .homev2-heading-entrance { animation: homev2-heading-enter 0.5s ease-out 1.2s both; }
 [data-homev2-ready="true"] .homev2-copy-entrance { animation: homev2-copy-fade 0.65s ease-out 1.7s both; }
 [data-homev2-ready="true"] .homev2-header-entrance { animation: homev2-header-drop 0.65s cubic-bezier(0.16, 1, 0.3, 1) 2.7s both; }
 [data-homev2-ready="true"] .homev2-action-entrance { animation: homev2-action-fade 0.5s ease-out 2.7s both; }
+[data-homev2-ready="true"] .homev2-caption-entrance { animation: homev2-caption-enter 0.65s cubic-bezier(0.22, 1, 0.36, 1) 2.65s both; }
 
 .homev2-page-shell {
   opacity: 0;
@@ -671,6 +683,11 @@ main > section[id] {
   to { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes homev2-caption-enter {
+  from { opacity: 0; translate: 0 10px; }
+  to { opacity: 1; translate: 0 0; }
+}
+
 @keyframes homev2-loader-fade {
   from { opacity: 1; pointer-events: auto; }
   to { opacity: 0; pointer-events: none; }
@@ -708,6 +725,7 @@ main > section[id] {
   [data-homev2-ready="true"] .homev2-copy-entrance { animation-duration: 0.65s !important; }
   [data-homev2-ready="true"] .homev2-header-entrance { animation-duration: 0.65s !important; }
   [data-homev2-ready="true"] .homev2-action-entrance { animation-duration: 0.5s !important; }
+  [data-homev2-ready="true"] .homev2-caption-entrance { animation: none !important; opacity: 1; translate: 0; }
   .homev2-preloader__liquid,
   .homev2-preloader__percentage-track,
   .homev2-preloader__waves { animation-duration: 4800ms !important; }
@@ -1508,7 +1526,7 @@ main > section[id] {
 }
 
 .SocialTiltBtn[data-platform="email"] .BG {
-  background: #000000;
+  background: #EA4335;
 }
 
 .SocialTiltBtn[data-platform="x"] .BG {
@@ -1593,6 +1611,11 @@ main > section[id] {
 .FooterContactTiltBtn[data-platform="whatsapp"] .svgContainer svg path {
   fill: #ffffff !important;
   stroke: none !important;
+}
+
+.FooterContactTiltBtn[data-platform="email"] .svgContainer svg path {
+  fill: none !important;
+  stroke: #ffffff !important;
 }
 
 @media (min-width: 48rem) {
