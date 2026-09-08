@@ -9,7 +9,7 @@ import { FooterSocials } from "@/components/FooterSocials";
 const columns = [
   { title: "Explore", links: [["Home", "#home"], ["What We Do", "#products"], ["Orbit Platform", "#method"], ["Why Altira", "#why"]] },
   { title: "Company", links: [["Offices", "#offices"], ["Contact", "#talk-to-us"], ["Partner with us", "#talk-to-us"]] },
-  { title: "Resources", links: [["Orbit Engine", "#method"], ["Our approach", "#method"], ["Member experience", "#app-experience"]] },
+  { title: "Resources", links: [["Orbit Engine", "#method"], ["Our approach", "#method"]] },
 ] as const;
 
 const EmailIcon = ({ className = "" }: { className?: string }) => (

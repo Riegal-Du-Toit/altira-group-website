@@ -51,12 +51,6 @@ const RegionalPresenceMap = dynamic(
 const TrustedCustomersSection = dynamic(() => import("@/components/ui/trusted-customers-section"), {
   loading: () => <div className="min-h-[42rem] w-full bg-white" />,
 });
-const DownloadShowcase = dynamic(
-  () => import("@/components/ui/download-options-section").then((mod) => mod.DownloadShowcase),
-  {
-    loading: () => <div className="min-h-screen w-full bg-[#1e2021]" />,
-  },
-);
 export function LandingPage({
   header = <SiteHeader />,
   footer = <Footer />,
@@ -316,7 +310,6 @@ export function LandingPage({
         </section>
 
         <TrustedCustomersSection />
-        <DownloadShowcase />
       </main>
       {footer}
     </div>

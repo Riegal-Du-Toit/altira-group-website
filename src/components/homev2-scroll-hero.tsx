@@ -62,7 +62,9 @@ export function HomeV2ScrollHero() {
           </div>
           <span aria-hidden="true" className="absolute left-[calc(43%_-_5px)] top-[calc(58%_+_25px)] z-20 -translate-x-1/2 whitespace-nowrap">
             <span className={`${poppins.className} homev2-caption-entrance inline-block text-[15px] font-semibold leading-none tracking-[0.015em] text-[#2E2E38] antialiased drop-shadow-[0_2px_10px_rgba(247,248,250,0.9)]`}>
-              With you, at every turn.
+              <span aria-hidden="true" className="mr-1 text-black">“</span>
+              With you, <span className="relative inline-block">at ever<span aria-hidden="true" className="absolute left-0 top-full h-px w-full bg-[#37D8C6]" /></span><span>y</span>{" "}<span className="relative inline-block">turn.<span aria-hidden="true" className="absolute -left-1 top-full h-px w-[calc(100%+0.25rem)] bg-[#37D8C6]" /></span>
+              <span aria-hidden="true" className="ml-1 text-black">”</span>
             </span>
           </span>
         </div>

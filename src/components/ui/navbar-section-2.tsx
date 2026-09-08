@@ -16,7 +16,6 @@ const navItems: NavItem[] = [
   { label: "Method", href: "#method" },
   { label: "Offices", href: "#offices" },
   { label: "Partners", href: "#trusted-customers" },
-  { label: "Experience", href: "#app-experience" },
 ];
 
 export default function NavbarSectionTwo({ hideLogo = false }: { hideLogo?: boolean }) {
