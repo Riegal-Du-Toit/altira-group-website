@@ -52,13 +52,13 @@ const products: readonly Product[] = [
 ];
 
 const certifications = [
-  { standard: "ISO/IEC 27001:2022", status: "Supabase", icon: "/partner-icons/supabase.svg" },
+  { standard: "Managed Enterprise", status: "PostgreSQL", icon: "/partner-icons/postgresql.svg" },
   { standard: "ISO 27001:2022", status: "Netcash", icon: "/partner-icons/netcash.png" },
   { standard: "ISO 27001", status: "Q LINK", icon: "/partner-icons/q%20link.png" },
 ] as const;
 
 const certificationHighlights = [
-  ["Built on certified infrastructure", "Supabase ISO/IEC 27001:2022 and SOC 2 Type 2"],
+  ["Managed Enterprise", "PostgreSQL"],
   ["Active payment path", "Netcash ISO 27001:2022 and PCI DSS"],
   ["Premium collections", "QSURE FSP 50552"],
   ["Payments, payroll & collections", "Q LINK ISO 27001 accredited"],
