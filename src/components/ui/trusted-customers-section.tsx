@@ -38,7 +38,7 @@ const partnerCarouselItems: CarouselItem[] = partners.map((partner, id) => ({ id
 
 export default function TrustedCustomersSection() {
   return (
-    <section id="trusted-customers" data-anchor-scroll-offset="48" className="overflow-hidden pb-16 pt-8 text-[#102d50] sm:pb-20 sm:pt-10" style={{ backgroundColor: "#F7F8FA" }}>
+    <section id="trusted-customers" data-anchor-scroll-offset="48" className="-mt-[80px] overflow-hidden pb-16 pt-[62px] text-[#102d50] sm:mt-0 sm:pb-20 sm:pt-10" style={{ backgroundColor: "#F7F8FA" }}>
       <h2 className={`${poppins.className} text-center text-[27px] font-black leading-[.98] tracking-[-.02em] text-[#2E2E38] md:text-[2.5rem]`}>
         Powered by top-tier partners
       </h2>
@@ -57,7 +57,7 @@ export default function TrustedCustomersSection() {
       <div className="-mt-2 pt-0">
         <RulerCarousel
           originalItems={partnerCarouselItems}
-          subheading="Technology, carrier and channel partnerships"
+          subheading="Technology partners"
         />
       </div>
     </section>

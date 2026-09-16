@@ -13,6 +13,7 @@ import {
 } from "react";
 
 import { anton } from "@/lib/fonts";
+import { getLenisInstance } from "@/lib/scroll";
 
 const HomeV2PreloaderContext = createContext<{ markModelReady: () => void } | null>(null);
 
@@ -50,17 +51,24 @@ export function HomeV2Preloader({ children }: { children: ReactNode }) {
   const pageRef = useRef<HTMLDivElement>(null);
   const markModelReady = useCallback(() => undefined, []);
   const value = useMemo(() => ({ markModelReady }), [markModelReady]);
+  const resetToHero = useCallback(() => {
+    getLenisInstance()?.scrollTo(0, { immediate: true, force: true });
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, []);
 
   useEffect(() => {
     const previousHtmlOverflow = document.documentElement.style.overflow;
     const previousBodyOverflow = document.body.style.overflow;
     const previousScrollRestoration = window.history.scrollRestoration;
     window.history.scrollRestoration = "manual";
-    window.scrollTo(0, 0);
+    resetToHero();
     document.documentElement.style.overflow = "hidden";
     document.body.style.overflow = "hidden";
 
     const revealTimer = window.setTimeout(() => {
+      // A late browser/Lenis restoration can occur while the loader is visible.
+      // Reset again immediately before the page is revealed.
+      resetToHero();
       if (pageRef.current) pageRef.current.dataset.homev2Ready = "true";
     }, PRELOADER_DURATION.reveal);
     const removeTimer = window.setTimeout(() => {
@@ -77,7 +85,7 @@ export function HomeV2Preloader({ children }: { children: ReactNode }) {
       document.body.style.overflow = previousBodyOverflow;
       window.history.scrollRestoration = previousScrollRestoration;
     };
-  }, []);
+  }, [resetToHero]);
 
   return (
     <HomeV2PreloaderContext.Provider value={value}>

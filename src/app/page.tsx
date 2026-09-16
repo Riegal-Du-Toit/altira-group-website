@@ -287,7 +287,7 @@ export function LandingPage({
 
         <section
           id="offices"
-          className="section-spacing flex min-h-screen w-full !pb-[calc(var(--section-space)-100px)] items-center !bg-[#F7F8FA] px-4 text-white sm:px-6 lg:px-8"
+          className="section-spacing mt-[50px] flex min-h-screen w-full !pb-[calc(var(--section-space)-100px)] items-center !bg-[#F7F8FA] px-4 text-white sm:px-6 lg:mt-0 lg:px-8"
         >
           <div className="mx-auto w-full max-w-[1720px]">
             <div className="grid items-center gap-10 lg:grid-cols-[minmax(360px,0.58fr)_minmax(0,1fr)] lg:gap-6 xl:grid-cols-[minmax(520px,0.74fr)_minmax(0,1fr)] xl:gap-8">
@@ -296,13 +296,13 @@ export function LandingPage({
                   <span className="text-xs uppercase tracking-[.35em] text-[#2E2E38]/60">Offices</span>
                   <h2 className={`${poppins.className} mt-3 max-w-4xl text-[27px] font-black uppercase leading-[.98] tracking-[-.02em] md:text-[2.5rem]`}>Where we <span className="inline-block rounded-[5px] bg-[#37D8C6] px-1.5 py-0.5 !font-black !text-white [-webkit-text-fill-color:#fff]">work.</span></h2>
                 </div>
-                <p className="landing-copy section-copy-gap max-w-[35rem] text-[1.05rem] leading-8 xl:text-[1.14rem] xl:leading-9">
+                <p className="landing-copy relative -top-[100px] mt-6 max-w-[35rem] text-[1.05rem] leading-8 lg:static lg:mt-[var(--section-copy-space)] xl:text-[1.14rem] xl:leading-9">
                   Altira Group operates across three locations, giving us reach across South Africa&apos;s
                   major commercial centres and a specialist technology team in the Philippines.
                 </p>
               </div>
 
-              <div className="min-w-0 lg:-ml-12 xl:-ml-20">
+              <div className="min-w-0 -translate-y-[90px] lg:translate-y-0 lg:-ml-12 xl:-ml-20">
                 <RegionalPresenceMap />
               </div>
             </div>

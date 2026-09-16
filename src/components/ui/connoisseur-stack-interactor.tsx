@@ -122,9 +122,15 @@ export const Component = ({ items = defaultItems, className }: { items?: MenuIte
   return (
     <div ref={containerRef} className={cn("flex w-full flex-col items-center justify-between overflow-hidden px-8 pb-8 pt-8 transition-colors duration-500 md:flex-row md:px-24 md:pb-10 md:pt-24", "bg-white dark:bg-[#050505]", className)}>
       <div className="z-20 w-full md:w-1/2">
-        <nav><ul className="flex flex-col gap-14">
+        <nav><ul className="flex flex-col gap-4 md:gap-14">
           {items.map((item, index) => (
-            <li key={item.num} className="group">
+            <li
+              key={item.num}
+              className={cn(
+                "group min-h-[8.5rem] transform-gpu transition-transform duration-500 ease-out md:min-h-0 md:translate-y-0",
+                index > 0 && activeIndex === index ? "-translate-y-[52px]" : "translate-y-0",
+              )}
+            >
               <div className="flex items-start gap-6">
                 <div className={cn("method-step-counter transform-gpu transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)]", activeIndex === index ? "scale-110 opacity-100" : "scale-100 opacity-80")}>{item.num}</div>
                 <div>
@@ -140,16 +146,16 @@ export const Component = ({ items = defaultItems, className }: { items?: MenuIte
                       >
                       <p className="mt-3 max-w-sm text-[15.5px] leading-6 text-zinc-600">{item.description}</p>
                       {item.name === "Launch" ? (
-                        <div className="mt-5 flex flex-wrap gap-3">
+                        <div className="mt-5 flex flex-nowrap gap-2">
                           <Link
                             href="#products"
                             className="relative inline-flex items-stretch overflow-hidden rounded-[12px] border-[1.5px] border-[#37D8C6] !bg-[#E4E5EA] p-0 opacity-100 text-[16px] font-bold text-[#2E2E38] shadow-[0_10px_28px_rgba(17,22,61,0.14)] transition-all duration-300 ease-out hover:!bg-[#E4E5EA] hover:shadow-[0_12px_30px_rgba(17,22,61,0.2)] active:scale-[0.97]"
                           >
-                            <span className="relative flex items-center gap-1.5 rounded-[10px] !bg-[#E4E5EA] px-[1.05em] py-[0.64em] pr-[0.95em] text-[0.8rem] font-light uppercase tracking-[0.12em] text-inherit transition-colors duration-300 sm:text-[0.88rem]">
+                            <span className="relative flex items-center gap-1.5 whitespace-nowrap rounded-[10px] !bg-[#E4E5EA] px-[0.75em] py-[0.55em] pr-[0.7em] text-[0.72rem] font-light uppercase tracking-[0.07em] text-inherit transition-colors duration-300 sm:px-[1.05em] sm:py-[0.64em] sm:pr-[0.95em] sm:text-[0.88rem] sm:tracking-[0.12em]">
                               Explore Orbit <ArrowRight className="size-3.5 text-[#37D8C6]" />
                             </span>
                           </Link>
-                          <TalkButton>BOOK A DEMO</TalkButton>
+                          <TalkButton compact>BOOK A DEMO</TalkButton>
                         </div>
                       ) : null}
                       </motion.div>
@@ -162,7 +168,7 @@ export const Component = ({ items = defaultItems, className }: { items?: MenuIte
         </ul></nav>
       </div>
 
-      <div className="relative w-full md:w-1/2 flex justify-center items-center mt-16 md:mt-0">
+      <div className="relative mt-16 hidden w-full items-center justify-center md:mt-0 md:flex md:w-1/2">
         <svg viewBox="0 0 500 500" className="h-auto w-full max-w-[505px] z-10 drop-shadow-xl dark:drop-shadow-[0_0_60px_rgba(0,0,0,0.8)]">
           <defs>
             <clipPath id="clip-original">

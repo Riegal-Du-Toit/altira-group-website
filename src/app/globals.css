@@ -656,6 +656,28 @@ main > section[id] {
 .homev2-preloader__percentage-track { display: flex; flex-direction: column; align-items: flex-end; animation: homev2-counter-reel 4800ms steps(100, end) forwards; will-change: transform; }
 .homev2-preloader__percentage-track > span { display: block; flex: 0 0 1em; height: 1em; line-height: 1; }
 
+@media (max-width: 640px) {
+  /* Preserve the backdrop's baseline while keeping the complete word on-screen. */
+  .homev2-orbit-entrance {
+    font-size: clamp(4.5rem, 24vw, 9rem);
+  }
+
+  /* The desktop wordmark has a 600px minimum width, which overflows narrow viewports. */
+  .homev2-preloader__wordmark {
+    bottom: -0.75rem;
+    width: 100vw;
+    height: auto;
+    transform: translateX(-50%) scaleX(1.24) scaleY(1.6);
+  }
+
+  .homev2-preloader__percentage {
+    top: max(1.25rem, calc(env(safe-area-inset-top) + 0.75rem));
+    right: max(1.25rem, env(safe-area-inset-right));
+    bottom: auto;
+    font-size: clamp(1.75rem, 8vw, 2.25rem);
+  }
+}
+
 @keyframes homev2-orbit-type {
   to { opacity: 0.12; clip-path: inset(0 0 0 0); }
 }

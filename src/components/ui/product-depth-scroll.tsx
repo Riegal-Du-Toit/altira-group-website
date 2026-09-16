@@ -149,13 +149,18 @@ function DepthCard({
   product: (typeof products)[number];
   showCertificationCards: boolean;
 }) {
+  const [activeCertification, setActiveCertification] = useState(0);
   const isFirst = index === 0;
   const isLast = index === products.length - 1;
+  const isPenultimate = index === products.length - 2;
   const segment = 1 / products.length;
-  const enterStart = Math.max(0, index * segment - segment * 0.38);
-  const activeStart = index * segment;
+  // Keep the final card aligned with the final timeline marker instead of
+  // letting its approach overlap most of the preceding card's segment.
+  const enterStart = isLast ? 0.84 : Math.max(0, index * segment - segment * 0.38);
+  const activeStart = isLast ? 0.93 : index * segment;
   const activeEnd = Math.min(1, (index + 1) * segment - segment * 0.18);
-  const exitEnd = Math.min(1, (index + 1) * segment + segment * 0.28);
+  // Give card three a longer departure while the final card starts its late approach.
+  const exitEnd = isPenultimate ? 0.91 : Math.min(1, (index + 1) * segment + segment * 0.28);
   const inputRange = isFirst
     ? [0, activeEnd, exitEnd]
     : [enterStart, activeStart, activeEnd, exitEnd];
@@ -174,6 +179,9 @@ function DepthCard({
   const opacity = useTransform(progress, opacityInputRange, opacityRange);
   const rotateX = useTransform(progress, inputRange, rotateRange);
   const compactTitle = product.title.length > 24;
+  const moveCertification = (direction: -1 | 1) => {
+    setActiveCertification((current) => (current + direction + certifications.length) % certifications.length);
+  };
 
   return (
     <motion.article
@@ -190,8 +198,8 @@ function DepthCard({
       }}
       className="absolute left-[calc(45%+15px)] top-[calc(clamp(4.6rem,11vh,5.875rem)+23px)] flex max-h-[calc(100vh-9.7rem)] w-[min(75vw,64rem)] flex-col"
     >
-      <div className="grid min-h-0 flex-1 grid-rows-[1.15fr_0.85fr] overflow-hidden rounded-[1.15rem] bg-[#F7F8FA] ring-[2.5px] ring-[#37D8C6] md:grid-cols-[0.72fr_1.28fr] md:grid-rows-1">
-        <div className="relative z-10 flex min-h-0 flex-col justify-between border-b-2 border-[#37D8C6] bg-[#F7F8FA] p-[clamp(1.25rem,2.5vw,3rem)] text-neutral-900 md:border-r-2 md:border-b-0">
+      <div className={`grid min-h-0 flex-1 ${product.number === "04" ? "grid-rows-[1.6fr_0.4fr]" : "grid-rows-[1.15fr_0.85fr]"} overflow-hidden rounded-[1.15rem] bg-[#F7F8FA] ring-[2.5px] ring-[#37D8C6] md:grid-cols-[0.72fr_1.28fr] md:grid-rows-1`}>
+        <div className="relative z-10 flex min-h-0 flex-col justify-between overflow-y-auto border-b-2 border-[#37D8C6] bg-[#F7F8FA] p-[clamp(1.25rem,2.5vw,3rem)] text-neutral-900 md:overflow-visible md:border-r-2 md:border-b-0">
           <div className="flex items-center justify-between gap-5">
             <div className="inline-flex rounded-lg bg-[#37D8C6] px-[6px] py-1 text-[2.5rem] font-bold leading-none tracking-[-0.04em] !text-white">
               {product.number}
@@ -231,32 +239,65 @@ function DepthCard({
         </div>
       </div>
 
-      {showCertificationCards ? (
-        <div className="mt-[clamp(0.5rem,1.2vh,1rem)] grid shrink-0 grid-cols-3 gap-3">
-          {certifications.map((certification) => (
-            <div
-              key={certification.standard}
-              className="group relative flex min-h-[clamp(3.45rem,8vh,4.75rem)] overflow-hidden rounded-[12px] border border-[#37D8C6]/65 bg-white/92 px-[clamp(0.8rem,1.4vw,1.25rem)] py-[clamp(0.6rem,1.3vh,1rem)] text-left shadow-[0_12px_28px_rgba(25,28,37,0.08)] backdrop-blur transition-all duration-300 hover:-translate-y-0.5 hover:border-[#37D8C6] hover:shadow-[0_16px_34px_rgba(55,216,198,0.18)]"
-            >
-              <span aria-hidden="true" className="absolute inset-y-3 left-0 w-1 rounded-r-full bg-[#37D8C6]" />
-              <span aria-hidden="true" className="mr-4 grid size-[41px] shrink-0 place-items-center">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={certification.icon} alt="" className="max-h-[26.25px] max-w-[34.65px] object-contain" />
-              </span>
-              <span className="flex min-w-0 flex-1 items-center justify-between gap-4">
-                <span className="text-sm font-extrabold leading-tight tracking-[-0.02em] text-neutral-950">
-                  {certification.standard}
-                </span>
-                <span className="shrink-0 text-[18px] font-extrabold leading-tight tracking-[-0.02em] text-[#159D90]">
-                  {certification.status}
-                </span>
-              </span>
-            </div>
-          ))}
+      <motion.div
+        aria-hidden={!showCertificationCards}
+        animate={{ opacity: showCertificationCards ? 1 : 0, y: showCertificationCards ? 0 : 28 }}
+        transition={{ duration: 0.38, ease: "easeOut" }}
+        className={`mt-[clamp(0.5rem,1.2vh,1rem)] shrink-0 md:hidden ${showCertificationCards ? "" : "pointer-events-none"}`}
+      >
+        <motion.div
+          key={certifications[activeCertification].standard}
+          drag="x"
+          dragConstraints={{ left: 0, right: 0 }}
+          dragElastic={0.18}
+          onDragEnd={(_, info) => {
+            if (info.offset.x <= -40 || info.velocity.x <= -350) moveCertification(1);
+            if (info.offset.x >= 40 || info.velocity.x >= 350) moveCertification(-1);
+          }}
+          initial={{ opacity: 0, x: 24 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.2, ease: "easeOut" }}
+          className="touch-pan-y cursor-grab active:cursor-grabbing"
+        >
+          <CertificationCard certification={certifications[activeCertification]} />
+        </motion.div>
+        <div className="mt-2 flex items-center justify-center gap-3">
+          <button type="button" onClick={() => moveCertification(-1)} aria-label="Previous certification" className="grid size-7 place-items-center rounded-full border border-[#37D8C6]/60 text-sm font-bold text-[#159D90]">‹</button>
+          <div className="flex gap-1.5" aria-label={`Certification ${activeCertification + 1} of ${certifications.length}`}>
+            {certifications.map((certification, certificationIndex) => (
+              <span key={certification.standard} className={`size-1.5 rounded-full ${certificationIndex === activeCertification ? "bg-[#159D90]" : "bg-neutral-300"}`} />
+            ))}
+          </div>
+          <button type="button" onClick={() => moveCertification(1)} aria-label="Next certification" className="grid size-7 place-items-center rounded-full border border-[#37D8C6]/60 text-sm font-bold text-[#159D90]">›</button>
         </div>
-      ) : null}
+      </motion.div>
+
+      <motion.div
+        aria-hidden={!showCertificationCards}
+        animate={{ opacity: showCertificationCards ? 1 : 0, y: showCertificationCards ? 0 : 28 }}
+        transition={{ duration: 0.38, ease: "easeOut" }}
+        className={`mt-[clamp(0.5rem,1.2vh,1rem)] hidden shrink-0 grid-cols-3 gap-3 md:grid ${showCertificationCards ? "" : "pointer-events-none"}`}
+      >
+        {certifications.map((certification) => <CertificationCard key={certification.standard} certification={certification} />)}
+      </motion.div>
 
     </motion.article>
+  );
+}
+
+function CertificationCard({ certification }: { certification: (typeof certifications)[number] }) {
+  return (
+    <div className="group relative flex min-h-[clamp(3.45rem,8vh,4.75rem)] overflow-hidden rounded-[12px] border border-[#37D8C6]/65 bg-white/92 px-[clamp(0.8rem,1.4vw,1.25rem)] py-[clamp(0.6rem,1.3vh,1rem)] text-left shadow-[0_12px_28px_rgba(25,28,37,0.08)] backdrop-blur transition-all duration-300 hover:-translate-y-0.5 hover:border-[#37D8C6] hover:shadow-[0_16px_34px_rgba(55,216,198,0.18)]">
+      <span aria-hidden="true" className="absolute inset-y-3 left-0 w-1 rounded-r-full bg-[#37D8C6]" />
+      <span aria-hidden="true" className="mr-4 grid size-[41px] shrink-0 place-items-center">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={certification.icon} alt="" className="max-h-[26.25px] max-w-[34.65px] object-contain" />
+      </span>
+      <span className="flex min-w-0 flex-1 items-center justify-between gap-4">
+        <span className="text-sm font-extrabold leading-tight tracking-[-0.02em] text-neutral-950">{certification.standard}</span>
+        <span className="shrink-0 text-[18px] font-extrabold leading-tight tracking-[-0.02em] text-[#159D90]">{certification.status}</span>
+      </span>
+    </div>
   );
 }
 

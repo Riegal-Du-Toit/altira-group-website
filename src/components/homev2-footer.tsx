@@ -138,7 +138,7 @@ export function HomeV2Footer() {
               </div>
             </div>
 
-            <div className="relative aspect-[1184/1536] w-full max-w-[30rem] overflow-hidden rounded-[1.4rem] lg:ml-auto lg:-mt-[9rem]">
+            <div className="relative aspect-[3/2] w-full max-w-[30rem] overflow-hidden rounded-[1.4rem] lg:ml-auto lg:-mt-[9rem] lg:aspect-[1184/1536]">
               {isBookingOpen ? (
                 <iframe
                   src="https://outlook.office.com/book/G855be4c9beb647649a95f2642eabb914@altiragroup.co.za/?ismsaljsauthenabled"
