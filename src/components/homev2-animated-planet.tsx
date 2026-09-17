@@ -1,12 +1,13 @@
 "use client";
 
 import { Center, useGLTF } from "@react-three/drei";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { useFrame } from "@react-three/fiber";
 import { Suspense, useCallback, useEffect, useMemo, useRef } from "react";
 import type { Group } from "three";
 
 import { useHomeV2Preloader } from "@/components/homev2-preloader";
 import { OrbitEarth } from "@/components/ui/orbit-earth";
+import { SafeWebGLCanvas } from "@/components/ui/safe-webgl-canvas";
 
 const GLOBE_ROTATION: [number, number, number] = [-72, 6, 0];
 const GLOBE_COLORS = {
@@ -46,10 +47,11 @@ export function HomeV2AnimatedPlanet({ animateOnEntry = true }: { animateOnEntry
   return (
     <div className={`${animateOnEntry ? "homev2-planet-entrance" : ""} relative size-full`}>
       <div className="absolute inset-[8%] z-10">
-        <Canvas
+        <SafeWebGLCanvas
           camera={{ position: [0, 0, 6], fov: 38 }}
-          dpr={[1, 2]}
-          gl={{ alpha: true, antialias: true }}
+          dpr={1}
+          gl={{ alpha: true, antialias: true, powerPreference: "low-power", failIfMajorPerformanceCaveat: true }}
+          fallback={<div aria-hidden="true" className="size-full rounded-full bg-[#2E2E38]/10" />}
           className="homev2-hero-model-canvas"
         >
           <ambientLight intensity={1.35} />
@@ -57,7 +59,7 @@ export function HomeV2AnimatedPlanet({ animateOnEntry = true }: { animateOnEntry
           <Suspense fallback={null}>
             <HeroModel onReady={handleReady} />
           </Suspense>
-        </Canvas>
+        </SafeWebGLCanvas>
       </div>
       <OrbitEarth
         size={90}

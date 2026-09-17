@@ -1,7 +1,7 @@
 "use client";
 
 import { Center, useGLTF } from "@react-three/drei";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { useFrame } from "@react-three/fiber";
 import { AnimatePresence, motion } from "framer-motion";
 import DottedMap from "dotted-map";
 import {
@@ -16,6 +16,7 @@ import type { Group } from "three";
 
 import { presenceLocations } from "@/data/presence-locations";
 import { cn } from "@/lib/utils";
+import { SafeWebGLCanvas } from "@/components/ui/safe-webgl-canvas";
 import CityLocationPopupCard from "@/components/ui/city-location-popup-card";
 
 const REGION = {
@@ -465,10 +466,11 @@ export function RegionalPresenceMap({ className }: { className?: string }) {
                 >
                   <span className="relative flex h-9 w-9 items-center justify-center overflow-visible rounded-full">
                     <span className="relative -translate-y-0.5 flex h-[1.4625rem] w-[1.4625rem] drop-shadow-[0_0_12px_rgba(63,233,236,0.54)]">
-                      <Canvas
+                      <SafeWebGLCanvas
                         camera={{ position: [0, 0, 5], fov: 38 }}
-                        dpr={[1, 2]}
-                        gl={{ alpha: true, antialias: true }}
+                        dpr={1}
+                        gl={{ alpha: true, antialias: true, powerPreference: "low-power", failIfMajorPerformanceCaveat: true }}
+                        fallback={<span aria-hidden="true" className="block size-full rounded-full bg-[#3FE9EC]/70" />}
                         className="pointer-events-none"
                       >
                         <ambientLight intensity={1.45} />
@@ -476,7 +478,7 @@ export function RegionalPresenceMap({ className }: { className?: string }) {
                         <Suspense fallback={null}>
                           <MapFaviconModel rotationOffset={modelRotation} speed={modelSpeed} />
                         </Suspense>
-                      </Canvas>
+                      </SafeWebGLCanvas>
                     </span>
 
                     <span

@@ -127,8 +127,9 @@ export const Component = ({ items = defaultItems, className }: { items?: MenuIte
             <li
               key={item.num}
               className={cn(
-                "group min-h-[8.5rem] transform-gpu transition-transform duration-500 ease-out md:min-h-0 md:translate-y-0",
-                index > 0 && activeIndex === index ? "-translate-y-[52px]" : "translate-y-0",
+                "group transform-gpu transition-transform duration-500 ease-out md:min-h-0 md:translate-y-0",
+                activeIndex === index ? "min-h-[8.5rem]" : "min-h-[5.5rem]",
+                index > 0 && activeIndex === index ? "-translate-y-[32px]" : "translate-y-0",
               )}
             >
               <div className="flex items-start gap-6">

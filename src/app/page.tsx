@@ -287,7 +287,7 @@ export function LandingPage({
 
         <section
           id="offices"
-          className="section-spacing mt-[50px] flex min-h-screen w-full !pb-[calc(var(--section-space)-100px)] items-center !bg-[#F7F8FA] px-4 text-white sm:px-6 lg:mt-0 lg:px-8"
+          className="section-spacing flex min-h-screen w-full !pb-[calc(var(--section-space)-100px)] items-center !bg-[#F7F8FA] px-4 text-white sm:px-6 lg:px-8"
         >
           <div className="mx-auto w-full max-w-[1720px]">
             <div className="grid items-center gap-10 lg:grid-cols-[minmax(360px,0.58fr)_minmax(0,1fr)] lg:gap-6 xl:grid-cols-[minmax(520px,0.74fr)_minmax(0,1fr)] xl:gap-8">

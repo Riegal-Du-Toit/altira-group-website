@@ -1,11 +1,12 @@
 "use client";
 
 import { Center, useGLTF } from "@react-three/drei";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { useFrame } from "@react-three/fiber";
 import { motion, type MotionValue, useMotionValueEvent, useScroll, useTransform } from "framer-motion";
 import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import type { Group } from "three";
 import { poppins } from "@/lib/google-fonts";
+import { SafeWebGLCanvas } from "@/components/ui/safe-webgl-canvas";
 
 interface Product {
   number: string;
@@ -45,7 +46,7 @@ const products: readonly Product[] = [
     number: "04",
     title: "Smart DMS",
     description:
-      "A live Microsoft Marketplace platform for governed approvals, configured inside your own Microsoft tenant. It unifies submissions, memos, leave, records, invoices, recruitment, attendance, bids and quotes on one traceable case record, with audit trails and delegation controls built in.",
+      "A Microsoft Marketplace platform that brings approvals, records and workflows into one governed, auditable case-management system within your Microsoft tenant.",
     image: "/smart%20dms%20solutions.png",
     imageAlt: "Smart DMS solutions platform",
   },
@@ -196,12 +197,12 @@ function DepthCard({
         zIndex: products.length - index,
         transformStyle: "preserve-3d",
       }}
-      className="absolute left-[calc(45%+15px)] top-[calc(clamp(4.6rem,11vh,5.875rem)+23px)] flex max-h-[calc(100vh-9.7rem)] w-[min(75vw,64rem)] flex-col"
+      className="absolute left-[calc(45%+15px)] top-[calc(clamp(4.6rem,11vh,5.875rem)+23px)] flex max-h-[calc(100vh-9.7rem)] w-[90vw] flex-col md:w-[min(75vw,64rem)]"
     >
-      <div className={`grid min-h-0 flex-1 ${product.number === "04" ? "grid-rows-[1.6fr_0.4fr]" : "grid-rows-[1.15fr_0.85fr]"} overflow-hidden rounded-[1.15rem] bg-[#F7F8FA] ring-[2.5px] ring-[#37D8C6] md:grid-cols-[0.72fr_1.28fr] md:grid-rows-1`}>
+      <div className="grid min-h-[32.8125rem] flex-1 grid-rows-[1.15fr_0.85fr] overflow-hidden rounded-[1.15rem] bg-[#F7F8FA] ring-[2.5px] ring-[#37D8C6] md:min-h-0 md:grid-cols-[0.72fr_1.28fr] md:grid-rows-1">
         <div className="relative z-10 flex min-h-0 flex-col justify-between overflow-y-auto border-b-2 border-[#37D8C6] bg-[#F7F8FA] p-[clamp(1.25rem,2.5vw,3rem)] text-neutral-900 md:overflow-visible md:border-r-2 md:border-b-0">
           <div className="flex items-center justify-between gap-5">
-            <div className="inline-flex rounded-lg bg-[#37D8C6] px-[6px] py-1 text-[2.5rem] font-bold leading-none tracking-[-0.04em] !text-white">
+            <div className="inline-flex rounded-lg bg-[#37D8C6] px-[6px] py-1 text-[1.5625rem] font-bold leading-none tracking-[-0.04em] !text-white md:text-[2.5rem]">
               {product.number}
             </div>
             <span className={`${poppins.className} text-[0.7125rem] font-semibold uppercase tracking-[0.18em] text-neutral-500`}>
@@ -335,17 +336,18 @@ function ProgressScroller({ progress }: { progress: MotionValue<number> }) {
         style={{ y: dotY }}
         className="absolute right-0 top-0 size-8 translate-x-1/2 -translate-y-2 will-change-transform"
       >
-        <Canvas
+        <SafeWebGLCanvas
           camera={{ position: [0, 0, 5], fov: 38 }}
-          dpr={[1, 2]}
-          gl={{ alpha: true, antialias: true }}
+          dpr={1}
+          gl={{ alpha: true, antialias: true, powerPreference: "low-power", failIfMajorPerformanceCaveat: true }}
+          fallback={<span aria-hidden="true" className="block size-full rounded-full bg-[#37D8C6]/35" />}
         >
           <ambientLight intensity={1.45} />
           <directionalLight position={[3, 4, 5]} intensity={2.2} />
           <Suspense fallback={null}>
             <TimelineFaviconModel />
           </Suspense>
-        </Canvas>
+        </SafeWebGLCanvas>
       </motion.div>
       {products.map((product, index) => (
         <span

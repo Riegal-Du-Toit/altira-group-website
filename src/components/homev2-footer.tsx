@@ -39,6 +39,31 @@ const MicrosoftStoreIcon = ({ className = "" }: { className?: string }) => (
   </svg>
 );
 
+function BookingPanel({ className, isBookingOpen, onBookingChange }: { className: string; isBookingOpen: boolean; onBookingChange: (open: boolean) => void }) {
+  return (
+    <div className={className}>
+      {isBookingOpen ? (
+        <iframe
+          src="https://outlook.office.com/book/G855be4c9beb647649a95f2642eabb914@altiragroup.co.za/?ismsaljsauthenabled"
+          title="Schedule online"
+          scrolling="yes"
+          className="size-full border-0"
+        />
+      ) : (
+        <button type="button" onClick={() => onBookingChange(true)} aria-label="Click here to book a 30 minute meeting" className="size-full cursor-pointer">
+          <Image src="/meeting scheduling.png" alt="Click here to book a 30 minute meeting" width={1184} height={1536} className="size-full object-contain" />
+        </button>
+      )}
+      {isBookingOpen && (
+        <button type="button" onClick={() => onBookingChange(false)} aria-label="Close calendar" className="talk-button calendar-close-button absolute left-3 top-3 z-10 inline-flex size-10 items-stretch overflow-hidden rounded-[12px] border-[1.5px] border-[#F7F8FA] bg-[#37D8C6] p-0 text-[16px] font-bold text-white shadow-[0_8px_18px_rgba(17,22,61,0.18)] transition-all duration-300 ease-out hover:bg-[#2fc7b7] active:scale-[0.97]">
+          <span className="relative z-10 grid size-full place-items-center rounded-[10px] bg-white/10"><X className="size-4 !text-white" /></span>
+          <span aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[repeating-conic-gradient(rgb(48,47,47)_0.0000001%,rgb(51,51,51)_0.000104%)_60%_60%/600%_600%] opacity-10 contrast-105" />
+        </button>
+      )}
+    </div>
+  );
+}
+
 export function HomeV2Footer() {
   const [isBookingOpen, setIsBookingOpen] = useState(false);
 
@@ -74,6 +99,12 @@ export function HomeV2Footer() {
                   </ul>
                 </div>
               ))}
+
+              <BookingPanel
+                className="relative col-span-full aspect-[3/2] w-full max-w-[30rem] overflow-hidden rounded-[1.4rem] lg:hidden"
+                isBookingOpen={isBookingOpen}
+                onBookingChange={setIsBookingOpen}
+              />
 
               <div className="col-span-full mt-1 border-t border-white/8 pt-7">
                 <div className="grid gap-8 lg:grid-cols-[auto_minmax(0,1fr)] lg:items-start lg:gap-x-16">
@@ -138,44 +169,11 @@ export function HomeV2Footer() {
               </div>
             </div>
 
-            <div className="relative aspect-[3/2] w-full max-w-[30rem] overflow-hidden rounded-[1.4rem] lg:ml-auto lg:-mt-[9rem] lg:aspect-[1184/1536]">
-              {isBookingOpen ? (
-                <iframe
-                  src="https://outlook.office.com/book/G855be4c9beb647649a95f2642eabb914@altiragroup.co.za/?ismsaljsauthenabled"
-                  title="Schedule online"
-                  scrolling="yes"
-                  className="size-full border-0"
-                />
-              ) : (
-                <button
-                  type="button"
-                  onClick={() => setIsBookingOpen(true)}
-                  aria-label="Click here to book a 30 minute meeting"
-                  className="size-full cursor-pointer"
-                >
-                  <Image
-                    src="/meeting scheduling.png"
-                    alt="Click here to book a 30 minute meeting"
-                    width={1184}
-                    height={1536}
-                    className="size-full object-contain"
-                  />
-                </button>
-              )}
-              {isBookingOpen && (
-                <button
-                  type="button"
-                  onClick={() => setIsBookingOpen(false)}
-                  aria-label="Close calendar"
-                  className="talk-button calendar-close-button absolute left-3 top-3 z-10 inline-flex size-10 items-stretch overflow-hidden rounded-[12px] border-[1.5px] border-[#F7F8FA] bg-[#37D8C6] p-0 text-[16px] font-bold text-white shadow-[0_8px_18px_rgba(17,22,61,0.18)] transition-all duration-300 ease-out hover:bg-[#2fc7b7] active:scale-[0.97]"
-                >
-                  <span className="relative z-10 grid size-full place-items-center rounded-[10px] bg-white/10">
-                    <X className="size-4 !text-white" />
-                  </span>
-                  <span aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[repeating-conic-gradient(rgb(48,47,47)_0.0000001%,rgb(51,51,51)_0.000104%)_60%_60%/600%_600%] opacity-10 contrast-105" />
-                </button>
-              )}
-            </div>
+            <BookingPanel
+              className="relative hidden aspect-[3/2] w-full max-w-[30rem] overflow-hidden rounded-[1.4rem] lg:ml-auto lg:-mt-[9rem] lg:block lg:aspect-[1184/1536]"
+              isBookingOpen={isBookingOpen}
+              onBookingChange={setIsBookingOpen}
+            />
           </div>
 
           <div className="hidden flex-col gap-3 border-t border-white/8 pt-0 text-[0.65rem] text-white/34 sm:flex-row sm:items-center sm:justify-between">

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useMotionValueEvent, useScroll, useSpring, useTransform } from "framer-motion";
+import { AnimatePresence, motion, useMotionValueEvent, useScroll, useSpring, useTransform } from "framer-motion";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight } from "lucide-react";
@@ -14,6 +14,8 @@ import { openSansThin, poppins } from "@/lib/google-fonts";
 export function HomeV2ScrollHero() {
   const sectionRef = useRef<HTMLElement>(null);
   const [hasScrolled, setHasScrolled] = useState(false);
+  const [hasCustomerSettled, setHasCustomerSettled] = useState(false);
+  const [showJourneyLabel, setShowJourneyLabel] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const { scrollY, scrollYProgress } = useScroll({
     target: sectionRef,
@@ -22,6 +24,16 @@ export function HomeV2ScrollHero() {
   useMotionValueEvent(scrollY, "change", (latest) => {
     if (latest > 3) setHasScrolled(true);
   });
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    setHasCustomerSettled((current) => {
+      const next = latest >= 0.46;
+      return current === next ? current : next;
+    });
+  });
+  useEffect(() => {
+    const timeoutId = window.setTimeout(() => setShowJourneyLabel(hasCustomerSettled), hasCustomerSettled ? 1500 : 0);
+    return () => window.clearTimeout(timeoutId);
+  }, [hasCustomerSettled]);
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 767px)");
     const updateMobileState = () => setIsMobile(mediaQuery.matches);
@@ -30,6 +42,7 @@ export function HomeV2ScrollHero() {
     return () => mediaQuery.removeEventListener("change", updateMobileState);
   }, []);
   const smoothScrollYProgress = useSpring(scrollYProgress, { stiffness: 90, damping: 24, mass: 0.45 });
+  const mobileLabel = !hasCustomerSettled ? "WE BUILD" : showJourneyLabel ? "JOURNEY" : "THE";
 
   const headingLeft = "max(7.75rem, calc((100vw - 96rem) / 2 + 7.75rem))";
   const headingTop = "calc(34% - 52px)";
@@ -62,11 +75,21 @@ export function HomeV2ScrollHero() {
         <div
           className="pointer-events-none absolute left-1/2 top-[calc(30%_-_72px)] z-[8] -translate-x-1/2 -translate-y-1/2 md:hidden"
         >
-          <motion.div className="homev2-heading-entrance" style={{ y: mobileIntroY, opacity: mobileIntroOpacity }}>
+          <div className="homev2-heading-entrance">
             <div className={`${poppins.className} inline-flex whitespace-nowrap rounded-lg bg-[#37D8C6] px-3 py-1 text-[4.62rem] font-bold leading-none tracking-[-0.04em] text-white`}>
-              WE BUILD
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.span
+                  key={mobileLabel}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.18, ease: "easeOut" }}
+                >
+                  {mobileLabel}
+                </motion.span>
+              </AnimatePresence>
             </div>
-          </motion.div>
+          </div>
         </div>
 
         <motion.div
@@ -150,7 +173,7 @@ export function HomeV2ScrollHero() {
         </motion.p>
 
         <motion.p
-          className={`${poppins.className} pointer-events-none absolute left-1/2 top-[calc(58%_-_80px)] z-[8] w-[82vw] -translate-x-1/2 text-center text-[15.5px] leading-[1.45] text-[#2E2E38] md:hidden`}
+          className={`${poppins.className} pointer-events-none absolute left-1/2 top-[calc(58%_-_80px)] z-[8] w-[82vw] -translate-x-1/2 text-left text-[15.5px] leading-[1.45] text-[#2E2E38] md:hidden`}
           style={{ y: mobileDescriptionY, opacity: mobileDescriptionOpacity }}
         >
           Altira Group <strong className="font-semibold text-[#2E2E38]">redesigns onboarding and sales processes</strong>{" "}
